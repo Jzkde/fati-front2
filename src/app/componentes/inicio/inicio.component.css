@@ -1,0 +1,12 @@
+.contenedor-imagen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1%;
+  /* height: 100vh; opcional: para centrar también verticalmente */
+}
+
+.contenedor-imagen img {
+  max-width: 100%;
+  height: auto;
+}

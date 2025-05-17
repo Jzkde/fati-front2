@@ -1,0 +1,141 @@
+<div class="confeccions">
+    <div class=" mt-5">
+        <h1 class="text-center">Confecciones<a class="btn btn-outline-success"
+             routerLink="/taller/nuevo"
+                tooltip="Nueva Confeccion">
+                +</a></h1>
+        <div class="container mb-3">
+            <mat-accordion>
+                <mat-expansion-panel *ngFor="let group of confeccionesAgrupadas">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ group.cliente }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ancho</th>
+                                    <th scope="col">Alto</th>
+                                    <th scope="col">Accesorios</th>
+                                    <th scope="col">Ambiente</th>
+                                    <th scope="col">Observaciones</th>
+                                    <th scope="col">Fecha Pedido</th>
+                                    <th scope="col">Fecha Entrega</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Entregado</th>
+                                    <th scope="col">Ediar</th>
+                                </tr>
+                            </thead>
+                          <tbody class="table-group-divider">
+                                <tr *ngFor="let confeccion of group.items">
+                                    <td>{{confeccion.ancho}}</td>
+                                    <td>{{confeccion.alto}}</td>
+                                    <td>{{confeccion.accesorios}}</td>
+                                    <td>{{confeccion.ambiente}}</td>
+                                    <td>{{confeccion.observaciones}}</td>
+                                    <td>{{confeccion.fecha_pedido}}</td>
+                                    <td>{{confeccion.fecha_entrega}}</td>
+                                    <td>{{confeccion.estado}}</td>
+                                    <td> <button *ngIf="!confeccion.llego" class=" btn btn-outline-info"
+                                            (click)="entregar(confeccion.id!)">
+                                            <i class="fa-solid fa-check" style="color: #000000;"></i>
+                                        </button>
+                                        <button *ngIf="confeccion.llego" disabled class=" btn btn-info"
+                                            (click)="entregar(confeccion.id!)">
+                                            <i class="fa-solid fa-check" style="color: #000000;"></i>
+                                        </button>
+                                    </td>
+                                    <td> <button class="btn btn-outline-success"
+                                            routerLink="/taller/editar/{{confeccion.id}}" tooltip="Editar Medidas">
+                                            <i class="fa-solid fa-pencil" style="color: #000000;"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <button class="btn btn-outline-success  m-2" (click)="lgModal.show()"><i
+                    class="fa-solid fa-magnifying-glass" style="color: #000000;"></i> Buscar</button>
+            <button class=" btn btn-outline-danger m-2" id="reset" (click)="borrarFiltros()"><i
+                    class="fa-solid fa-eraser" style="color: #000000;"></i> Borrar filtros</button>
+            <button class="btn  btn-outline-secondary m-2" routerLink="/"><i class="fa-solid fa-backward-fast"
+                    style="color: #000000;"></i>
+                Volver</button>
+        </div>
+    </div>
+</div>
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Filtros</h4>
+                <button type="button" class="btn-close close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="busqueda pt-4 pb-4">
+                    <div class="container mb-5">
+                        <form>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <div class="form-grup">
+                                        <label for="clienteNombre"><b>Cliente</b></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="clienteNombre"
+                                                id="clienteNombre" [(ngModel)]="busqueda.clienteNombre"
+                                                (input)="filtro()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-control">
+                                        <label for="fecha_pedidoDesde"><b>Desde </b></label>
+                                        <input type="date" class="form-group" name="fecha_pedidoDesde"
+                                            id="fecha_pedidoDesde" [(ngModel)]="busqueda.fecha_pedidoDesde">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-control">
+                                        <label for="fecha_pedidoHasta"><b>Hasta </b></label>
+                                        <input type="date" class="form-group" name="fecha_pedidoHasta"
+                                            id="fecha_pedidoHasta" [(ngModel)]="busqueda.fecha_pedidoHasta">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-control">
+                                        <label class="radio-inline" for="llego"><b>Llego</b></label>
+                                        <input type="radio" name="llego" id="sillego" [value]="true"
+                                            [(ngModel)]="busqueda.llego" (change)="filtro()"> Si
+                                        &nbsp;
+                                        <input type="radio" name="llego" id="nollego" checked [value]="false"
+                                            [(ngModel)]="busqueda.llego" (change)="filtro()"> No
+                                    </div>
+                                </div>
+                            </div>
+                            &nbsp;
+                            <div class="row">
+                                <div class="col">
+                                    <label for="reset"><b>Filtro </b></label>
+                                    <button class=" btn btn-outline-danger " id="reset" (click)="borrarFiltros()"><i
+                                            class="fa-solid fa-eraser" style="color: #000000;"></i> Borrar
+                                        filtros</button>
+                                    &nbsp;
+                                    <button class=" btn btn-outline-success  " (click)="filtro()"><i
+                                            class="fa-solid fa-magnifying-glass" style="color: #000000;"></i>
+                                        Buscar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

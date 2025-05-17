@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Fati Decoraciones</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+
+        <!-- Clientes -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cliente/lista">Clientes</a>
+        </li>
+
+        <!-- Marcas -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/marca/lista">Marcas</a>
+        </li>
+
+        <!-- Pedidos -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/pedido/lista">Pedidos</a>
+        </li>
+
+        <!-- Medidas -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/presupuesto/lista">Medidas</a>
+        </li>
+
+        <!-- Taller -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/taller/lista">Taller</a>
+        </li>
+
+        <!-- Cotizador -->
+        <li class="nav-item dropdown">
+          <button class="btn btn-dark nav-link dropdown-toggle" mat-button
+            [matMenuTriggerFor]="cotizar">Cotizador</button>
+          <mat-menu #cotizar="matMenu">
+            <button mat-menu-item routerLink="/cotizar/sistemas">Sistemas</button>
+            <button mat-menu-item routerLink="/cotizar/telas">Telas</button>
+          </mat-menu>
+        </li>
+
+        <!-- Administracion -->
+        <li>
+          <button class="btn btn-dark nav-link dropdown-toggle" mat-button
+            [matMenuTriggerFor]="administracion">Administracion</button>
+          <mat-menu #administracion="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="cortEsp">Cortinas Especiales</button>
+            <button mat-menu-item [matMenuTriggerFor]="prodServ">Productos y Servicios</button>
+            <button mat-menu-item [matMenuTriggerFor]="db">Base de Datos</button>
+          </mat-menu>
+
+          <mat-menu #cortEsp="matMenu">
+            <button mat-menu-item routerLink="/cortespeciales/lista">Administrar</button>
+            <button mat-menu-item routerLink="/cortespeciales/editar">Detalles</button>
+          </mat-menu>
+
+          <mat-menu #prodServ="matMenu">
+            <button mat-menu-item routerLink="/productos/lista">Administrar</button>
+            <button mat-menu-item routerLink="/productos/editar">Detalles</button>
+          </mat-menu>
+
+          <mat-menu #db="matMenu">
+            <button mat-menu-item (click)="backup()">Backup</button>
+            <button mat-menu-item (click)="asociar()">Asociar</button>
+          </mat-menu>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

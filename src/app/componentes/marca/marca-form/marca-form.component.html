@@ -1,0 +1,40 @@
+<div class="conteiner">
+    <div class="row mt-5">
+        <div class="col-md-4 mx-auto">
+            <h2 *ngIf="modoEdicion" class="text-center">Editar Marca</h2>
+            <h2 *ngIf="!modoEdicion" class="text-center">Nueva Marca</h2>
+            <form (ngSubmit)="guardar()" novalidate #f="ngForm" class="p-3 border rounded border-success">
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" id="nombre" [(ngModel)]="marca.marca"
+                                required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <tr>
+                        <td>
+                            <button class="btn btn-success btn-block" [disabled]="!f.valid"> <i
+                                    class="fa-solid fa-floppy-disk" style="color: #000000;"></i>
+                                Guardar</button>
+                        </td>
+                        <td>
+                            <button class="btn  btn-secondary btn-block" routerLink="/marca/lista"><i
+                                    class="fa-solid fa-backward-fast" style="color: #000000;"></i>
+                                Volver</button>
+                        </td>
+                         <td>
+                            <button class=" btn btn-danger" (click)="borrar(marca.id!)" routerLink="/marca/lista"
+                                *ngIf="modoEdicion">
+                                <i class="fa-solid fa-eraser" style="color: #000000;"></i>
+                                Borrar </button>
+                        </td>
+                    </tr>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

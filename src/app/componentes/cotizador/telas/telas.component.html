@@ -1,0 +1,197 @@
+<div class="container mt-4">
+  <h2>Cotizar Cortinas de Telas</h2>
+  <div class="row">
+    <!-- Columna Izquierda: Telas -->
+    <div class="col-md-6">
+      <h3>Buscar Tela</h3>
+      <!-- Buscar Tela -->
+      <div class="row">
+        <div class="col-3">
+          <div class="mb-3">
+            <label class="form-label">Artículo</label>
+            <input type="text" class="form-control" [(ngModel)]="buscarTelaArt" (input)="filtrarTelas()" />
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" [(ngModel)]="buscarTelaNombre" (input)="filtrarTelas()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Telas -->
+      <div class="mb-3 border rounded p-2" style="height: 200px; overflow-y: auto;">
+        <table class="table table-hover table-sm mb-0">
+          <thead class="table-light sticky-top bg-white">
+            <tr>
+              <th>Artículo</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Marca</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tela of telas" [class.table-success]="tela === telaSeleccionada">
+              <td>{{ tela.art }}</td>
+              <td>{{ tela.nombre }}</td>
+              <td>$ {{ tela.precio }}</td>
+              <td>{{ tela.marca.marca }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary" (click)="telaSeleccionada = tela">
+                  <i class="fa-solid fa-check"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ancho, Proporción y Tipo de Confección -->
+      <div class="row mb-3">
+        <div class="col">
+          <label class="form-label">Ancho (mts)</label>
+          <input type="number" class="form-control" [(ngModel)]="ancho" />
+        </div>
+        <div class="col">
+          <label class="form-label">Proporción</label>
+          <input type="number" class="form-control" [(ngModel)]="prop" />
+        </div>
+        <div class="col">
+          <label class="form-label" for="coloc">Tipo de Confección</label>
+          <select class="form-control" id="coloc" [(ngModel)]="tipoConfSeleccionado" name="coloc" required>
+            <option *ngFor="let coloc of confecciones" [ngValue]="coloc.nombre">
+              {{ coloc.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Resumen de Cotización -->
+      <div class="row border rounded p-3">
+        <h4>Resumen</h4>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Precio Tela</label>
+          <input type="text" class="form-control" [value]="cotizado?.precioTela | currency:'$'" disabled />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Cantidad de Tela (mts)</label>
+          <input type="text" class="form-control" [value]="cotizado?.cantTela | number:'1.0-2'" disabled />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Costo Tela</label>
+          <input type="text" class="form-control" [value]="cotizado?.costoTela | currency:'$'" disabled />
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Cantidad de Paños</label>
+          <input type="text" class="form-control" [value]="cotizado?.confec" disabled />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Costo x Paño</label>
+          <input type="text" class="form-control" [value]="cotizado?.precioConf | currency:'$'" disabled />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Costo Confección</label>
+          <input type="text" class="form-control" [value]="cotizado?.costoConf | currency:'$'" disabled />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Costo Accesorios</label>
+          <input type="text" class="form-control" [value]="cotizado?.precioAcc | currency:'$'" disabled />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Total</label>
+          <input type="text" class="form-control text-success fw-bold" [value]="cotizado?.total | currency:'$'"
+            disabled />
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Accesorios -->
+    <div class="col-md-6">
+      <h3>Buscar Accesorio</h3>
+      <!-- Buscar Accesorio -->
+      <div class="row">
+        <div class="col-3">
+          <div class="mb-3">
+            <label class="form-label">Artículo</label>
+            <input type="text" class="form-control" [(ngModel)]="buscarAccesorioArt" (input)="filtrarAccesorios()" />
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" [(ngModel)]="buscarAccesorioNombre" (input)="filtrarAccesorios()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Accesorios -->
+      <div class="mb-3 border rounded p-2" style="height: 280px; overflow-y: auto;">
+        <table class="table table-hover table-sm mb-0">
+          <thead class="table-light sticky-top bg-white">
+            <tr>
+              <th>Artículo</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Marca</th>
+              <th>Agregar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let acc of accesorios">
+              <td>{{ acc.art }}</td>
+              <td>{{ acc.nombre }}</td>
+              <td>$ {{ acc.precio }}</td>
+              <td>{{ acc.marca.marca }}</td>
+              <td>
+                <button class="btn btn-sm btn-outline-success" (click)="agregarAccesorioDesdeCuadro(acc)">
+                  <i class="fa-solid fa-plus"></i> Agregar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Lista de accesorios seleccionados -->
+      <div class="mb-3 border rounded p-2" style="height: 270px; overflow-y: auto;">
+        <label class="form-label">Accesorios Seleccionados:</label>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center"
+            *ngFor="let prod of productosSeleccionados; let i = index">
+            <div>
+              {{ prod.producto.nombre }} ($ {{ prod.producto.precio }})
+            </div>
+
+            <div class="d-flex align-items-center">
+              <input type="number" min="1" class="form-control form-control-sm me-2" style="width: 70px;"
+                [(ngModel)]="prod.cantidad" (ngModelChange)="actualizarCantidad(i)" />
+
+              <button class="btn btn-danger btn-sm" (click)="quitarProducto(i)">
+                <i class="fa-solid fa-xmark"></i> Quitar
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Botones Cotizar y Volver -->
+      <div class="row mt-3">
+        <div class="col-md-3 d-grid mb-2">
+          <button class="btn btn-success" (click)="cotizar()">
+            <i class="fa-solid fa-floppy-disk"></i> Cotizar
+          </button>
+        </div>
+        <div class="col-md-3 d-grid mb-2">
+          <button class="btn btn-secondary" routerLink="/">
+            <i class="fa-solid fa-backward-fast"></i> Volver
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

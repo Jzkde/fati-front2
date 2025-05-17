@@ -1,0 +1,146 @@
+<div class="container mt-4">
+  <h2 class>Cotizar Cortinas Especiales</h2>
+
+  <div class="row">
+    <!-- Formulario principal -->
+    <div class="col-lg-9">
+      <!-- Marca -->
+      <div class="form-group mb-3">
+        <label for="marca">Marca:</label>
+        <select class="form-control" id="marca" required [(ngModel)]="marca" (change)="onMarca()">
+          <option value="" disabled selected>Marca</option>
+          <option value="flexcolor">FlexColor</option>
+          <option value="royalcort">Royal Cort</option>
+        </select>
+      </div>
+
+      <!-- Formulario completo -->
+      <form (ngSubmit)="cotizar()" #f="ngForm" novalidate>
+        <!-- Sistema -->
+        <div class="form-group mb-3">
+          <label for="sistema">Sistema:</label>
+          <select class="form-control" id="sistema" required [(ngModel)]="sistema" name="sistema"
+            (change)="onSistema()">
+            <option value="" disabled selected>Sistema</option>
+            <option *ngIf="marca === 'flexcolor'" value="ROLLER">Roller</option>
+            <option *ngIf="marca === 'flexcolor'" value="DUBAI">Dubai</option>
+            <option *ngIf="marca === 'flexcolor'" value="PERSIANA">Persiana</option>
+            <option *ngIf="marca === 'flexcolor'" value="VERTICALES">Verticales</option>
+            <option *ngIf="marca === 'royalcort'" value="ROLLER">Roller</option>
+            <option *ngIf="marca === 'royalcort'" value="ZEBRA">Zebra</option>
+          </select>
+        </div>
+
+        <!-- Mecanismo y Precio -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Mecanismo:</label>
+            <select *ngIf="mecanismos.length" class="form-control" [(ngModel)]="mecanismoN" name="mecanismoN"
+              (change)="onMecanismoChange()">
+              <option *ngFor="let mecanismo of mecanismos" [value]="mecanismo.tela">{{ mecanismo.tela }}</option>
+            </select>
+            <input *ngIf="!mecanismos.length" type="text" class="form-control" [(ngModel)]="mecanismoN"
+              name="mecanismoN" required>
+          </div>
+          <div class="col-md-6">
+            <label>Precio Mecanismo:</label>
+            <input type="text" class="form-control" [value]="precioSistema | currency" readonly>
+          </div>
+        </div>
+
+        <!-- Tela y Precio -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Tela:</label>
+            <select *ngIf="telas.length" class="form-control" [(ngModel)]="telaN" name="telaN" (change)="onTelaChange()"
+              required>
+              <option *ngFor="let tela of telas" [value]="tela.tela">{{ tela.tela }}</option>
+            </select>
+            <input *ngIf="!telas.length" type="text" class="form-control" [(ngModel)]="telaN" name="telaN" required>
+          </div>
+          <div class="col-md-6">
+            <label>Precio Tela:</label>
+            <input type="text" class="form-control" [value]="precioTela | currency" readonly>
+          </div>
+        </div>
+
+        <!-- Dimensiones -->
+        <div class="row mb-3">
+          <div class="col-4">
+            <label>Ancho:</label>
+            <input type="number" class="form-control" [(ngModel)]="ancho" name="ancho" required>
+          </div>
+          <div class="col-4">
+            <label>Alto:</label>
+            <input type="number" class="form-control" [(ngModel)]="alto" name="alto" required>
+          </div>
+          <div class="col-4">
+            <label>M²:</label>
+            <input type="number" class="form-control" [value]="calcularArea()" readonly>
+          </div>
+        </div>
+
+
+        <!-- Colocación y adicionales -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label>Colocación:</label>
+            <select class="form-control" [(ngModel)]="colocN" name="coloc" (change)="onColocChange()" required>
+              <option value="" disabled selected>Colocacion</option>
+              <option *ngFor="let coloc of colocaciones" [value]="coloc.nombre">{{ coloc.nombre }}</option>
+            </select>
+          </div>
+          <div class="col-md-6 border rounded p-2" style="height: 120px; overflow-y: auto;">
+            <label>Adicionales:</label>
+            <div *ngFor="let adi of adicionales" class="form-check">
+              <input class="form-check-input" type="radio" [value]="adi.precio" [(ngModel)]="adicional"
+                name="adicionales" id="{{adi.tela}}">
+              <label class="form-check-label" for="{{adi.tela}}">{{ adi.tela }}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones y resultado -->
+        <div class="row mb-3">
+          <div class="col-md-3 d-grid mb-2">
+            <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+              <i class="fa-solid fa-floppy-disk"></i> Cotizar
+            </button>
+          </div>
+          <div class="col-md-3 d-grid mb-2">
+            <button class="btn btn-secondary" routerLink="/">
+              <i class="fa-solid fa-backward-fast"></i> Volver
+            </button>
+          </div>
+          <div class="col-md-3 d-grid mb-2">
+            <button type="button" class="btn btn-primary" (click)="agregarCotizacion()" [disabled]="!f.valid">
+              <i class="fa-solid fa-plus"></i> Sumar
+            </button>
+          </div>
+          <div class="col-md-3">
+            <input *ngIf="!error" class="form-control" [value]="resultado | currency" readonly>
+            <input *ngIf="error" class="form-control border border-danger bg-danger-subtle" [value]="error" readonly>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Panel sumatoria -->
+    <div class="col-lg-3">
+      <div>
+        <h4 class="text-center">Sumatoria</h4>
+        <ul class="list-group mb-3">
+          <li *ngFor="let cotizacion of cotizaciones" class="list-group-item text-center">
+            <span class="badge bg-primary me-2">{{ cotizacion.contador }}</span>
+            {{ cotizacion.monto | currency }}
+          </li>
+        </ul>
+        <h5 class="text-center">Total: {{ sumatoria | currency }}</h5>
+        <div class="d-grid mt-2">
+          <button type="button" class="btn btn-danger" (click)="borrar()"><i class="fa-solid fa-eraser"></i>
+            Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
