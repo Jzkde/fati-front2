@@ -12,13 +12,13 @@ import { MarcaService } from 'src/app/service/marca.service';
 export class MarcaComponent implements OnInit {
 
   marcas: Marca[] = [];
+  columnasMarcas: Marca[][] = [];
 
   constructor(
     private marcaService: MarcaService,
     private toastr: ToastrService,
   ) { }
 
-  columnasMarcas: Marca[][] = [];
 
   ngOnInit(): void {
     this.toastr.clear();
@@ -26,17 +26,17 @@ export class MarcaComponent implements OnInit {
   }
 
   lista(): void {
-    this.marcaService.lista().subscribe(
-      data => {
+    this.marcaService.lista().subscribe({
+      next: data => {
         this.marcas = data.sort((a, b) =>
           a.marca.toLowerCase().localeCompare(b.marca.toLowerCase())
         );
         this.organizarEnColumnas();
       },
-      err => {
+      error: err => {
         console.log(err);
       }
-    );
+    });
   }
 
   organizarEnColumnas(): void {

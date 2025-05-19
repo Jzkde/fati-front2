@@ -14,14 +14,15 @@ import { ServiciosService } from 'src/app/service/servicios.service';
 export class ProductosFormComponent implements OnInit {
 
   @ViewChild('lgModal2', { static: false }) lgModal2: any;
+
   marcasUnicas: any[] = []
   productos: Producto[] = []
   buscados: Producto[] = []
   servicios: any[] = []
   marcas: Marca[] = []
-  servs: any[] = []
   serv!: Servicio
   prod!: Producto
+  porcen!: number
   artSelec = ''
   marcaSelec = ''
   nombreSelec = ''
@@ -50,29 +51,39 @@ export class ProductosFormComponent implements OnInit {
       precio: 0,
       tipo: ',',
     }
-    this.serviciosService.lista().subscribe((data) => {
-      this.servicios = data,
-        console.log(data);
-    });
+    this.listaServ()
     this.filtro()
-
   }
-  filtro() {
-    this.productoService.lista().subscribe((data) => {
-      this.productos = data;
-      // Extraer marcas únicas
-      const marcasMap = new Map();
-      data.forEach(producto => {
-        marcasMap.set(producto.marca.id, producto.marca);
-      });
-      this.marcasUnicas = Array.from(marcasMap.values());
-      this.filtrarProductos();
-      this.filtrarServicios();
-      console.log(data);
-    });
+
+  listaServ() {
     this.serviciosService.lista().subscribe((data) => {
       this.servicios = data,
         console.log(data);
+    });
+  }
+
+  filtro() {
+    this.productoService.lista().subscribe({
+      next: data => {
+        this.productos = data;
+
+        // Extraer marcas únicas
+        const marcasMap = new Map();
+        data.forEach(producto => {
+          marcasMap.set(producto.marca.id, producto.marca);
+        });
+        this.marcasUnicas = Array.from(marcasMap.values());
+        this.filtrarProductos();
+        this.filtrarServicios();
+        console.log(data);
+      },
+      error: error => {
+        console.error(error.error);
+        this.toastr.error(error.error, 'Error', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
+      }
     });
   }
 
@@ -85,7 +96,7 @@ export class ProductosFormComponent implements OnInit {
   }
 
   filtrarServicios() {
-    this.servs = this.servicios.filter(s =>
+    this.servicios = this.servicios.filter(s =>
       s.nombre.toLowerCase().includes(this.nombreServSelec.toLowerCase())
     );
   }
@@ -146,7 +157,7 @@ export class ProductosFormComponent implements OnInit {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
-        this.filtro();
+        this.listaServ()
       },
       error: error => {
         console.error('Error al Modificar:', error);
@@ -179,20 +190,54 @@ export class ProductosFormComponent implements OnInit {
 
   borrarServ(id: number): void {
     this.serviciosService.borrar(id).subscribe({
-     next: (data) => {
-          this.toastr.success(data, 'OK', {
-            timeOut: 5000,
-            positionClass: 'toast-bottom-center'
-          });
-        this.filtro();
+      next: (data) => {
+        this.toastr.success(data, 'OK', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
+        this.listaServ()
       },
-    error:  error => {
+      error: error => {
         console.error('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
       }
-  });
+    });
+  }
+
+  masivo() {
+    if (this.porcen) {
+      this.serviciosService.masivo(this.porcen).subscribe({
+        next: (data) => {
+          this.toastr.success(data, 'OK', {
+            timeOut: 5000,
+            positionClass: 'toast-bottom-center'
+          });
+          this.porcen = 0
+          this.listaServ()
+        },
+        error: error => {
+          if (error.error == "No hay TELAS cargadas") {
+            console.error('Error:', error.error);
+            this.toastr.error(error.error, 'ERROR', {
+              timeOut: 5000,
+              positionClass: 'toast-bottom-center'
+            });
+          } else {
+            this.toastr.error("Proveedor NO seleccionado", 'ERROR', {
+              timeOut: 5000,
+              positionClass: 'toast-bottom-center'
+            })
+          };
+        }
+      });
+    } else {
+      this.toastr.error("Porcentaje NO especificado", 'ERROR', {
+        timeOut: 5000,
+        positionClass: 'toast-bottom-center'
+      })
+    }
   }
 }

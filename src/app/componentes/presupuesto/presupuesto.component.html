@@ -1,7 +1,6 @@
 <div class="presupuestos">
     <div class=" mt-5">
-        <h1 class="text-center">Medidas <a class="btn btn-outline-success" 
-            routerLink="/presupuesto/nuevo"
+        <h1 class="text-center">Medidas <a class="btn btn-outline-success" routerLink="/presupuesto/nuevo"
                 tooltip="Nuevas Medidas">
                 +</a></h1>
         <div class="container mb-3">
@@ -136,22 +135,24 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <label for="viejo"><b>Viejo?</b></label>
-                                    <mat-button-toggle-group name="viejo" aria-label="viejo"
-                                        [(ngModel)]="busqueda.viejo" (change)="filtro()">
-                                        <mat-button-toggle value="true">Si</mat-button-toggle>
-                                        <mat-button-toggle value="">Todos</mat-button-toggle>
-                                        <mat-button-toggle value="false">No</mat-button-toggle>
-                                    </mat-button-toggle-group>
+                                    <label><b>Viejo?</b>
+                                        <mat-button-toggle-group name="viejo" id="viejo" aria-label="viejo"
+                                            [(ngModel)]="busqueda.viejo" (change)="filtro()">
+                                            <mat-button-toggle value="true">Si</mat-button-toggle>
+                                            <mat-button-toggle value="">Todos</mat-button-toggle>
+                                            <mat-button-toggle value="false">No</mat-button-toggle>
+                                        </mat-button-toggle-group>
+                                    </label>
                                 </div>
                                 <div class="col">
-                                    <label for="comprado"><b>Comprado?</b></label>
-                                    <mat-button-toggle-group name="comprado" aria-label="comprado"
-                                        [(ngModel)]="busqueda.comprado" (change)="filtro()">
-                                        <mat-button-toggle value="true">Si</mat-button-toggle>
-                                        <mat-button-toggle value="">Todos</mat-button-toggle>
-                                        <mat-button-toggle value="false">No</mat-button-toggle>
-                                    </mat-button-toggle-group>
+                                    <label><b>Comprado?</b>
+                                        <mat-button-toggle-group name="comprado" id="comprado" aria-label="comprado"
+                                            [(ngModel)]="busqueda.comprado" (change)="filtro()">
+                                            <mat-button-toggle value="true">Si</mat-button-toggle>
+                                            <mat-button-toggle value="">Todos</mat-button-toggle>
+                                            <mat-button-toggle value="false">No</mat-button-toggle>
+                                        </mat-button-toggle-group>
+                                    </label>
                                 </div>
                             </div>
                             &nbsp;

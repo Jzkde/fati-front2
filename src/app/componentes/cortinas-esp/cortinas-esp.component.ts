@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+declare var bootstrap: any;
+
+import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CortEspeciales } from 'src/app/models/CortEspeciales';
+import { Resultado } from 'src/app/models/Resultado';
 import { Sistema } from 'src/app/models/Sistema';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { DbService } from 'src/app/service/db.service';
@@ -10,15 +13,16 @@ import { DbService } from 'src/app/service/db.service';
   templateUrl: './cortinas-esp.component.html',
   styleUrls: ['./cortinas-esp.component.css']
 })
-export class CortinasEspComponent {
+export class CortinasEspComponent implements OnInit {
 
+  
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
 
   archivo: File | null = null;
   marca: string = '';
-
+  sistemas!: any
   telas: CortEspeciales[] = [];
   nuevaTela: CortEspeciales = {
     id: 0,
@@ -27,9 +31,9 @@ export class CortinasEspComponent {
     esTela: false,
     sistema: Sistema.VACIO
   };
-
+  resultado: Resultado | null = null;
   porcen: number = 0;
-  prod: any[] = []
+  prod: any[] = [];
 
   constructor(
     private cortinasEspService: CortinasEspService,
@@ -37,37 +41,58 @@ export class CortinasEspComponent {
     private toastr: ToastrService,
   ) { }
 
-  archivoSelec(event: any) {
+  ngOnInit(): void {
+    this.listaSistemas()
+  }
+
+  archivoSelec(event: any): void {
     this.archivo = event.target.files[0];
   }
 
-  // Carga desde archivo
-  carga() {
-    if (this.archivo) {
-      this.dbService.cargarSistemas(this.archivo).subscribe({
-       next: (data) => {
-          this.toastr.success(data, 'OK', {
-            timeOut: 5000,
-            positionClass: 'toast-bottom-center'
-          });
-        },
-        error: error => {
-          this.toastr.error(error.error, 'ERROR', {
+  listaSistemas() {
+    this.cortinasEspService.listaSistemas().subscribe({
+      next: data => {
+        this.sistemas = data;
+        console.log(this.sistemas);
+      }
+    })
+  }
+
+ carga(): void {
+  if (this.archivo) {
+    this.dbService.cargarSistemas(this.archivo).subscribe({
+      next: (data: Resultado) => {
+        this.resultado = data;
+        console.log(data);
+
+        if (data.errores.length > 0) {
+          const modal = new bootstrap.Modal(document.getElementById('erroresModal')!);
+          modal.show();
+        } else {
+          this.toastr.success('Carga completada correctamente', 'OK', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
         }
-      });
-    }
+      },
+      error: error => {
+        this.toastr.error(error.error, 'ERROR', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
+      }
+    });
   }
+}
 
-  agregar() {
+
+  agregar(): void {
     this.telas.push({ ...this.nuevaTela });
     this.nuevaTela = { id: 0, tela: '', precio: 0, esTela: false, sistema: Sistema.VACIO };
     console.log(this.telas);
   }
 
-  quitarProducto(index: number) {
+  quitarProducto(index: number): void {
     this.telas.splice(index, 1);
   }
 
@@ -75,7 +100,7 @@ export class CortinasEspComponent {
     return (this.telas.length > 0 && this.marca !== '');
   }
 
-  guardar() {
+  guardar(): void {
     this.prod = this.telas;
     this.cortinasEspService.nuevos(this.marca, this.prod).subscribe({
       next: (data) => {
@@ -95,8 +120,7 @@ export class CortinasEspComponent {
     });
   }
 
-  // Modificacion masiva de precios
-  masivo() {
+  masivo(): void {
     if (this.porcen) {
       this.cortinasEspService.masivo(this.marca, this.porcen).subscribe({
         next: (data) => {
@@ -104,29 +128,24 @@ export class CortinasEspComponent {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.porcen = 0
+          this.porcen = 0;
         },
         error: error => {
-          if (error.error == "No hay TELAS cargadas") {
-            console.error('Error:', error.error);
-            this.toastr.error(error.error, 'ERROR', {
-              timeOut: 5000,
-              positionClass: 'toast-bottom-center'
-            });
-          } else {
-            console.error('Error:', error);
-            this.toastr.error("Proveedor NO seleccionado", 'ERROR', {
-              timeOut: 5000,
-              positionClass: 'toast-bottom-center'
-            })
-          };
+          const msg = error.error === "No hay TELAS cargadas"
+            ? error.error
+            : "Proveedor NO seleccionado";
+          console.error('Error:', error);
+          this.toastr.error(msg, 'ERROR', {
+            timeOut: 5000,
+            positionClass: 'toast-bottom-center'
+          });
         }
       });
     } else {
       this.toastr.error("Porcentaje NO especificado", 'ERROR', {
         timeOut: 5000,
         positionClass: 'toast-bottom-center'
-      })
+      });
     }
   }
 }

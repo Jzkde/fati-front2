@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from './api/api';
@@ -10,25 +10,19 @@ import { Cotizado } from '../models/Cotizado';
 })
 export class CotizadorService {
 
-  private apiURL: string = API.URL + "cotizar"
+  private apiURL: string = API.URL + 'cotizar'
 
   constructor(private http: HttpClient) { }
 
   cotizarSistemas(marca: string, telaN: string, alto: number, ancho: number, sistema: string): Observable<any> {
-    const params = new HttpParams()
-      .set('telaN', telaN)
-      .set('alto', alto.toString())
-      .set('ancho', ancho.toString())
-      .set('sistema', sistema);
-    return this.http.get(this.apiURL + `/sistemas/` + marca, { params });
+    return this.http.get(this.apiURL + '/sistemas/' + marca, {
+      params: { telaN, alto, ancho, sistema }
+    });
   }
-  cotizarTelas(telaN: string, ancho: number, prop: number, tipoConf: string, accesorios: Producto[]): Observable<Cotizado> {
-    let params = new HttpParams()
-      .set('telaN', telaN)
-      .set('ancho', ancho.toString())
-      .set('prop', prop.toString())
-      .set('tipoConf', tipoConf);
 
-    return this.http.post<Cotizado>(this.apiURL + "/telas", accesorios, { params });
+  cotizarTelas(telaN: string, ancho: number, prop: number, tipoConf: string, accesorios: Producto[]): Observable<Cotizado> {
+    return this.http.post<Cotizado>(this.apiURL + '/telas', accesorios, {
+      params: { telaN, prop, ancho, tipoConf }
+    });
   }
 }

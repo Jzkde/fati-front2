@@ -12,6 +12,7 @@ export class CortinasEspFormComponent {
   buscados: any[] = [];
   marca: string = "";
   prod!: any;
+  sistemas!: any[];
 
   busqueda = {
     id: 0,
@@ -51,12 +52,21 @@ export class CortinasEspFormComponent {
       esTela: false,
       sistema: 'ROLLER'
     }
+    this.listaSistemas()
   }
 
   actualizarMarca(valor: string): void {
     this.busqueda.marca = valor;
   }
 
+  listaSistemas() {
+    this.cortinasEspService.listaSistemas().subscribe({
+      next: data => {
+        this.sistemas = data;
+        console.log(this.sistemas);
+      }
+    })
+  }
 
   filtro(): void {
     this.cortinasEspService.filtro(this.busqueda).subscribe({
@@ -76,7 +86,7 @@ export class CortinasEspFormComponent {
 
 
   filtroUno(id: number): void {
-    this.cortinasEspService.filtroUno(id).subscribe({
+    this.cortinasEspService.uno(id).subscribe({
       next: data => {
         this.prod = data;
       }
@@ -119,7 +129,7 @@ export class CortinasEspFormComponent {
       },
       error: error => {
         console.error('Error al eliminar:', error);
-         this.toastr.error(error.error, 'Error', {
+        this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });

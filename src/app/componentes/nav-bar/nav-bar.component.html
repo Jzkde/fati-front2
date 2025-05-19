@@ -39,8 +39,8 @@
           <button class="btn btn-dark nav-link dropdown-toggle" mat-button
             [matMenuTriggerFor]="cotizar">Cotizador</button>
           <mat-menu #cotizar="matMenu">
-            <button mat-menu-item routerLink="/cotizar/sistemas">Sistemas</button>
-            <button mat-menu-item routerLink="/cotizar/telas">Telas</button>
+            <a mat-menu-item routerLink="/cotizar/sistemas">Sistemas</a>
+            <a mat-menu-item routerLink="/cotizar/telas">Telas</a>
           </mat-menu>
         </li>
 
@@ -55,13 +55,13 @@
           </mat-menu>
 
           <mat-menu #cortEsp="matMenu">
-            <button mat-menu-item routerLink="/cortespeciales/lista">Administrar</button>
-            <button mat-menu-item routerLink="/cortespeciales/editar">Detalles</button>
+            <a mat-menu-item routerLink="/cortespeciales/lista">Administrar</a>
+            <a mat-menu-item routerLink="/cortespeciales/editar">Detalles</a>
           </mat-menu>
 
           <mat-menu #prodServ="matMenu">
-            <button mat-menu-item routerLink="/productos/lista">Administrar</button>
-            <button mat-menu-item routerLink="/productos/editar">Detalles</button>
+            <a mat-menu-item routerLink="/productos/lista"> Administrar </a>
+            <a mat-menu-item routerLink="/productos/editar"> Detalles </a>
           </mat-menu>
 
           <mat-menu #db="matMenu">

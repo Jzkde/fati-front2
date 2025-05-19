@@ -115,7 +115,7 @@ export class CotizadorComponent implements OnInit {
   }
 
   cargarDatos(): void {
-    this.cortEspecialesService.getTelas(this.marca, this.sistema).subscribe({
+    this.cortEspecialesService.telasPorMarca(this.marca, this.sistema).subscribe({
       next: (data) => {
         this.telas = data;
       },
@@ -130,7 +130,7 @@ export class CotizadorComponent implements OnInit {
         this.telas = [];
       }
     });
-    this.cortEspecialesService.getSistemas(this.marca, this.sistema).subscribe({
+    this.cortEspecialesService.sistemasPorMarca(this.marca, this.sistema).subscribe({
       next: (data) => {
         this.mecanismos = data;
       },
@@ -139,7 +139,7 @@ export class CotizadorComponent implements OnInit {
         this.mecanismos = [];
       }
     });
-    this.cortEspecialesService.getSistemas(this.marca, "adicional").subscribe({
+    this.cortEspecialesService.sistemasPorMarca(this.marca, "adicional").subscribe({
       next: (data) => {
         this.adicionales = data;
       },

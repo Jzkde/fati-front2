@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Presupuesto } from 'src/app/models/Presupuesto';
+import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { MedidasService } from 'src/app/service/medidas.service';
 
 @Component({
@@ -25,18 +26,20 @@ export class PresupuestoFormComponent implements OnInit {
     fecha: '',
     caida: ''
   }
-
+  sistemas!: any
   modoEdicion: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private medidasService: MedidasService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private cortinasEspService: CortinasEspService
   ) { }
 
   ngOnInit(): void {
     this.toastr.clear();
+    this.listaSistemas()
     const id = this.route.snapshot.params['id'];
     if (id) {
       this.modoEdicion = true;
@@ -48,6 +51,15 @@ export class PresupuestoFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  listaSistemas() {
+    this.cortinasEspService.listaSistemas().subscribe({
+      next: data => {
+        this.sistemas = data;
+        console.log(this.sistemas);
+      }
+    })
   }
 
   guardar(): void {

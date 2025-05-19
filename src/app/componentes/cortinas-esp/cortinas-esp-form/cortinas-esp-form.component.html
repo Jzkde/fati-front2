@@ -14,7 +14,7 @@
                 class="fa-solid fa-magnifying-glass"></i> Buscar</button>
     </div>
 
-    <div class="pedidos">
+    <div>
         <div class="mt-5">
             <h1 class="text-center">Cortinas Especiales: Sistemas y Telas </h1>
             <div class="container mb-3">
@@ -34,14 +34,7 @@
                                 <label for="sistema"><b>Sistema</b></label>
                                 <select class="form-control" name="sistema" id="sistema" [(ngModel)]="busqueda.sistema"
                                     (change)="filtro()" [disabled]="marca == '' ">
-                                    <option value="">Todos</option>
-                                    <option value="ROLLER">Roller</option>
-                                    <option value="VERTICALES">Vertical</option>
-                                    <option value="PERSIANA">Persiana</option>
-                                    <option value="DUBAI">Dubai</option>
-                                    <option value="ORIENTAL">Oriental</option>
-                                    <option value="ROMANA">Romana</option>
-                                    <option value="ZEBRA">Zebra</option>
+                                    <option *ngFor="let sistema of sistemas" [value]="sistema">{{ sistema }}</option>
                                 </select>
                             </div>
                         </div>

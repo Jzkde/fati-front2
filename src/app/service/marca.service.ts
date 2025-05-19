@@ -9,30 +9,33 @@ import { Marca } from '../models/Marca';
 })
 export class MarcaService {
 
-  private apiURL: string = API.URL + "marca"
+  private apiURL: string = API.URL + 'marca'
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   lista(): Observable<any[]> {
-    return this.httpClient.get<Marca[]>(this.apiURL + '/lista')
+    return this.http.get<Marca[]>(this.apiURL + '/lista')
   }
 
   uno(id: number): Observable<Marca> {
-    return this.httpClient.get<Marca>(this.apiURL + `/uno/${id}`);
+    return this.http.get<Marca>(this.apiURL + '/uno/' + id);
   }
 
   nuevo(marca: Marca): Observable<any> {
-    return this.httpClient.post(this.apiURL + `/nuevo`, marca, {
+    return this.http.post(this.apiURL + '/nuevo', marca, {
       responseType: 'text'
     });
   }
 
   editar(id: number, marca: Marca): Observable<any> {
-    return this.httpClient.put(this.apiURL + `/editar/${id}`, marca, {
+    return this.http.put(this.apiURL + '/editar/' + id, marca, {
       responseType: 'text'
     });
   }
-    borrar(id: number): Observable<any> {
-    return this.httpClient.delete(this.apiURL + `/borrar/${id}`, { responseType: 'text' });
+  
+  borrar(id: number): Observable<any> {
+    return this.http.delete(this.apiURL + '/borrar/' + id, {
+      responseType: 'text'
+    });
   }
 }

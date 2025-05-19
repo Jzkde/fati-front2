@@ -8,14 +8,14 @@
       <div class="row">
         <div class="col-3">
           <div class="mb-3">
-            <label class="form-label">Artículo</label>
-            <input type="text" class="form-control" [(ngModel)]="buscarTelaArt" (input)="filtrarTelas()" />
+            <label for="art" class="form-label">Artículo</label>
+            <input id="art" type="text" class="form-control" [(ngModel)]="buscarTelaArt" (input)="filtrarTelas()" />
           </div>
         </div>
         <div class="col-9">
           <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" [(ngModel)]="buscarTelaNombre" (input)="filtrarTelas()" />
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="buscarTelaNombre" (input)="filtrarTelas()" />
           </div>
         </div>
       </div>
@@ -51,12 +51,12 @@
       <!-- Ancho, Proporción y Tipo de Confección -->
       <div class="row mb-3">
         <div class="col">
-          <label class="form-label">Ancho (mts)</label>
-          <input type="number" class="form-control" [(ngModel)]="ancho" />
+          <label for="ancho" class="form-label">Ancho (mts)</label>
+          <input id="ancho" type="number" class="form-control" [(ngModel)]="ancho" />
         </div>
         <div class="col">
-          <label class="form-label">Proporción</label>
-          <input type="number" class="form-control" [(ngModel)]="prop" />
+          <label for="prop" class="form-label">Proporción</label>
+          <input id="prop" type="number" class="form-control" [(ngModel)]="prop" />
         </div>
         <div class="col">
           <label class="form-label" for="coloc">Tipo de Confección</label>
@@ -72,39 +72,39 @@
       <div class="row border rounded p-3">
         <h4>Resumen</h4>
         <div class="col-md-4 mb-3">
-          <label class="form-label">Precio Tela</label>
-          <input type="text" class="form-control" [value]="cotizado?.precioTela | currency:'$'" disabled />
+          <label for="ptela" class="form-label">Precio Tela</label>
+          <input id="ptela" type="text" class="form-control" [value]="cotizado?.precioTela | currency:'$'" disabled />
         </div>
         <div class="col-md-4 mb-3">
-          <label class="form-label">Cantidad de Tela (mts)</label>
-          <input type="text" class="form-control" [value]="cotizado?.cantTela | number:'1.0-2'" disabled />
+          <label for="ctelam" class="form-label">Cantidad de Tela (mts)</label>
+          <input id="ctelam" type="text" class="form-control" [value]="cotizado?.cantTela | number:'1.0-2'" disabled />
         </div>
         <div class="col-md-4 mb-3">
-          <label class="form-label">Costo Tela</label>
-          <input type="text" class="form-control" [value]="cotizado?.costoTela | currency:'$'" disabled />
+          <label for="ctela" class="form-label">Costo Tela</label>
+          <input type="text" id="ctela" class="form-control" [value]="cotizado?.costoTela | currency:'$'" disabled />
         </div>
 
         <div class="col-md-4 mb-3">
-          <label class="form-label">Cantidad de Paños</label>
-          <input type="text" class="form-control" [value]="cotizado?.confec" disabled />
+          <label for="cpano" class="form-label">Cantidad de Paños</label>
+          <input type="text" id="cpano" class="form-control" [value]="cotizado?.confec" disabled />
         </div>
         <div class="col-md-4 mb-3">
-          <label class="form-label">Costo x Paño</label>
-          <input type="text" class="form-control" [value]="cotizado?.precioConf | currency:'$'" disabled />
+          <label class="form-label" for="ppano">Costo x Paño</label>
+          <input type="text" class="form-control" id="ppano" [value]="cotizado?.precioConf | currency:'$'" disabled />
         </div>
         <div class="col-md-4 mb-3">
-          <label class="form-label">Costo Confección</label>
-          <input type="text" class="form-control" [value]="cotizado?.costoConf | currency:'$'" disabled />
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Costo Accesorios</label>
-          <input type="text" class="form-control" [value]="cotizado?.precioAcc | currency:'$'" disabled />
+          <label for="cconf" class="form-label">Costo Confección</label>
+          <input type="text" id="cconf" class="form-control" [value]="cotizado?.costoConf | currency:'$'" disabled />
         </div>
 
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">Total</label>
-          <input type="text" class="form-control text-success fw-bold" [value]="cotizado?.total | currency:'$'"
+          <label for="cacce" class="form-label">Costo Accesorios</label>
+          <input type="text" id="cacce" class="form-control" [value]="cotizado?.precioAcc | currency:'$'" disabled />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="total" class="form-label fw-bold">Total</label>
+          <input type="text" id="total" class="form-control text-success fw-bold" [value]="cotizado?.total | currency:'$'"
             disabled />
         </div>
       </div>
@@ -117,14 +117,14 @@
       <div class="row">
         <div class="col-3">
           <div class="mb-3">
-            <label class="form-label">Artículo</label>
-            <input type="text" class="form-control" [(ngModel)]="buscarAccesorioArt" (input)="filtrarAccesorios()" />
+            <label for="buscaart" class="form-label">Artículo</label>
+            <input type="text" id="buscaart" class="form-control" [(ngModel)]="buscarAccesorioArt" (input)="filtrarAccesorios()" />
           </div>
         </div>
         <div class="col-9">
           <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" [(ngModel)]="buscarAccesorioNombre" (input)="filtrarAccesorios()" />
+            <label for="buscanom" class="form-label">Nombre</label>
+            <input type="text" id="buscanom" class="form-control" [(ngModel)]="buscarAccesorioNombre" (input)="filtrarAccesorios()" />
           </div>
         </div>
       </div>

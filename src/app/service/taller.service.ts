@@ -11,44 +11,47 @@ import { Presupuesto } from '../models/Presupuesto';
 })
 export class TallerService {
 
-  private apiURL: string = API.URL + "taller"
+  private apiURL: string = API.URL + 'taller'
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   lista(): Observable<any[]> {
-    return this.httpClient.get<Confeccion[]>(this.apiURL + '/lista')
+    return this.http.get<Confeccion[]>(this.apiURL + '/lista')
   }
 
   uno(id: number): Observable<Confeccion> {
-    return this.httpClient.get<Confeccion>(this.apiURL + `/lista/${id}`);
+    return this.http.get<Confeccion>(this.apiURL + '/lista/' + id);
   }
 
   filtro(busqueda: Busqueda): Observable<any[]> {
-    return this.httpClient.post<any[]>(this.apiURL + '/filtro', busqueda)
+    return this.http.post<any[]>(this.apiURL + '/filtro', busqueda)
   }
 
   filtrouno(id: number): Observable<Confeccion[]> {
-    return this.httpClient.get<Confeccion[]>(this.apiURL + `/filtro/${id}`);
+    return this.http.get<Confeccion[]>(this.apiURL + '/filtro/' + id);
   }
 
   nuevo(Confeccion: Confeccion): Observable<any> {
-    return this.httpClient.post<Confeccion>(this.apiURL + `/nuevo/`, Confeccion)
+    return this.http.post<Confeccion>(this.apiURL + '/nuevo', Confeccion)
   }
 
   editar(id: number, Confeccion: Confeccion): Observable<any> {
-    return this.httpClient.put(this.apiURL + `/editar/${id}`, Confeccion)
+    return this.http.put(this.apiURL + '/editar/' + id, Confeccion)
   }
 
   borrar(id: number): Observable<any> {
-    return this.httpClient.delete(this.apiURL + `/borrar/${id}`, { responseType: 'text' });
+    return this.http.delete(this.apiURL + '/borrar/' + id, {
+      responseType: 'text'
+    });
   }
 
   mover(presupuesto: Presupuesto): Observable<any> {
-    return this.httpClient.post(this.apiURL + `/mover/`, presupuesto);
+    return this.http.post(this.apiURL + '/mover/', presupuesto);
   }
 
   entregar(id: number): Observable<any> {
-    return this.httpClient.put(this.apiURL + `/actualizar/${id}`, {}, { responseType: 'text' });
+    return this.http.put(this.apiURL + '/actualizar/' + id, {}, {
+      responseType: 'text'
+    });
   }
-
 }

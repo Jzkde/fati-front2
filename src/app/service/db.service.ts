@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API } from './api/api';
 import { Observable } from 'rxjs';
+import { Resultado } from '../models/Resultado';
 
 @Injectable({
   providedIn: 'root'
@@ -9,26 +10,30 @@ import { Observable } from 'rxjs';
 export class DbService {
 
   constructor(private http: HttpClient) { }
-  private apiDb: string = API.URL + "db"
 
-  cargarSistemas(file: File): Observable<string> {
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-    return this.http.post(this.apiDb + "/carga/sistemas", formData, { responseType: 'text' });
+  private apiURL: string = API.URL + 'db'
+
+  cargarSistemas(file: File): Observable<Resultado> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<Resultado>(this.apiURL + '/carga/sistemas', formData);
   }
 
-  cargarAcce(file: File): Observable<string> {
+  cargarAcce(file: File): Observable<Resultado> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    return this.http.post(this.apiDb + "/carga/acce", formData, { responseType: 'text' });
+    return this.http.post<Resultado>(this.apiURL + '/carga/acce', formData);
   }
 
   exportarDb() {
-    return this.http.get(this.apiDb + '/backup', { responseType: 'text' });
+    return this.http.get(this.apiURL + '/backup', {
+      responseType: 'text'
+    });
   }
 
   asociar() {
-    return this.http.get(API.URL + 'asociar', { responseType: 'text' });
+    return this.http.get(API.URL + 'asociar', {
+      responseType: 'text'
+    });
   }
-
 }

@@ -37,10 +37,11 @@
     <div id="masivo" [collapse]="isCollapsed1" [isAnimated]="true">
         <div class="container bg-warning-subtle border border-warning p-3 mt-3 rounded">
             <h2>Modificación Masiva de Precios</h2>
-           <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2">
-                <input placeholder="Porcentaje"class="form-control w-auto" [(ngModel)]="porcen"
-                    id="porcent" name="porcent" type="number" />
-                <button class="btn btn-warning m-2 p-2" (click)="masivo()"><i class="fa-solid fa-arrow-up"></i> Modificar</button>
+            <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2">
+                <input placeholder="Porcentaje" class="form-control w-auto" [(ngModel)]="porcen" id="porcent"
+                    name="porcent" type="number" />
+                <button class="btn btn-warning m-2 p-2" (click)="masivo()"><i class="fa-solid fa-arrow-up"></i>
+                    Modificar</button>
             </div>
         </div>
     </div>
@@ -59,12 +60,11 @@
 
             <div class="d-flex justify-content-center mt-4">
                 <input class="border rounded border-black p-2" type="file" (change)="archivoSelec($event)" />
-                <button class="btn btn-success m-2 p-2" (click)="carga()"><i class="fa-solid fa-floppy-disk"></i> Guardar </button>
+                <button class="btn btn-success m-2 p-2" (click)="carga()"><i class="fa-solid fa-floppy-disk"></i>
+                    Guardar </button>
             </div>
         </div>
     </div>
-
-
 
     <!-- Carga manual -->
     <div id="cargamanual" [collapse]="isCollapsed3" [isAnimated]="true">
@@ -99,14 +99,7 @@
                             </td>
                             <td>
                                 <select class="form-select" [(ngModel)]="nuevaTela.sistema" name="sistema" required>
-                                    <option value="ROLLER">Roller</option>
-                                    <option value="VERTICALES">Vertical</option>
-                                    <option value="PERSIANA">Persiana</option>
-                                    <option value="DUBAI">Dubai</option>
-                                    <option value="ORIENTAL">Oriental</option>
-                                    <option value="ROMANA">Romana</option>
-                                    <option value="ZEBRA">Zebra</option>
-                                    <option value="ADICIONAL">Adicional</option>
+                                    <option *ngFor="let sistema of sistemas" [value]="sistema">{{ sistema }}</option>
                                 </select>
                             </td>
                         </tr>
@@ -137,16 +130,43 @@
                             <td>{{ tela.precio }}</td>
                             <td>{{ tela.esTela ? 'Sí' : 'No' }}</td>
                             <td>{{ tela.sistema }}</td>
-                            <td><button class="btn btn-danger btn-sm" (click)="quitarProducto(i)"><i class="fa-solid fa-xmark"></i> Quitar</button></td>
+                            <td><button class="btn btn-danger btn-sm" (click)="quitarProducto(i)"><i
+                                        class="fa-solid fa-xmark"></i> Quitar</button></td>
                         </tr>
                     </tbody>
                 </table>
 
                 <!-- Botón Guardar Todo -->
                 <div class="text-center mt-3">
-                    <button class="btn btn-success" (click)="guardar()" [disabled]="!esValido()"> <i class="fa-solid fa-floppy-disk"></i> Guardar Todo</button>
+                    <button class="btn btn-success" (click)="guardar()" [disabled]="!esValido()"> <i
+                            class="fa-solid fa-floppy-disk"></i> Guardar Todo</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal de errores -->
+<div class="modal fade" id="erroresModal" tabindex="-1" aria-labelledby="erroresModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="erroresModalLabel">Errores de carga</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>Cantidad cargada:</strong> {{ resultado?.cantidadCargada }}</p>
+        <ul class="list-group">
+          <li *ngFor="let error of resultado?.errores" class="list-group-item text-danger">
+            {{ error }}
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>

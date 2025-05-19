@@ -5,12 +5,17 @@
             <h2>Servicios</h2>
             <!-- Buscar -->
             <div class="row">
-                <div class="col-3">
-                    <div class="mb-3">
+                <div class="col-3 mb-3">
                         <label class="form-label">Nombre</label>
                         <input type="text" class="form-control" [(ngModel)]="nombreServSelec"
                             (input)="filtrarServicios()" />
-                    </div>
+                </div>
+                 <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2 col">
+                  <input placeholder="Porcentaje" class="form-control w-auto" [(ngModel)]="porcen" id="porcent"
+                    name="porcent" type="number" style="width: 120px;" />
+                <button class="btn btn-outline-dark" (click)="masivo()">
+                    <i class="fa-solid fa-arrow-up"></i> Incrementar
+                </button>
                 </div>
             </div>
             <!-- Tabla de Servicios -->
@@ -25,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let s of servs">
+                        <tr *ngFor="let s of servicios">
                             <td>{{s.tipo}}</td>
                             <td>{{s.nombre}}</td>
                             <td>{{s.precio | currency }}</td>
@@ -158,7 +163,7 @@
                                 <div class="form-grup">
                                     <label for="marca"><b>Marca</b></label>
                                     <div class="input-group">
-                                        <select class="form-control w-auto" [(ngModel)]="prod.marca.marca" name="marca">
+                                        <select id="marca" class="form-control w-auto" [(ngModel)]="prod.marca.marca" name="marca">
                                             <option *ngFor="let p of marcasUnicas" [value]="p.marca">{{
                                                 p.marca }}</option>
                                         </select>
@@ -202,8 +207,8 @@
                                     <div class="form-grup">
                                         <label for="nombreServ"><b>Nombre</b></label>
                                         <div class="input-group">
-                                            <input #nombreServ type="text" class="form-control" name="nombreServ" id="nombreServ"
-                                                [(ngModel)]="serv.nombre" required>
+                                            <input #nombreServ type="text" class="form-control" name="nombreServ"
+                                                id="nombreServ" [(ngModel)]="serv.nombre" required>
                                         </div>
                                     </div>
                                 </div>
@@ -219,8 +224,8 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="tipoServ"><b>Tipo</b></label>
-                                        <select class="form-control" name="tipoServ" id="tipoServ" [(ngModel)]="serv.tipo"
-                                            required>
+                                        <select class="form-control" name="tipoServ" id="tipoServ"
+                                            [(ngModel)]="serv.tipo" required>
                                             <option value="COLOCACION">Colocacion</option>
                                             <option value="CONFECCION">Confeccion</option>
                                         </select>

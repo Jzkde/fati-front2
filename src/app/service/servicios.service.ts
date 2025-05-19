@@ -9,7 +9,7 @@ import { Servicio } from '../models/Servicio';
 })
 export class ServiciosService {
 
-  private apiURL: string = API.URL + "fati"
+  private apiURL: string = API.URL + 'fati'
 
   constructor(private http: HttpClient) { }
 
@@ -22,18 +22,32 @@ export class ServiciosService {
       params: { tipo }
     });
   }
+
   filtroUno(id: number): Observable<any> {
-    return this.http.get<any>(this.apiURL + `/uno/${id}`);
+    return this.http.get<any>(this.apiURL + '/uno/' + id);
   }
+
   editar(id: number, Cliente: Servicio): Observable<any> {
-    return this.http.put(this.apiURL + `/editar/${id}`, Cliente, {
+    return this.http.put(this.apiURL + '/editar/' + id, Cliente, {
       responseType: 'text'
     });
   }
+
   borrar(id: number): Observable<any> {
-    return this.http.delete(this.apiURL + `/borrar/${id}`, { responseType: 'text' });
+    return this.http.delete(this.apiURL + '/borrar/' + id, {
+      responseType: 'text'
+    });
   }
+  
   nuevo(servicio: Servicio): Observable<any> {
-    return this.http.post(this.apiURL + "/nuevo", servicio, { responseType: 'text' });
+    return this.http.post(this.apiURL + '/nuevo', servicio, {
+      responseType: 'text'
+    });
+  }
+
+  masivo(porcentaje: number): Observable<any> {
+    return this.http.put(this.apiURL + '/masivo', {}, {
+      params: { porcentaje }, responseType: 'text'
+    });
   }
 }
