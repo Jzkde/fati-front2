@@ -22,8 +22,8 @@ import { TelasComponent } from './componentes/cotizador/telas/telas.component';
 import { PedidoComponent } from './componentes/pedido/pedido.component';
 import { PedidoFormComponent } from './componentes/pedido/pedido-form/pedido-form.component';
 
-import { PresupuestoComponent } from './componentes/presupuesto/presupuesto.component';
-import { PresupuestoFormComponent } from './componentes/presupuesto/presupuesto-form/presupuesto-form.component';
+import { MedidasComponent } from './componentes/medidas/medidas.component';
+import { MedidasFormComponent } from './componentes/medidas/medidas-form/medidas-form.component';
 
 import { ProductosComponent } from './componentes/productos/productos.component';
 import { ProductosFormComponent } from './componentes/productos/productos-form/productos-form.component';
@@ -61,8 +61,8 @@ import { TallerFormComponent } from './componentes/taller/taller-form/taller-for
     PedidoComponent,
     PedidoFormComponent,
 
-    PresupuestoComponent,
-    PresupuestoFormComponent,
+    MedidasComponent,
+    MedidasFormComponent,
 
     ProductosComponent,
     ProductosFormComponent,

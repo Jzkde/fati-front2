@@ -154,16 +154,18 @@ export class CotizadorComponent implements OnInit {
     const area = this.calcularArea();
 
     this.cotizadorService.cotizarSistemas(this.marca, this.telaN, this.alto, this.ancho, this.sistema)
-      .subscribe({
-        next: (data) => {
-          this.resultado = data + this.precioColoc + this.adicional;
-          this.error = "";
-        },
-        error: error => {
-          this.resultado = null;
-          this.error = error.error.text;
-        }
-      });
+    
+    .subscribe({
+      next: (data) => {
+        this.resultado = data + this.precioColoc + this.adicional;
+        this.error = "";
+      },
+      error: error => {
+        this.resultado = null;
+        this.error = error.error.text;
+      }
+    });
+    console.log(this.marca, this.telaN, this.alto, this.ancho, this.sistema);
   }
 
 

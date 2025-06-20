@@ -6,8 +6,8 @@ import { CotizadorComponent } from './componentes/cotizador/sistemas/cotizador.c
 import { TelasComponent } from './componentes/cotizador/telas/telas.component';
 import { PedidoComponent } from './componentes/pedido/pedido.component';
 import { PedidoFormComponent } from './componentes/pedido/pedido-form/pedido-form.component';
-import { PresupuestoComponent } from './componentes/presupuesto/presupuesto.component';
-import { PresupuestoFormComponent } from './componentes/presupuesto/presupuesto-form/presupuesto-form.component';
+import { MedidasComponent } from './componentes/medidas/medidas.component';
+import { MedidasFormComponent } from './componentes/medidas/medidas-form/medidas-form.component';
 import { CortinasEspComponent } from './componentes/cortinas-esp/cortinas-esp.component';
 import { CortinasEspFormComponent } from './componentes/cortinas-esp/cortinas-esp-form/cortinas-esp-form.component';
 import { ProductosComponent } from './componentes/productos/productos.component';
@@ -37,9 +37,9 @@ const routes: Routes = [
   { path: 'pedido/editar/:id', component: PedidoFormComponent },
   { path: 'pedido/nuevo', component: PedidoFormComponent },
 
-  { path: 'presupuesto/lista', component: PresupuestoComponent },
-  { path: 'presupuesto/editar/:id', component: PresupuestoFormComponent },
-  { path: 'presupuesto/nuevo', component: PresupuestoFormComponent },
+  { path: 'medidas/lista', component: MedidasComponent },
+  { path: 'medidas/editar/:id', component: MedidasFormComponent },
+  { path: 'medidas/nuevo', component: MedidasFormComponent },
 
   { path: 'productos/lista', component: ProductosComponent },
   { path: 'productos/editar', component: ProductosFormComponent },

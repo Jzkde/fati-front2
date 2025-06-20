@@ -1,6 +1,6 @@
 import { Cliente } from "./Cliente";
 
-export class Presupuesto {
+export class Medidas {
 
     id?: number;
     sistema: string;
@@ -11,12 +11,12 @@ export class Presupuesto {
     accesorios?: string;
     ambiente?: string;
     observaciones?: string;
-    clienteNombre: string;
+    cliente: string;
     caida: string;
     fecha?: string;
     viejo?: string;
     comprado?: string;
-    cliente?: Cliente;
+    clienteClase?: Cliente;
 
 
     constructor(
@@ -25,12 +25,12 @@ export class Presupuesto {
         alto: number,
         comando: string,
         apertura: string,
-        clienteNombre: string,
+        cliente: string,
         caida: string,
         accesorios?: string,
         ambiente?: string,
         observaciones?: string,
-        cliente?: Cliente
+        clienteClase?: Cliente
     ) {
         this.sistema = sistema;
         this.ancho = ancho;
@@ -40,8 +40,8 @@ export class Presupuesto {
         this.accesorios = accesorios
         this.ambiente = ambiente
         this.observaciones = observaciones
-        this.clienteNombre = clienteNombre
+        this.cliente = cliente
         this.caida = caida
-        this.cliente = cliente;
+        this.clienteClase = clienteClase;
     }
 }

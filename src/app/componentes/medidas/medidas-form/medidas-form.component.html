@@ -9,7 +9,7 @@
                         <div class="form-group">
                             <label for="clienteNombre">Cliente</label>
                             <input type="text" class="form-control" name="clienteNombre" id="clienteNombre"
-                                [(ngModel)]="presupuesto.clienteNombre">
+                                [(ngModel)]="medidas.cliente">
                         </div>
                     </div>
                 </div>
@@ -17,9 +17,9 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="sistema">Sistema</label>
-                            <select class="form-control" name="sistema" id="sistema" [(ngModel)]="presupuesto.sistema">
+                            <select class="form-control" name="sistema" id="sistema" [(ngModel)]="medidas.sistema">
                                 <option value=""></option>
-                                <option *ngFor="let sistema of sistemas" [value]="sistema">{{ sistema }}</option>
+                                <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{ sistema.sistema }}</option>
 
                             </select>
                         </div>
@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="fecha">Fecha</label>
                             <input type="date" class="form-control" name="fecha" id="fecha"
-                                [(ngModel)]="presupuesto.fecha">
+                                [(ngModel)]="medidas.fecha">
                         </div>
                     </div>
                 </div>
@@ -37,21 +37,21 @@
                         <div class="form-group">
                             <label for="ancho">Ancho</label>
                             <input type="number" class="form-control" name="ancho" id="ancho"
-                                [(ngModel)]="presupuesto.ancho" required>
+                                [(ngModel)]="medidas.ancho" required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="alto">Alto</label>
                             <input type="number" class="form-control" name="alto" id="alto"
-                                [(ngModel)]="presupuesto.alto" required>
+                                [(ngModel)]="medidas.alto" required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="caida">Caida/Sop Largo</label>
                             <select class="form-control" name="caida" id="caida" required
-                                [(ngModel)]="presupuesto.caida">
+                                [(ngModel)]="medidas.caida">
                                 <option value="true">SI</option>
                                 <option value="false">NO</option>
                             </select>
@@ -62,7 +62,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="comando">Comando</label>
-                            <select class="form-control" name="comando" id="comando" [(ngModel)]="presupuesto.comando">
+                            <select class="form-control" name="comando" id="comando" [(ngModel)]="medidas.comando">
                                 <option value="NO_POSEE"></option>
                                 <option value="DERECHO">Derecho</option>
                                 <option value="IZQUIERDO">Izquiedo</option>
@@ -73,7 +73,7 @@
                         <div class="form-group">
                             <label for="apertura">Apertura</label>
                             <select class="form-control" name="apertura" id="apertura"
-                                [(ngModel)]="presupuesto.apertura">
+                                [(ngModel)]="medidas.apertura">
                                 <option value="NO_POSEE"></option>
                                 <option value="DERECHA">Derecha</option>
                                 <option value="IZQUIERDA">Izquieda</option>
@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label for="accesorios">Accesorios</label>
                             <input type="text" class="form-control" name="accesorios" id="accesorios"
-                                [(ngModel)]="presupuesto.accesorios">
+                                [(ngModel)]="medidas.accesorios">
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         <div class="form-group">
                             <label for="ambiente">Ambiente</label>
                             <input type="text" class="form-control" name="ambiente" id="ambiente"
-                                [(ngModel)]="presupuesto.ambiente">
+                                [(ngModel)]="medidas.ambiente">
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                             <label for="observaciones">Observaciones</label>
                             <textarea style="resize: none;" rows="2" type="text" class="form-control"
                                 name="observaciones" id="observaciones"
-                                [(ngModel)]="presupuesto.observaciones"> </textarea>
+                                [(ngModel)]="medidas.observaciones"> </textarea>
                         </div>
                     </div>
                 </div>
@@ -120,13 +120,13 @@
                                 Guardar</button>
                         </td>
                         <td>
-                            <button class="btn btn-secondary btn-block" routerLink="/presupuesto/lista"><i
+                            <button class="btn btn-secondary btn-block" routerLink="/medidas/lista"><i
                                     class="fa-solid fa-backward-fast" style="color: #000000;"></i>
                                 Volver</button>
                         </td>
                         <td>
-                            <button class=" btn btn-danger" (click)="borrar(presupuesto.id!)"
-                                routerLink="/presupuesto/lista" *ngIf="modoEdicion">
+                            <button class=" btn btn-danger" (click)="borrar(medidas.id!)"
+                                routerLink="/medidas/lista" *ngIf="modoEdicion">
                                 <i class="fa-solid fa-eraser" style="color: #000000;"></i>
                                 Borrar </button>
                         </td>

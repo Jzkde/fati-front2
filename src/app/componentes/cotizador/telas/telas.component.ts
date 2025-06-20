@@ -23,6 +23,11 @@ export class TelasComponent implements OnInit {
   confecciones: any[] = [];
   cotizado: Cotizado | null = null;
 
+   resultado: any;
+
+  cotizaciones: any[] = [];
+  sumatoria: number = 0;
+  contador: number = 1;
 
   productosSeleccionados: ProductoSeleccionado[] = [];
 
@@ -121,25 +126,24 @@ export class TelasComponent implements OnInit {
       );
   }
 
- agregarAccesorioDesdeCuadro(acc: any) {
-  // Buscamos si ya existe el accesorio en la lista
-  const index = this.productosSeleccionados.findIndex(
-    ps => ps.producto.id === acc.id
-  );
+  agregarAccesorioDesdeCuadro(acc: any) {
+    // Buscamos si ya existe el accesorio en la lista
+    const index = this.productosSeleccionados.findIndex(
+      ps => ps.producto.id === acc.id
+    );
 
-  if (index >= 0) {
-    // Si ya existe, aumentamos la cantidad en 1
-    this.productosSeleccionados[index].cantidad++;
-  } else {
-    // Si no existe, lo agregamos con cantidad 1
-    const nuevoProducto = {
-      producto: acc,
-      cantidad: 1,
-    };
-    this.productosSeleccionados.push(nuevoProducto);
+    if (index >= 0) {
+      // Si ya existe, aumentamos la cantidad en 1
+      this.productosSeleccionados[index].cantidad++;
+    } else {
+      // Si no existe, lo agregamos con cantidad 1
+      const nuevoProducto = {
+        producto: acc,
+        cantidad: 1,
+      };
+      this.productosSeleccionados.push(nuevoProducto);
+    }
   }
-}
-
 
   actualizarCantidad(index: number) {
     const prod = this.productosSeleccionados[index];
@@ -148,4 +152,26 @@ export class TelasComponent implements OnInit {
     }
   }
 
+   agregarCotizacion(): void {
+    if (this.cotizado?.total && typeof this.cotizado?.total === 'number') {
+      const nuevaCotizacion = {
+        contador: this.contador,
+        monto: this.cotizado?.total,
+      };
+      this.cotizaciones.push(nuevaCotizacion);
+      this.sumatoria += this.cotizado?.total;
+      this.resultado = null;
+      this.contador++;
+      localStorage.setItem('cotizaciones', JSON.stringify(this.cotizaciones));
+      localStorage.setItem('sumatoria', this.sumatoria.toString());
+    }
+  }
+
+   borrar(): void {
+    this.cotizaciones = [];
+    this.sumatoria = 0;
+    this.contador = 1;
+    localStorage.removeItem('cotizaciones');
+    localStorage.removeItem('sumatoria');
+  }
 }

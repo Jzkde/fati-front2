@@ -30,7 +30,7 @@ export class CortinasEspFormComponent {
     llego: 'false',
     fecha_llegada: '',
     estado: '',
-    clienteNombre: '',
+    cliente: '',
     responsable: '',
     comprado: '',
     marca: ''

@@ -14,9 +14,9 @@ export class CotizadorService {
 
   constructor(private http: HttpClient) { }
 
-  cotizarSistemas(marca: string, telaN: string, alto: number, ancho: number, sistema: string): Observable<any> {
+  cotizarSistemas(marca: string, telaN: string, alto: number, ancho: number, sistemaN: string): Observable<any> {
     return this.http.get(this.apiURL + '/sistemas/' + marca, {
-      params: { telaN, alto, ancho, sistema }
+      params: { telaN, alto, ancho, sistemaN }
     });
   }
 

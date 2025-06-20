@@ -24,7 +24,7 @@ export class TallerComponent implements OnInit {
     llego: 'false',
     fecha_llegada: '',
     estado: '',
-    clienteNombre: '',
+    cliente: '',
     responsable: '',
     tela: '',
     estela: 'false',
@@ -53,7 +53,6 @@ export class TallerComponent implements OnInit {
         this.buscados = data;
         this.confeccionesCliente();
         this.resetfiltros()
-        console.log(this.buscados);
       },
       err => {
         console.error('Error al filtrar confecciones:', err);
@@ -62,7 +61,7 @@ export class TallerComponent implements OnInit {
   }
 
   borrarFiltros(): void {
-    this.busqueda.clienteNombre = ''
+    this.busqueda.cliente = ''
     this.busqueda.comprado = ''
     this.busqueda.viejo = ''
     this.busqueda.llego = ''
@@ -77,7 +76,7 @@ export class TallerComponent implements OnInit {
   confeccionesCliente(): void {
     const agrupados = new Map<string, Taller[]>();
     this.buscados.forEach(taller => {
-      const cliente = taller.cliente?.nombre || 'Desconocido';
+      const cliente = taller.cliente || 'Desconocido';
       if (!agrupados.has(cliente)) {
         agrupados.set(cliente, []);
       }

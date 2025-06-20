@@ -15,7 +15,8 @@
         <div class="col-9">
           <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" class="form-control" [(ngModel)]="buscarTelaNombre" (input)="filtrarTelas()" />
+            <input type="text" id="nombre" class="form-control" [(ngModel)]="buscarTelaNombre"
+              (input)="filtrarTelas()" />
           </div>
         </div>
       </div>
@@ -37,7 +38,7 @@
               <td>{{ tela.art }}</td>
               <td>{{ tela.nombre }}</td>
               <td>$ {{ tela.precio }}</td>
-              <td>{{ tela.marca.marca }}</td>
+              <td>{{ tela.marca }}</td>
               <td>
                 <button class="btn btn-sm btn-outline-primary" (click)="telaSeleccionada = tela">
                   <i class="fa-solid fa-check"></i>
@@ -104,8 +105,8 @@
 
         <div class="col-md-6 mb-3">
           <label for="total" class="form-label fw-bold">Total</label>
-          <input type="text" id="total" class="form-control text-success fw-bold" [value]="cotizado?.total | currency:'$'"
-            disabled />
+          <input type="text" id="total" class="form-control text-success fw-bold"
+            [value]="cotizado?.total | currency:'$'" disabled />
         </div>
       </div>
     </div>
@@ -118,13 +119,15 @@
         <div class="col-3">
           <div class="mb-3">
             <label for="buscaart" class="form-label">Artículo</label>
-            <input type="text" id="buscaart" class="form-control" [(ngModel)]="buscarAccesorioArt" (input)="filtrarAccesorios()" />
+            <input type="text" id="buscaart" class="form-control" [(ngModel)]="buscarAccesorioArt"
+              (input)="filtrarAccesorios()" />
           </div>
         </div>
         <div class="col-9">
           <div class="mb-3">
             <label for="buscanom" class="form-label">Nombre</label>
-            <input type="text" id="buscanom" class="form-control" [(ngModel)]="buscarAccesorioNombre" (input)="filtrarAccesorios()" />
+            <input type="text" id="buscanom" class="form-control" [(ngModel)]="buscarAccesorioNombre"
+              (input)="filtrarAccesorios()" />
           </div>
         </div>
       </div>
@@ -146,7 +149,7 @@
               <td>{{ acc.art }}</td>
               <td>{{ acc.nombre }}</td>
               <td>$ {{ acc.precio }}</td>
-              <td>{{ acc.marca.marca }}</td>
+              <td>{{ acc.marca }}</td>
               <td>
                 <button class="btn btn-sm btn-outline-success" (click)="agregarAccesorioDesdeCuadro(acc)">
                   <i class="fa-solid fa-plus"></i> Agregar
@@ -187,11 +190,39 @@
           </button>
         </div>
         <div class="col-md-3 d-grid mb-2">
+          <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+            aria-controls="offcanvasRight" (click)="agregarCotizacion()">
+            <i class="fa-solid fa-plus"></i> Sumar
+          </button>
+        </div>
+        <div class="col-md-3 d-grid mb-2">
           <button class="btn btn-secondary" routerLink="/">
             <i class="fa-solid fa-backward-fast"></i> Volver
           </button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasRightLabel"
+  data-bs-scroll="true" >
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel"></h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+     <h4 class="text-center">Sumatoria</h4>
+        <ul class="list-group mb-3">
+          <li *ngFor="let cotizacion of cotizaciones" class="list-group-item text-center">
+            <span class="badge bg-primary me-2">{{ cotizacion.contador }}</span>
+            {{ cotizacion.monto | currency }}
+          </li>
+        </ul>
+        <h5 class="text-center">Total: {{ sumatoria | currency }}</h5>
+        <div class="d-grid mt-2">
+          <button type="button" class="btn btn-danger" (click)="borrar()"><i class="fa-solid fa-eraser"></i>
+            Borrar</button>
+        </div>
   </div>
 </div>

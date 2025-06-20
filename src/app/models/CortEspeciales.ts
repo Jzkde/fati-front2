@@ -1,28 +1,24 @@
-
-
-import { Sistema } from './Sistema';
-import { Marca } from './Marca';
-
-
 export class CortEspeciales {
   id?: number;
   tela: string;
   precio: number;
   esTela: boolean;
-  sistema: Sistema;
+  sistema: string;
+  marca: string;
 
   constructor(
     tela: string,
     precio: number,
     esTela: boolean,
-    sistema: Sistema,
-    marca?: Marca,
+    sistema: string,
+    marca: string,
     id?: number
   ) {
     this.tela = tela;
     this.precio = precio;
     this.esTela = esTela;
     this.sistema = sistema;
+    this.marca = marca;
     this.id = id;
   }
 }

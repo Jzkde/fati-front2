@@ -15,7 +15,7 @@
       </div>
 
       <!-- Formulario completo -->
-      <form (ngSubmit)="cotizar()" #f="ngForm" novalidate>
+      <form (ngSubmit)="cotizar()" #formulario="ngForm" novalidate>
         <!-- Sistema -->
         <div class="form-group mb-3">
           <label for="sistema">Sistema:</label>
@@ -103,7 +103,7 @@
         <!-- Botones y resultado -->
         <div class="row mb-3">
           <div class="col-md-3 d-grid mb-2">
-            <button type="submit" class="btn btn-success" [disabled]="!f.valid">
+            <button type="submit" class="btn btn-success" [disabled]="!formulario.valid">
               <i class="fa-solid fa-floppy-disk"></i> Cotizar
             </button>
           </div>
@@ -113,7 +113,7 @@
             </button>
           </div>
           <div class="col-md-3 d-grid mb-2">
-            <button type="button" class="btn btn-primary" (click)="agregarCotizacion()" [disabled]="!f.valid">
+            <button type="button" class="btn btn-primary" (click)="agregarCotizacion()" [disabled]="!formulario.valid">
               <i class="fa-solid fa-plus"></i> Sumar
             </button>
           </div>

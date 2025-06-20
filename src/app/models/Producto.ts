@@ -1,4 +1,3 @@
-import { Marca } from "./Marca";
 
 export interface Producto {
     id: number;
@@ -6,6 +5,6 @@ export interface Producto {
     nombre: string;
     precio: number;
     esTela: boolean;
-    marca: Marca ;
+    marca: string ;
   }
   

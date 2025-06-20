@@ -10,7 +10,7 @@ export interface Busqueda{
     llego: string;
     fecha_llegada: string;
     estado: string;
-    clienteNombre: string;
+    cliente: string;
     responsable: string;
     tela: string;
     estela: string;

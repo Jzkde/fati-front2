@@ -43,7 +43,7 @@ export class ProductosFormComponent implements OnInit {
       nombre: '',
       precio: 0,
       esTela: false,
-      marca: { id: 0, marca: '' }
+      marca: '' 
     }
     this.serv = {
       id: 0,
@@ -91,7 +91,7 @@ export class ProductosFormComponent implements OnInit {
     this.buscados = this.productos.filter(p =>
       p.nombre.toLowerCase().includes(this.nombreSelec.toLowerCase()) &&
       p.art.toLowerCase().includes(this.artSelec.toLowerCase()) &&
-      p.marca.marca.toLowerCase().includes(this.marcaSelec.toLowerCase())
+      p.marca.toLowerCase().includes(this.marcaSelec.toLowerCase())
     );
   }
 
@@ -118,7 +118,7 @@ export class ProductosFormComponent implements OnInit {
     )
   }
   editar(id: number) {
-    this.productoService.editar(this.prod.marca.marca, id, this.prod).subscribe({
+    this.productoService.editar(this.prod.marca, id, this.prod).subscribe({
       next: data => {
         this.prod = {
           id: 0,
@@ -126,7 +126,7 @@ export class ProductosFormComponent implements OnInit {
           nombre: '',
           precio: 0,
           esTela: false,
-          marca: { id: 0, marca: '' }
+          marca:''
         };
         this.toastr.success(data, 'OK', {
           timeOut: 5000,

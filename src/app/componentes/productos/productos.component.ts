@@ -46,7 +46,7 @@ export class ProductosComponent implements OnInit {
     nombre: '',
     precio: 0,
     esTela: false,
-    marca: { id: 0, marca: '' }
+    marca: '' 
   };
 
   constructor(
@@ -169,7 +169,7 @@ export class ProductosComponent implements OnInit {
 
   agregarProd() {
     this.nuevosProductos.push({ ...this.nuevoProd });
-    this.nuevoProd = { id: 0, art: '', nombre: '', precio: 0, esTela: false, marca: { id: 0, marca: '' } };
+    this.nuevoProd = { id: 0, art: '', nombre: '', precio: 0, esTela: false, marca:'' };
     console.log(this.nuevosProductos);
   }
 

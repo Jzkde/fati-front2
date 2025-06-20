@@ -31,8 +31,8 @@ export class CortinasEspService {
     });
   }
 
-  listaSistemas(): Observable<[]> {
-    return this.http.get<[]>(this.apiURL + '/lista/sistemas', {
+  listaSistemas(): Observable<any[]> {
+    return this.http.get<any[]>(API.URL + 'sistemas/lista', {
     });
   }
 

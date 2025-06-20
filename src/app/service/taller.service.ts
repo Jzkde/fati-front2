@@ -4,7 +4,7 @@ import { Confeccion } from '../models/Confeccion';
 import { Observable } from 'rxjs';
 import { API } from './api/api';
 import { Busqueda } from '../models/Busqueda';
-import { Presupuesto } from '../models/Presupuesto';
+import { Medidas } from '../models/Medidas';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +45,8 @@ export class TallerService {
     });
   }
 
-  mover(presupuesto: Presupuesto): Observable<any> {
-    return this.http.post(this.apiURL + '/mover/', presupuesto);
+  mover(medidas: Medidas): Observable<any> {
+    return this.http.post(this.apiURL + '/mover/', medidas);
   }
 
   entregar(id: number): Observable<any> {

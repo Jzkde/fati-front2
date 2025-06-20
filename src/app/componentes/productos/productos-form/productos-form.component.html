@@ -92,7 +92,7 @@
                             <td>{{p.nombre}}</td>
                             <td>{{p.precio | currency }}</td>
                             <td>{{ p.esTela ? 'Tela' : 'Accesorio' }}</td>
-                            <td>{{p.marca.marca}}</td>
+                            <td>{{p.marca}}</td>
                             <td>
                                 <button class="btn btn-outline-success" (click)="lgModal.show(); filtroUno(p.id)"
                                     tooltip="Editar">
@@ -163,7 +163,7 @@
                                 <div class="form-grup">
                                     <label for="marca"><b>Marca</b></label>
                                     <div class="input-group">
-                                        <select id="marca" class="form-control w-auto" [(ngModel)]="prod.marca.marca" name="marca">
+                                        <select id="marca" class="form-control w-auto" [(ngModel)]="prod.marca" name="marca">
                                             <option *ngFor="let p of marcasUnicas" [value]="p.marca">{{
                                                 p.marca }}</option>
                                         </select>

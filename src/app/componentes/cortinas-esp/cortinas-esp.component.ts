@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CortEspeciales } from 'src/app/models/CortEspeciales';
 import { Resultado } from 'src/app/models/Resultado';
-import { Sistema } from 'src/app/models/Sistema';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { DbService } from 'src/app/service/db.service';
 
@@ -29,7 +28,8 @@ export class CortinasEspComponent implements OnInit {
     tela: '',
     precio: 0,
     esTela: false,
-    sistema: Sistema.VACIO
+    marca: '',
+    sistema: ''
   };
   resultado: Resultado | null = null;
   porcen: number = 0;
@@ -88,7 +88,7 @@ export class CortinasEspComponent implements OnInit {
 
   agregar(): void {
     this.telas.push({ ...this.nuevaTela });
-    this.nuevaTela = { id: 0, tela: '', precio: 0, esTela: false, sistema: Sistema.VACIO };
+    this.nuevaTela = { id: 0, tela: '',marca:'', precio: 0, esTela: false, sistema: '' };
     console.log(this.telas);
   }
 

@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Presupuesto } from 'src/app/models/Presupuesto';
+import { Medidas } from 'src/app/models/Medidas';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { MedidasService } from 'src/app/service/medidas.service';
 
 @Component({
-  selector: 'app-presupuesto-form',
-  templateUrl: './presupuesto-form.component.html',
-  styleUrls: ['./presupuesto-form.component.css']
+  selector: 'app-medidas-form',
+  templateUrl: './medidas-form.component.html',
+  styleUrls: ['./medidas-form.component.css']
 })
-export class PresupuestoFormComponent implements OnInit {
+export class MedidasFormComponent implements OnInit {
 
-  presupuesto: Presupuesto = {
+  medidas: Medidas = {
     id: 0,
     sistema: '',
     ancho: 0,
     alto: 0,
     comando: 'NO_POSEE',
     apertura: 'NO_POSEE',
-    clienteNombre: "",
+    cliente: "",
     accesorios: '',
     ambiente: '',
     observaciones: '',
@@ -44,10 +44,10 @@ export class PresupuestoFormComponent implements OnInit {
     if (id) {
       this.modoEdicion = true;
       this.medidasService.uno(id).subscribe({
-        next: data => this.presupuesto = data,
+        next: data => this.medidas = data,
         error: err => {
           this.toastr.error('Error al obtener las medidas');
-          this.router.navigate(['/presupuesto/lista']);
+          this.router.navigate(['/medidas/lista']);
         }
       });
     }
@@ -56,22 +56,24 @@ export class PresupuestoFormComponent implements OnInit {
   listaSistemas() {
     this.cortinasEspService.listaSistemas().subscribe({
       next: data => {
-        this.sistemas = data;
+        this.sistemas = data.filter(sistema => sistema.sistema !== 'ADICIONAL');
         console.log(this.sistemas);
       }
-    })
+    });
   }
 
   guardar(): void {
     const id = this.route.snapshot.params['id'];
     if (this.modoEdicion) {
-      this.medidasService.editar(id, this.presupuesto).subscribe({
+      this.medidasService.editar(id, this.medidas).subscribe({
         next: (data) => {
           this.toastr.success(data, 'OK', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.router.navigate(['/presupuesto/lista']);
+          console.log(data);
+
+          this.router.navigate(['/medidas/lista']);
         },
         error: err => {
           this.toastr.error(err.error);
@@ -79,13 +81,13 @@ export class PresupuestoFormComponent implements OnInit {
         }
       });
     } else {
-      this.medidasService.nuevo(this.presupuesto).subscribe({
+      this.medidasService.nuevo(this.medidas).subscribe({
         next: (data) => {
           this.toastr.success(data, 'OK', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.router.navigate(['/presupuesto/lista']);
+          this.router.navigate(['/medidas/lista']);
         },
         error: err => {
           this.toastr.error(err.error);
@@ -105,7 +107,7 @@ export class PresupuestoFormComponent implements OnInit {
       },
       error: error => {
         console.error('Error al eliminar:', error.error);
-        this.toastr.error("No se pudo eliminar el PRESUPUESTO", 'ERROR', {
+        this.toastr.error("No se pudo eliminar las MEDIDAS", 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });

@@ -26,7 +26,7 @@ export class PedidoComponent implements OnInit {
     llego: 'false',
     fecha_llegada: '',
     estado: '',
-    clienteNombre: '',
+    cliente: '',
     responsable: '',
     tela: '',
     estela: 'false',
@@ -55,8 +55,7 @@ export class PedidoComponent implements OnInit {
 
   filtro(): void {
     this.toastr.clear();
-    console.log(this.busqueda);
-    
+       
     this.pedidoService.filtro(this.busqueda).subscribe(
       data => {
         this.buscados = data;
@@ -93,7 +92,7 @@ export class PedidoComponent implements OnInit {
       this.busqueda.llego = '',
       this.busqueda.fecha_llegada = '',
       this.busqueda.estado = '',
-      this.busqueda.clienteNombre = '',
+      this.busqueda.cliente = '',
       this.busqueda.responsable = ''
     this.filtro();
   }

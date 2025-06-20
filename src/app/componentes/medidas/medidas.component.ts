@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Presupuesto } from 'src/app/models/Presupuesto';
+import { Medidas } from 'src/app/models/Medidas';
 import { MedidasService } from 'src/app/service/medidas.service';
 import { TallerService } from 'src/app/service/taller.service';
 
 @Component({
-  selector: 'app-presupuesto',
-  templateUrl: './presupuesto.component.html',
-  styleUrls: ['./presupuesto.component.css']
+  selector: 'app-medidas',
+  templateUrl: './medidas.component.html',
+  styleUrls: ['./medidas.component.css']
 })
-export class PresupuestoComponent implements OnInit {
+export class MedidasComponent implements OnInit {
 
   @ViewChild('lgModal2', { static: false }) lgModal2: any;
   buscados: any[] = [];
-  selectedPresupuestos: Presupuesto[] = [];
-  presupuestoAgrupados: { cliente: string, items: Presupuesto[] }[] = [];
+  selectedMedidass: Medidas[] = [];
+  medidasAgrupadas: { cliente: string, items: Medidas[] }[] = [];
 
   tel: string = ''
   direcc: string = ''
@@ -32,7 +32,7 @@ export class PresupuestoComponent implements OnInit {
     llego: '',
     fecha_llegada: '',
     estado: '',
-    clienteNombre: '',
+    cliente: '',
     responsable: '',
     tela: '',
     estela: 'false',
@@ -49,7 +49,6 @@ export class PresupuestoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.toastr.clear();
     this.filtro();
   }
 
@@ -61,19 +60,16 @@ export class PresupuestoComponent implements OnInit {
     this.medidasService.filtro(this.busqueda).subscribe(
       data => {
         this.buscados = data;
-        this.presupuestosCliente();
-        //this.resetfiltros()
-        console.log(data);
-        console.log(this.busqueda);
+        this.medidassCliente();
       },
       err => {
-        console.error('Error al filtrar presupuestos:', err);
+        console.error('Error al filtrar medidass:', err);
       }
     );
   }
 
   borrarFiltros(): void {
-    this.busqueda.clienteNombre = '',
+    this.busqueda.cliente = '',
       this.busqueda.comprado = '',
       this.busqueda.viejo = ''
     this.filtro();
@@ -84,17 +80,17 @@ export class PresupuestoComponent implements OnInit {
       this.busqueda.viejo = 'false'
   }
 
-  onPresupuestoSelect(presupuesto: Presupuesto, event: any): void {
+  onMedidasSelect(medidas: Medidas, event: any): void {
     if (event.target.checked) {
-      this.selectedPresupuestos.push(presupuesto);
+      this.selectedMedidass.push(medidas);
     } else {
-      const index = this.selectedPresupuestos.indexOf(presupuesto);
+      const index = this.selectedMedidass.indexOf(medidas);
       if (index > -1) {
-        this.selectedPresupuestos.splice(index, 1);
+        this.selectedMedidass.splice(index, 1);
       }
     }
-    if (this.selectedPresupuestos.length > 0) {
-      const cliente = this.selectedPresupuestos[0].cliente;
+    if (this.selectedMedidass.length > 0) {
+      const cliente = this.selectedMedidass[0].clienteClase;
       this.tel = cliente?.telefono || '';
       this.direcc = cliente?.direccion || '';
       console.log(cliente);
@@ -103,28 +99,28 @@ export class PresupuestoComponent implements OnInit {
       this.tel = '';
       this.direcc = '';
     }
-    console.log(this.selectedPresupuestos);
+    console.log(this.selectedMedidass);
 
   }
-  enviarACotizador(presupuesto: Presupuesto): void {
+  enviarACotizador(medidas: Medidas): void {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        ancho: presupuesto.ancho,
-        alto: presupuesto.alto
+        ancho: medidas.ancho,
+        alto: medidas.alto
       }
     };
-    this.router.navigate(['/cotizador'], navigationExtras);
+    this.router.navigate(['/cotizar/sistemas'], navigationExtras);
   }
 
   generarYDescargarPdf() {
-    this.medidasService.generarPdf(this.tel, this.direcc, this.selectedPresupuestos).subscribe((response: Blob) => {
+    this.medidasService.generarPdf(this.tel, this.direcc, this.selectedMedidass).subscribe((response: Blob) => {
       // Obtener el tipo de contenido desde la respuesta
       const contentType = response.type;
 
       // Determinar el nombre del archivo en función del tipo de contenido
-      let archivoN = 'presupuesto.zip';
+      let archivoN = 'medidas.zip';
       if (contentType.includes('pdf')) {
-        archivoN = 'presupuesto.pdf';
+        archivoN = 'medidas.pdf';
       }
 
       // Crear un enlace temporal para descargar el archivo
@@ -137,24 +133,24 @@ export class PresupuestoComponent implements OnInit {
       window.URL.revokeObjectURL(url);
       this.lgModal2.hide();
     }, error => {
-      this.toastr.error("Los clientes NO coinciden", 'ERROR', {
+      this.toastr.error(error.error, 'ERROR', {
         timeOut: 5000,
         positionClass: 'toast-bottom-center'
       });
     });
   }
 
-  presupuestosCliente(): void {
-    const agrupados = new Map<string, Presupuesto[]>();
-    this.buscados.forEach(presupuesto => {
-      const cliente = presupuesto.cliente?.nombre || 'Desconocido';
+  medidassCliente(): void {
+    const agrupados = new Map<string, Medidas[]>();
+    this.buscados.forEach(medidas => {
+      const cliente = medidas.cliente || 'Desconocido';
       if (!agrupados.has(cliente)) {
         agrupados.set(cliente, []);
       }
-      agrupados.get(cliente)?.push(presupuesto);
+      agrupados.get(cliente)?.push(medidas);
     });
 
-    this.presupuestoAgrupados = Array.from(agrupados, ([cliente, items]) => ({
+    this.medidasAgrupadas = Array.from(agrupados, ([cliente, items]) => ({
       cliente,
       items: items.sort((b, a) => {
         const fechaA = a.fecha ? new Date(a.fecha).getTime() : 0;
@@ -172,11 +168,10 @@ export class PresupuestoComponent implements OnInit {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
-        const presupuesto = this.buscados.find(p => p.id === id);
-        console.log(presupuesto);
+        const medidas = this.buscados.find(p => p.id === id);
 
-        if (presupuesto && presupuesto.sistema === 'TELA' && presupuesto.comprado == false) {
-          this.tallerService.mover(presupuesto).subscribe(
+        if (medidas && medidas.sistema === 'TELA' && medidas.comprado == false) {
+          this.tallerService.mover(medidas).subscribe(
             response => { },
             error => {
               console.error('Error al encargar tela:', error);
