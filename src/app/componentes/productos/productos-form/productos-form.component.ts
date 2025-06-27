@@ -43,7 +43,7 @@ export class ProductosFormComponent implements OnInit {
       nombre: '',
       precio: 0,
       esTela: false,
-      marca: '' 
+      marca: ''
     }
     this.serv = {
       id: 0,
@@ -102,21 +102,23 @@ export class ProductosFormComponent implements OnInit {
   }
 
   filtroUno(id: number): void {
-    this.productoService.filtroUno(id).subscribe(
-      data => {
+    this.productoService.filtroUno(id).subscribe({
+      next: data => {
         this.prod = data;
         console.log(data);
       }
-    )
+    })
   }
+
   unoServi(id: number): void {
-    this.serviciosService.filtroUno(id).subscribe(
-      data => {
+    this.serviciosService.filtroUno(id).subscribe({
+      next: data => {
         this.serv = data;
         console.log(data);
       }
-    )
+    })
   }
+
   editar(id: number) {
     this.productoService.editar(this.prod.marca, id, this.prod).subscribe({
       next: data => {
@@ -126,7 +128,7 @@ export class ProductosFormComponent implements OnInit {
           nombre: '',
           precio: 0,
           esTela: false,
-          marca:''
+          marca: ''
         };
         this.toastr.success(data, 'OK', {
           timeOut: 5000,

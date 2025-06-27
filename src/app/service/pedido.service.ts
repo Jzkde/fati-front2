@@ -34,10 +34,8 @@ export class PedidoService {
     return this.http.get<Pedido[]>(this.apiURL + '/filtro/' + id);
   }
 
-  actualizar(id: number, llego: string): Observable<any> {
-    return this.http.put(this.apiURL + '/actualizar/' + id, {}, {
-      params: { llego }
-    });
+  actualizar(id: number): Observable<any> {
+    return this.http.put(this.apiURL + '/actualizar/' + id, {}, {});
   }
 
   editar(id: number, pedido: Pedido): Observable<any> {

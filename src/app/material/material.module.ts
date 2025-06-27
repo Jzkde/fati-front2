@@ -10,10 +10,10 @@ import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [],
   exports: [
-    MatExpansionModule,
     MatBadgeModule,
+    MatExpansionModule,
     MatButtonToggleModule,
-    MatMenuModule,
+    MatMenuModule
 
   ],
   imports: [

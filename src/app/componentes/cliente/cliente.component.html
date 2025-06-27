@@ -1,15 +1,7 @@
 <div class="pedidos">
   <div class="mt-5">
-    <h1 class="text-center">
-      Clientes
-      <a class="btn btn-outline-success ms-2"
-         routerLink="/cliente/nuevo"
-         tooltip="Nuevo Cliente"
-         aria-label="Nuevo Cliente">
-        <i class="fa-solid fa-plus"></i>
-      </a>
-    </h1>
-
+    <h1 class="text-center"> Clientes <a class="btn btn-outline-success ms-2" routerLink="/cliente/nuevo"
+        tooltip="Nuevo Cliente"> <i class="fa-solid fa-plus"></i> </a> </h1>
     <div class="container mb-3">
       <div class="table-responsive">
         <table class="table table-hover">
@@ -27,9 +19,7 @@
               <td>{{ c.direccion }}</td>
               <td>{{ c.telefono }}</td>
               <td class="col-1">
-                <button class="btn btn-outline-success"
-                        routerLink="/cliente/editar/{{c.id}}"
-                        tooltip="Editar">
+                <button class="btn btn-outline-success" routerLink="/cliente/editar/{{c.id}}" tooltip="Editar">
                   <i class="fa-solid fa-pencil" style="color: #000000;"></i>
                 </button>
               </td>

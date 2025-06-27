@@ -49,15 +49,16 @@ export class PedidoComponent implements OnInit {
   volver(): void {
     window.history.back();
   }
+  
   parse(a: string) {
     Date.parse(a)
   }
 
   filtro(): void {
     this.toastr.clear();
-       
-    this.pedidoService.filtro(this.busqueda).subscribe(
-      data => {
+
+    this.pedidoService.filtro(this.busqueda).subscribe({
+      next: data => {
         this.buscados = data;
         this.buscados.forEach(pedido => {
           const fechapedido = Date.parse(pedido.fecha_pedido)
@@ -71,10 +72,10 @@ export class PedidoComponent implements OnInit {
           }
         })
       },
-      err => {
-        console.log(err);
+      error: error => {
+        console.log(error);
       }
-    );
+    });
   }
 
   onClosed(dismissedAlert: any): void {
@@ -97,15 +98,15 @@ export class PedidoComponent implements OnInit {
     this.filtro();
   }
 
-  actualizar(id: number, estado: string): void {
-        this.pedidoService.actualizar(id, estado).subscribe(
-      data => {
+  actualizar(id: number): void {
+    this.pedidoService.actualizar(id).subscribe({
+      next: data => {
         this.pedidos = data;
       },
-      err => {
-        console.log(err);
+      error: error => {
+        console.log(error);
       }
-    );
+    });
     window.location.reload();
   }
 }

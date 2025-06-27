@@ -121,10 +121,10 @@ export class CotizadorComponent implements OnInit {
       },
       error: error => {
         console.log(error.error);
-         this.toastr.error(error.error, 'ERROR', {
-        timeOut: 5000,
-        positionClass: 'toast-bottom-center'
-      });
+        this.toastr.error(error.error, 'ERROR', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
 
         this.error = 'Error al cargar las telas disponibles';
         this.telas = [];
@@ -144,7 +144,7 @@ export class CotizadorComponent implements OnInit {
         this.adicionales = data;
       },
       error: error => {
-        this.error =error.error;;
+        this.error = error.error;;
         this.adicionales = [];
       }
     });
@@ -154,20 +154,19 @@ export class CotizadorComponent implements OnInit {
     const area = this.calcularArea();
 
     this.cotizadorService.cotizarSistemas(this.marca, this.telaN, this.alto, this.ancho, this.sistema)
-    
-    .subscribe({
-      next: (data) => {
-        this.resultado = data + this.precioColoc + this.adicional;
-        this.error = "";
-      },
-      error: error => {
-        this.resultado = null;
-        this.error = error.error.text;
-      }
-    });
+
+      .subscribe({
+        next: (data) => {
+          this.resultado = data + this.precioColoc + this.adicional;
+          this.error = "";
+        },
+        error: error => {
+          this.resultado = null;
+          this.error = error.error.text;
+        }
+      });
     console.log(this.marca, this.telaN, this.alto, this.ancho, this.sistema);
   }
-
 
   calcularArea(): number {
     return this.alto * this.ancho / 10000;

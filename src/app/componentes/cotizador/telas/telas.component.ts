@@ -23,7 +23,7 @@ export class TelasComponent implements OnInit {
   confecciones: any[] = [];
   cotizado: Cotizado | null = null;
 
-   resultado: any;
+  resultado: any;
 
   cotizaciones: any[] = [];
   sumatoria: number = 0;
@@ -80,7 +80,6 @@ export class TelasComponent implements OnInit {
     this.productosSeleccionados.splice(index, 1);
   }
 
-  // Permitir cambiar cantidad manualmente
   cambiarCantidad(index: number, cantidad: number) {
     if (cantidad <= 0) {
       this.quitarProducto(index);
@@ -89,7 +88,7 @@ export class TelasComponent implements OnInit {
     }
   }
 
-  private expandirProductos(): Producto[] {
+  expandirProductos(): Producto[] {
     const productosExpandidos: Producto[] = [];
     this.productosSeleccionados.forEach(item => {
       for (let i = 0; i < item.cantidad; i++) {
@@ -114,16 +113,16 @@ export class TelasComponent implements OnInit {
       this.tipoConfSeleccionado,
       productosAEnviar
     )
-      .subscribe(
-        data => {
+      .subscribe({
+        next: data => {
           this.cotizado = data;
           console.log(this.cotizado.precioConf);
         },
-        error => {
+        error: error => {
           console.error('Error en la cotización:', error.error);
           alert('Error: ' + error.error);
         }
-      );
+      });
   }
 
   agregarAccesorioDesdeCuadro(acc: any) {
@@ -152,7 +151,7 @@ export class TelasComponent implements OnInit {
     }
   }
 
-   agregarCotizacion(): void {
+  agregarCotizacion(): void {
     if (this.cotizado?.total && typeof this.cotizado?.total === 'number') {
       const nuevaCotizacion = {
         contador: this.contador,
@@ -167,7 +166,7 @@ export class TelasComponent implements OnInit {
     }
   }
 
-   borrar(): void {
+  borrar(): void {
     this.cotizaciones = [];
     this.sumatoria = 0;
     this.contador = 1;

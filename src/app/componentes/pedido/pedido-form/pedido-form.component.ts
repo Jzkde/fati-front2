@@ -55,6 +55,7 @@ export class PedidoFormComponent implements OnInit {
       });
     }
   }
+
   guardar(): void {
     const id = this.route.snapshot.params['id'];
     if (this.modoEdicion) {
@@ -91,6 +92,7 @@ export class PedidoFormComponent implements OnInit {
       });
     }
   }
+  
   borrar(id: number): void {
     this.pedidoService.borrar(id).subscribe({
       next: (data) => {

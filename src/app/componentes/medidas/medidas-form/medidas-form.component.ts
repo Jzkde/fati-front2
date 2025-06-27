@@ -45,7 +45,7 @@ export class MedidasFormComponent implements OnInit {
       this.modoEdicion = true;
       this.medidasService.uno(id).subscribe({
         next: data => this.medidas = data,
-        error: err => {
+        error: () => {
           this.toastr.error('Error al obtener las medidas');
           this.router.navigate(['/medidas/lista']);
         }
@@ -57,7 +57,7 @@ export class MedidasFormComponent implements OnInit {
     this.cortinasEspService.listaSistemas().subscribe({
       next: data => {
         this.sistemas = data.filter(sistema => sistema.sistema !== 'ADICIONAL');
-        console.log(this.sistemas);
+        // console.log(this.sistemas);
       }
     });
   }
@@ -75,9 +75,9 @@ export class MedidasFormComponent implements OnInit {
 
           this.router.navigate(['/medidas/lista']);
         },
-        error: err => {
-          this.toastr.error(err.error);
-          console.log(err);
+        error: error => {
+          this.toastr.error(error.error);
+          console.log(error);
         }
       });
     } else {
@@ -89,9 +89,9 @@ export class MedidasFormComponent implements OnInit {
           });
           this.router.navigate(['/medidas/lista']);
         },
-        error: err => {
-          this.toastr.error(err.error);
-          console.log(err);
+        error: error => {
+          this.toastr.error(error.error);
+          console.log(error);
         }
       });
     }

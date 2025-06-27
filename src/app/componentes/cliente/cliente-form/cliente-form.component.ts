@@ -32,7 +32,7 @@ export class ClienteFormComponent implements OnInit {
       this.modoEdicion = true;
       this.clienteService.uno(id).subscribe({
         next: data => this.cliente = data,
-        error: err => {
+        error: () => {
           this.toastr.error('Error al obtener el Cliente');
           this.router.navigate(['/cliente/lista']);
         }

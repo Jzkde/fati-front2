@@ -13,18 +13,17 @@ import { ToastrModule } from 'ngx-toastr';
     exports: [
         TooltipModule,
         ModalModule,
-        ToastrModule,
         CollapseModule,
-        BsDropdownModule
+        BsDropdownModule,
+        ToastrModule
     ],
     imports: [
         CommonModule,
         TooltipModule.forRoot(),
         ModalModule.forRoot(),
-        ToastrModule.forRoot(),
         CollapseModule.forRoot(),
         BsDropdownModule.forRoot(),
-
+        ToastrModule.forRoot()
     ]
 })
 export class NgxModule { }

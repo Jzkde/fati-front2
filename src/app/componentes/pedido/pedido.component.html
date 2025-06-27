@@ -39,8 +39,12 @@
                         <td>{{pedido.n_remito}}</td>
                         <td>{{pedido.monto}}</td>
                         <td *ngIf="pedido.llego">{{pedido.fecha_llegada}}</td>
-                        <td *ngIf="!pedido.llego"><input type="checkbox" [(ngModel)]="pedido.llego" id="{{pedido.id}}"
-                                (change)="actualizar(pedido.id, pedido.llego)" /></td>
+                        <td *ngIf="!pedido.llego">
+                            <button *ngIf="!pedido.llego" class=" btn btn-outline-warning"
+                                (click)="actualizar(pedido.id)">
+                                <i class="fa-solid fa-check" style="color: #000000;"></i>
+                            </button>
+                        </td>
                         <td>{{pedido.estado}}</td>
                         <td> <button class="btn btn-outline-success" routerLink="/pedido/editar/{{pedido.id}}"
                                 tooltip="Editar Pedido"> <i class="fa-solid fa-pencil" style="color: #000000;"></i>
@@ -89,9 +93,8 @@
                                     <div class="form-grup">
                                         <label for="cliente"><b>Cliente</b></label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="cliente"
-                                                id="cliente" [(ngModel)]="busqueda.cliente"
-                                                (input)="filtro()">
+                                            <input type="text" class="form-control" name="cliente" id="cliente"
+                                                [(ngModel)]="busqueda.cliente" (input)="filtro()">
                                         </div>
                                     </div>
                                 </div>

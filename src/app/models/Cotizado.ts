@@ -1,4 +1,5 @@
 export interface Cotizado {
+  
     precioTela: number;
     cantTela: number;
     costoTela: number;

@@ -1,7 +1,7 @@
 export const API = {
 
   // para el despliegue
-   URL: "http://192.168.0.108:8090/"
+  URL: "http://192.168.0.108:8090/"
 
   // para el proceso de construccion
   // URL: "http://localhost:8080/"

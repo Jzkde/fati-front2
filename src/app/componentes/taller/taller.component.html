@@ -38,11 +38,11 @@
                                     <td>{{confeccion.fecha_pedido}}</td>
                                     <td>{{confeccion.fecha_entrega}}</td>
                                     <td>{{confeccion.estado}}</td>
-                                    <td> <button *ngIf="!confeccion.llego" class=" btn btn-outline-info"
+                                    <td> <button *ngIf="!confeccion.llego" class=" btn btn-outline-warning"
                                             (click)="entregar(confeccion.id!)">
                                             <i class="fa-solid fa-check" style="color: #000000;"></i>
                                         </button>
-                                        <button *ngIf="confeccion.llego" disabled class=" btn btn-info"
+                                        <button *ngIf="confeccion.llego"  class=" btn btn-info"
                                             (click)="entregar(confeccion.id!)">
                                             <i class="fa-solid fa-check" style="color: #000000;"></i>
                                         </button>

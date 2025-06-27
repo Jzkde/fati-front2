@@ -48,16 +48,16 @@ export class TallerComponent implements OnInit {
   }
 
   filtro(): void {
-    this.tallerService.filtro(this.busqueda).subscribe(
-      data => {
+    this.tallerService.filtro(this.busqueda).subscribe({
+      next: data => {
         this.buscados = data;
         this.confeccionesCliente();
         this.resetfiltros()
       },
-      err => {
-        console.error('Error al filtrar confecciones:', err);
+      error: error => {
+        console.error('Error al filtrar confecciones:', error);
       }
-    );
+    });
   }
 
   borrarFiltros(): void {
@@ -84,6 +84,7 @@ export class TallerComponent implements OnInit {
     });
     this.confeccionesAgrupadas = Array.from(agrupados, ([cliente, items]) => ({ cliente, items }));
   }
+  
   entregar(id: number) {
     this.tallerService.entregar(id).subscribe({
       next: (data) => {

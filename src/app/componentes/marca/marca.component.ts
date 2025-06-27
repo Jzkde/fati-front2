@@ -33,8 +33,8 @@ export class MarcaComponent implements OnInit {
         );
         this.organizarEnColumnas();
       },
-      error: err => {
-        console.log(err);
+      error: error => {
+        console.log(error);
       }
     });
   }

@@ -14,7 +14,7 @@ import { DbService } from 'src/app/service/db.service';
 })
 export class CortinasEspComponent implements OnInit {
 
-  
+
   isCollapsed1 = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
@@ -58,37 +58,36 @@ export class CortinasEspComponent implements OnInit {
     })
   }
 
- carga(): void {
-  if (this.archivo) {
-    this.dbService.cargarSistemas(this.archivo).subscribe({
-      next: (data: Resultado) => {
-        this.resultado = data;
-        console.log(data);
+  carga(): void {
+    if (this.archivo) {
+      this.dbService.cargarSistemas(this.archivo).subscribe({
+        next: (data: Resultado) => {
+          this.resultado = data;
+          console.log(data);
 
-        if (data.errores.length > 0) {
-          const modal = new bootstrap.Modal(document.getElementById('erroresModal')!);
-          modal.show();
-        } else {
-          this.toastr.success('Carga completada correctamente', 'OK', {
+          if (data.errores.length > 0) {
+            const modal = new bootstrap.Modal(document.getElementById('erroresModal')!);
+            modal.show();
+          } else {
+            this.toastr.success('Carga completada correctamente', 'OK', {
+              timeOut: 5000,
+              positionClass: 'toast-bottom-center'
+            });
+          }
+        },
+        error: error => {
+          this.toastr.error(error.error, 'ERROR', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
         }
-      },
-      error: error => {
-        this.toastr.error(error.error, 'ERROR', {
-          timeOut: 5000,
-          positionClass: 'toast-bottom-center'
-        });
-      }
-    });
+      });
+    }
   }
-}
-
 
   agregar(): void {
     this.telas.push({ ...this.nuevaTela });
-    this.nuevaTela = { id: 0, tela: '',marca:'', precio: 0, esTela: false, sistema: '' };
+    this.nuevaTela = { id: 0, tela: '', marca: '', precio: 0, esTela: false, sistema: '' };
     console.log(this.telas);
   }
 

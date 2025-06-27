@@ -16,7 +16,7 @@ export class NavBarComponent {
   backup() {
     this.dbService.exportarDb().subscribe({
       next: (data) => {
-        this.toastr.success(data , 'OK', {
+        this.toastr.success(data, 'OK', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
@@ -31,7 +31,8 @@ export class NavBarComponent {
       }
     });
   }
- asociar() {
+
+  asociar() {
     this.dbService.asociar().subscribe({
       next: (data) => {
         this.toastr.success(data, 'OK', {

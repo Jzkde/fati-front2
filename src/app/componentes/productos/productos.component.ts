@@ -78,8 +78,8 @@ export class ProductosComponent implements OnInit {
   }
 
   filtrarMarcas(): void {
-    this.listaMarcaTotal();     // carga this.marcas
-    this.marcasAQuitar();       // carga this.marcasUnicas
+    this.listaMarcaTotal();    
+    this.marcasAQuitar();   
 
     // Esperar a que ambas listas estén cargadas (idealmente usar forkJoin, aquí una forma simple si ya las tenés cargadas)
     setTimeout(() => {
@@ -92,14 +92,13 @@ export class ProductosComponent implements OnInit {
     }, 500); // tiempo estimado para esperar que ambas listas se carguen
   }
 
-
   listaMarcaTotal(): void {
     this.marcaService.lista().subscribe({
       next: data => {
         this.marcas = data
       },
-      error: err => {
-        console.log(err);
+      error: error => {
+        console.log(error);
       }
     });
   }
@@ -140,6 +139,7 @@ export class ProductosComponent implements OnInit {
   archivoSelec(event: any) {
     this.archivo = event.target.files[0];
   }
+
   carga() {
     if (this.archivo) {
       this.dbService.cargarAcce(this.archivo).subscribe({

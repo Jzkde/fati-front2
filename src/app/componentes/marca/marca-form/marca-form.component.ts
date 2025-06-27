@@ -77,6 +77,7 @@ export class MarcaFormComponent implements OnInit {
       });
     }
   }
+  
   borrar(id: number): void {
     this.marcaService.borrar(id).subscribe({
       next: (data) => {

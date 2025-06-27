@@ -22,9 +22,9 @@ export class ClienteService {
     return this.http.get<Cliente>(this.apiURL + '/uno/' + id);
   }
 
-  buscar(telaN: string): Observable<any> {
-    return this.http.get(this.apiURL + `/buscar`, {
-      params: { telaN }
+  buscar(clienteN: string): Observable<Cliente> {
+    return this.http.get<Cliente>(this.apiURL + `/buscar`, {
+      params: { clienteN }
     });
   }
 

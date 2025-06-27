@@ -40,7 +40,7 @@ export class TallerFormComponent  implements OnInit {
       this.modoEdicion = true;
       this.tallerService.uno(id).subscribe({
         next: data => this.confeccion = data,
-        error: err => {
+        error: () => {
           this.toastr.error('Error al obtener la confección');
           this.router.navigate(['/taller/lista']);
         }
@@ -59,9 +59,9 @@ export class TallerFormComponent  implements OnInit {
           });
           this.router.navigate(['/taller/lista']);
         },
-        error: err => {
+        error: error => {
           this.toastr.error('Error al actualizar');
-          console.log(err);
+          console.log(error);
         }
       });
     } else {
@@ -73,13 +73,14 @@ export class TallerFormComponent  implements OnInit {
           });
           this.router.navigate(['/taller/lista']);
         },
-        error: err => {
+        error: error => {
           this.toastr.error('Error al crear');
-          console.log(err);
+          console.log(error);
         }
       });
     }
   }
+  
  borrar(id: number): void {
     this.tallerService.borrar(id).subscribe({
       next: (data) => {

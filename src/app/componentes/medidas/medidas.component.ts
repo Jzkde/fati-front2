@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Cliente } from 'src/app/models/Cliente';
 import { Medidas } from 'src/app/models/Medidas';
+import { ClienteService } from 'src/app/service/cliente.service';
 import { MedidasService } from 'src/app/service/medidas.service';
 import { TallerService } from 'src/app/service/taller.service';
 
@@ -14,11 +16,10 @@ export class MedidasComponent implements OnInit {
 
   @ViewChild('lgModal2', { static: false }) lgModal2: any;
   buscados: any[] = [];
+  listado: Medidas[] = [];
   selectedMedidass: Medidas[] = [];
   medidasAgrupadas: { cliente: string, items: Medidas[] }[] = [];
-
-  tel: string = ''
-  direcc: string = ''
+  clienteBuscado: Cliente = { nombre: '', direccion: '', telefono: '' };
 
   busqueda = {
     pasaron: '',
@@ -44,6 +45,7 @@ export class MedidasComponent implements OnInit {
   constructor(
     private medidasService: MedidasService,
     private tallerService: TallerService,
+    private clienteService: ClienteService,
     private toastr: ToastrService,
     private router: Router
   ) { }
@@ -52,20 +54,33 @@ export class MedidasComponent implements OnInit {
     this.filtro();
   }
 
-  volver(): void {
-    window.history.back();
+  buscarCliente(nombre: any): void {
+    this.clienteService.buscar(nombre).subscribe({
+      next: data => {
+        this.clienteBuscado = data;
+        console.log(this.clienteBuscado);
+
+      },
+      error: error => {
+        this.toastr.error(error.error, 'ERROR', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
+      }
+    });
   }
 
   filtro(): void {
-    this.medidasService.filtro(this.busqueda).subscribe(
-      data => {
+    this.medidasService.filtro(this.busqueda).subscribe({
+      next: data => {
         this.buscados = data;
         this.medidassCliente();
+        console.log(data);
       },
-      err => {
-        console.error('Error al filtrar medidass:', err);
+      error: error => {
+        console.error('Error al filtrar medidass:', error);
       }
-    );
+    });
   }
 
   borrarFiltros(): void {
@@ -83,25 +98,17 @@ export class MedidasComponent implements OnInit {
   onMedidasSelect(medidas: Medidas, event: any): void {
     if (event.target.checked) {
       this.selectedMedidass.push(medidas);
+      console.log('Medidas seleccionada:', medidas);
+
     } else {
       const index = this.selectedMedidass.indexOf(medidas);
       if (index > -1) {
         this.selectedMedidass.splice(index, 1);
       }
     }
-    if (this.selectedMedidass.length > 0) {
-      const cliente = this.selectedMedidass[0].clienteClase;
-      this.tel = cliente?.telefono || '';
-      this.direcc = cliente?.direccion || '';
-      console.log(cliente);
-    } else {
-      // Si se deseleccionan todos, limpiar los campos
-      this.tel = '';
-      this.direcc = '';
-    }
     console.log(this.selectedMedidass);
-
   }
+
   enviarACotizador(medidas: Medidas): void {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -113,30 +120,32 @@ export class MedidasComponent implements OnInit {
   }
 
   generarYDescargarPdf() {
-    this.medidasService.generarPdf(this.tel, this.direcc, this.selectedMedidass).subscribe((response: Blob) => {
-      // Obtener el tipo de contenido desde la respuesta
-      const contentType = response.type;
+    this.medidasService.generarPdf(this.clienteBuscado.telefono, this.clienteBuscado.direccion, this.selectedMedidass).subscribe({
+      next: (response: Blob) => {
+        // Obtener el tipo de contenido desde la respuesta
+        const contentType = response.type;
 
-      // Determinar el nombre del archivo en función del tipo de contenido
-      let archivoN = 'medidas.zip';
-      if (contentType.includes('pdf')) {
-        archivoN = 'medidas.pdf';
+        // Determinar el nombre del archivo en función del tipo de contenido
+        let archivoN = 'medidas.zip';
+        if (contentType.includes('pdf')) {
+          archivoN = 'medidas.pdf';
+        }
+
+        // Crear un enlace temporal para descargar el archivo
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = archivoN;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.lgModal2.hide();
+      }, error: error => {
+        this.toastr.error(error.error, 'ERROR', {
+          timeOut: 5000,
+          positionClass: 'toast-bottom-center'
+        });
       }
-
-      // Crear un enlace temporal para descargar el archivo
-      const url = window.URL.createObjectURL(response);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = archivoN;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      this.lgModal2.hide();
-    }, error => {
-      this.toastr.error(error.error, 'ERROR', {
-        timeOut: 5000,
-        positionClass: 'toast-bottom-center'
-      });
     });
   }
 
@@ -160,7 +169,6 @@ export class MedidasComponent implements OnInit {
     }));
   }
 
-
   comprar(id: number): void {
     this.medidasService.comprar(id).subscribe({
       next: (data) => {
@@ -172,7 +180,6 @@ export class MedidasComponent implements OnInit {
 
         if (medidas && medidas.sistema === 'TELA' && medidas.comprado == false) {
           this.tallerService.mover(medidas).subscribe(
-            response => { },
             error => {
               console.error('Error al encargar tela:', error);
               this.toastr.error(error.error, 'ERROR', {
@@ -193,6 +200,7 @@ export class MedidasComponent implements OnInit {
       }
     });
   }
+
   borrar(id: number): void {
     this.medidasService.borrar(id).subscribe({
       next: (data) => {

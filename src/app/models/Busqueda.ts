@@ -1,4 +1,5 @@
-export interface Busqueda{
+export interface Busqueda {
+    
     pasaron: string;
     fecha_pedidoDesde: string;
     fecha_pedidoHasta: string;
