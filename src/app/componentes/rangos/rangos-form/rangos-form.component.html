@@ -1,0 +1,106 @@
+<div class="container mt-5">
+    <h2 *ngIf="modoEdicion" class="text-center">Editar Mecanismo y Rangos</h2>
+    <h2 *ngIf="!modoEdicion" class="text-center">Nuevo Mecanismo y Rangos</h2>
+
+    <form #form="ngForm" (ngSubmit)="guardar()" novalidate>
+        <div class="row">
+            <!-- Columna izquierda -->
+            <div class="col-6">
+                <h4 class="mt-4"><b>Mecanismo</b></h4>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label>Nombre</label>
+                            <input class="form-control" name="nombre" [(ngModel)]="mecanismo.tela" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Precio</label>
+                            <input type="number" class="form-control" name="precio" [(ngModel)]="mecanismo.precio"
+                                required />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="marca">Marca</label>
+                            <select class="form-control" name="marca" id="marca" [(ngModel)]="mecanismo.marca"
+                                (change)="listaSistemas()" required>
+                                <option [value]="">Seleccione</option>
+                                <option *ngFor="let marca of marcas" [value]="marca.marca">{{ marca.nombre }}</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sistema">Sistema</label>
+                            <select class="form-control" name="sistema" id="sistema" [(ngModel)]="mecanismo.sistema"
+                                required>
+                                <option [value]="">Seleccione</option>
+                                <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{ sistema.sistema }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="button" (click)="agregarRango()"><i
+                        class="fa-regular fa-square-plus" style="color: #000000;" ></i> Agregar Rango</button>
+                <button class="btn btn-secondary ms-4" type="button" routerLink="/rangos/lista">
+                    <i class="fa-solid fa-backward-fast" style="color: #000000;"></i> Volver
+                </button>
+                <button class="btn btn-success ms-4" type="submit" [disabled]="form.invalid"><i
+                        class="fa-solid fa-floppy-disk" style="color: #000000;"></i> Guardar </button>
+                <button type="button" *ngIf="modoEdicion" class="btn btn-danger ms-4" (click)="borrar(mecanismo.id!)">
+                    <i class="fa-solid fa-eraser" style="color: #000000;"></i> Borrar
+                </button>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="col-6">
+                <h4 class="mt-4"><b>Rangos</b></h4>
+                <div *ngFor="let rango of mecanismo.rangos; let i = index"
+                    class="border p-3 mb-3 position-relative rounded">
+
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Cerrar"
+                        (click)="eliminarRango(i)"></button>
+
+                    <div class="row g-2">
+                        <div class="col-md-2">
+                            <label>Alto Min</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.altoMin" name="altoMin{{ i }}"
+                                required />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Alto Max</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.altoMax" name="altoMax{{ i }}"
+                                required />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Ancho Min</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.anchoMin"
+                                name="anchoMin{{ i }}" required />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Ancho Max</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.anchoMax"
+                                name="anchoMax{{ i }}" required />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Sist Min</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.sistemaMin"
+                                name="sistemaMin{{ i }}" required />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Tela Min</label>
+                            <input type="number" class="form-control" [(ngModel)]="rango.telaMin" name="telaMin{{ i }}"
+                                required />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+
+        </div>
+    </form>
+</div>

@@ -12,12 +12,14 @@
         <thead class="table-light">
           <tr>
             <th scope="col">Marca</th>
+            <th scope="col">Sistema? </th>
             <th scope="col">Editar</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
           <tr *ngFor="let marca of columna">
-            <td>{{ marca.marca }}</td>
+            <td>{{ marca.nombre }}</td>
+           <td>{{ marca.esSistema ? 'SI' : 'NO' }}</td>
             <td class="col-1">
               <button class="btn btn-outline-success" routerLink="/marca/editar/{{marca.id}}" tooltip="Editar">
                 <i class="fa-solid fa-pencil" style="color: #000000;"></i>

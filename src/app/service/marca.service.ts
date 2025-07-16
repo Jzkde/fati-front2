@@ -17,6 +17,12 @@ export class MarcaService {
     return this.http.get<Marca[]>(this.apiURL + '/lista')
   }
 
+  listaMarcasTipo(esSistema: boolean): Observable<Marca[]> {
+    return this.http.get<Marca[]>(this.apiURL + '/sistema', {
+      params: { esSistema: esSistema.toString() }
+    });
+  }
+
   uno(id: number): Observable<Marca> {
     return this.http.get<Marca>(this.apiURL + '/uno/' + id);
   }
@@ -32,7 +38,7 @@ export class MarcaService {
       responseType: 'text'
     });
   }
-  
+
   borrar(id: number): Observable<any> {
     return this.http.delete(this.apiURL + '/borrar/' + id, {
       responseType: 'text'

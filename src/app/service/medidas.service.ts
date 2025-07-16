@@ -36,7 +36,6 @@ export class MedidasService {
     });
   }
 
-
   editar(id: number, medidas: Medidas): Observable<any> {
     return this.http.put(this.apiURL + '/editar/' + id, medidas)
   }
@@ -45,6 +44,10 @@ export class MedidasService {
     return this.http.delete(this.apiURL + '/borrar/' + id, {
       responseType: 'text'
     });
+  }
+
+  comprar(id: number): Observable<any> {
+    return this.http.get(this.apiURL + '/actualizar/' + id);
   }
 
   generarPdf(tel: string, direcc: string, medidass: any[]): Observable<Blob> {
@@ -56,10 +59,6 @@ export class MedidasService {
       responseType: 'blob',
       params: { tel, direcc }
     });
-  }
-
-  comprar(id: number): Observable<any> {
-    return this.http.get(this.apiURL + '/actualizar/' + id);
   }
 
   descargarPdf(tel: string, direcc: string, medidass: any[]): void {

@@ -119,7 +119,7 @@ export class TelasComponent implements OnInit {
           console.log(this.cotizado.precioConf);
         },
         error: error => {
-          console.error('Error en la cotización:', error.error);
+          console.warn('Error en la cotización:', error.error);
           alert('Error: ' + error.error);
         }
       });

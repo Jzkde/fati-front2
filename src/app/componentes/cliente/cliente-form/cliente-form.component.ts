@@ -87,7 +87,7 @@ export class ClienteFormComponent implements OnInit {
         this.router.navigate(['/cliente/lista']);
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

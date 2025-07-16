@@ -14,11 +14,6 @@
           <a class="nav-link" routerLink="/cliente/lista">Clientes</a>
         </li>
 
-        <!-- Marcas -->
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/marca/lista">Marcas</a>
-        </li>
-
         <!-- Pedidos -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/pedido/lista">Pedidos</a>
@@ -49,19 +44,24 @@
           <button class="btn btn-dark nav-link dropdown-toggle" mat-button
             [matMenuTriggerFor]="administracion">Administracion</button>
           <mat-menu #administracion="matMenu">
+            <a mat-menu-item routerLink="/marca/lista">Marcas</a>
             <button mat-menu-item [matMenuTriggerFor]="cortEsp">Cortinas Especiales</button>
             <button mat-menu-item [matMenuTriggerFor]="prodServ">Productos y Servicios</button>
             <button mat-menu-item [matMenuTriggerFor]="db">Base de Datos</button>
+            
+            
           </mat-menu>
 
           <mat-menu #cortEsp="matMenu">
+            <a mat-menu-item routerLink="/sistemas/lista">Sistemas</a>
+            <a mat-menu-item routerLink="/rangos/lista">Mecanismos y Rangos</a>
+            <a mat-menu-item routerLink="/cortespeciales/editar">Telas y Adicionales</a>
             <a mat-menu-item routerLink="/cortespeciales/lista">Administrar</a>
-            <a mat-menu-item routerLink="/cortespeciales/editar">Detalles</a>
           </mat-menu>
 
           <mat-menu #prodServ="matMenu">
-            <a mat-menu-item routerLink="/productos/lista"> Administrar </a>
             <a mat-menu-item routerLink="/productos/editar"> Detalles </a>
+            <a mat-menu-item routerLink="/productos/lista"> Administrar </a>
           </mat-menu>
 
           <mat-menu #db="matMenu">

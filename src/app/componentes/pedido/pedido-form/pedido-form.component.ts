@@ -102,7 +102,7 @@ export class PedidoFormComponent implements OnInit {
         });
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

@@ -18,8 +18,9 @@
                         <div class="form-group">
                             <label for="sistema">Sistema</label>
                             <select class="form-control" name="sistema" id="sistema" [(ngModel)]="medidas.sistema">
-                                <option value=""></option>
-                                <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{ sistema.sistema }}</option>
+                                <option value="" disabled selected>Sistema</option>
+                                <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{ sistema.sistema }}
+                                </option>
 
                             </select>
                         </div>
@@ -27,8 +28,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="fecha">Fecha</label>
-                            <input type="date" class="form-control" name="fecha" id="fecha"
-                                [(ngModel)]="medidas.fecha">
+                            <input type="date" class="form-control" name="fecha" id="fecha" [(ngModel)]="medidas.fecha">
                         </div>
                     </div>
                 </div>
@@ -43,15 +43,14 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="alto">Alto</label>
-                            <input type="number" class="form-control" name="alto" id="alto"
-                                [(ngModel)]="medidas.alto" required>
+                            <input type="number" class="form-control" name="alto" id="alto" [(ngModel)]="medidas.alto"
+                                required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="caida">Caida/Sop Largo</label>
-                            <select class="form-control" name="caida" id="caida" required
-                                [(ngModel)]="medidas.caida">
+                            <select class="form-control" name="caida" id="caida" required [(ngModel)]="medidas.caida">
                                 <option value="true">SI</option>
                                 <option value="false">NO</option>
                             </select>
@@ -63,7 +62,7 @@
                         <div class="form-group">
                             <label for="comando">Comando</label>
                             <select class="form-control" name="comando" id="comando" [(ngModel)]="medidas.comando">
-                                <option value="NO_POSEE"></option>
+                                <option value="NO_POSEE">No Posee</option>
                                 <option value="DERECHO">Derecho</option>
                                 <option value="IZQUIERDO">Izquiedo</option>
                             </select>
@@ -72,9 +71,8 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="apertura">Apertura</label>
-                            <select class="form-control" name="apertura" id="apertura"
-                                [(ngModel)]="medidas.apertura">
-                                <option value="NO_POSEE"></option>
+                            <select class="form-control" name="apertura" id="apertura" [(ngModel)]="medidas.apertura">
+                                <option value="NO_POSEE">No Posee</option>
                                 <option value="DERECHA">Derecha</option>
                                 <option value="IZQUIERDA">Izquieda</option>
                                 <option value="CENTRAL">Central</option>
@@ -106,8 +104,7 @@
                         <div class="form-group">
                             <label for="observaciones">Observaciones</label>
                             <textarea style="resize: none;" rows="2" type="text" class="form-control"
-                                name="observaciones" id="observaciones"
-                                [(ngModel)]="medidas.observaciones"> </textarea>
+                                name="observaciones" id="observaciones" [(ngModel)]="medidas.observaciones"> </textarea>
                         </div>
                     </div>
                 </div>
@@ -125,8 +122,8 @@
                                 Volver</button>
                         </td>
                         <td>
-                            <button class=" btn btn-danger" (click)="borrar(medidas.id!)"
-                                routerLink="/medidas/lista" *ngIf="modoEdicion">
+                            <button class=" btn btn-danger" (click)="borrar(medidas.id!)" routerLink="/medidas/lista"
+                                *ngIf="modoEdicion">
                                 <i class="fa-solid fa-eraser" style="color: #000000;"></i>
                                 Borrar </button>
                         </td>

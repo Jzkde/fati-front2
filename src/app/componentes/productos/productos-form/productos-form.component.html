@@ -6,22 +6,22 @@
             <!-- Buscar -->
             <div class="row">
                 <div class="col-3 mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" [(ngModel)]="nombreServSelec"
-                            (input)="filtrarServicios()" />
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="nombreServSelec"
+                        (input)="filtrarServicios()" />
                 </div>
-                 <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2 col">
-                  <input placeholder="Porcentaje" class="form-control w-auto" [(ngModel)]="porcen" id="porcent"
-                    name="porcent" type="number" style="width: 120px;" />
-                <button class="btn btn-outline-dark" (click)="masivo()">
-                    <i class="fa-solid fa-arrow-up"></i> Incrementar
-                </button>
+                <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2 col">
+                    <input placeholder="Porcentaje" class="form-control w-auto" [(ngModel)]="porcen" id="porcent"
+                        name="porcent" type="number" style="width: 120px;" />
+                    <button class="btn btn-outline-dark" (click)="masivo()">
+                        <i class="fa-solid fa-arrow-up"></i> Incrementar
+                    </button>
                 </div>
             </div>
             <!-- Tabla de Servicios -->
             <div class="mb-3  p-2" style="height: 200px; overflow-y: auto;">
                 <table class="table table-hover table-sm mb-0">
-                    <thead class="table-light sticky-top bg-white">
+                    <thead class="table-light bg-white">
                         <tr>
                             <th>Tipo</th>
                             <th>Nombre</th>
@@ -33,7 +33,7 @@
                         <tr *ngFor="let s of servicios">
                             <td>{{s.tipo}}</td>
                             <td>{{s.nombre}}</td>
-                            <td>{{s.precio | currency }}</td>
+                            <td>{{s.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
                             <td>
                                 <button class="btn btn-outline-success" (click)="lgModal2.show(); unoServi(s.id)"
                                     tooltip="Editar">
@@ -55,20 +55,15 @@
                 <div class="col-4">
                     <div class="mb-3">
                         <label class="form-label">Articulo</label>
-                        <input type="text" class="form-control" [(ngModel)]="artSelec" (input)="filtrarProductos()" />
+                        <input type="text" class="form-control" placeholder="Nombre" name="cliente" id="cliente"
+                            [(ngModel)]="busqueda.art" (input)="filtro()">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>
-                        <input type="text" class="form-control" [(ngModel)]="nombreSelec"
-                            (input)="filtrarProductos()" />
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="mb-3">
-                        <label class="form-label">Marca</label>
-                        <input type="text" class="form-control" [(ngModel)]="marcaSelec" (input)="filtrarProductos()" />
+                        <input type="text" class="form-control" placeholder="Nombre" name="cliente" id="cliente"
+                            [(ngModel)]="busqueda.nombre" (input)="filtro()">
                     </div>
                 </div>
             </div>
@@ -76,7 +71,7 @@
             <!-- Tabla de Productos -->
             <div class="mb-3  p-2">
                 <table class="table table-hover table-sm mb-0">
-                    <thead class="table-light sticky-top bg-white">
+                    <thead class="table-light bg-white">
                         <tr>
                             <th>Articulo</th>
                             <th>Nombre</th>
@@ -87,10 +82,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let p of buscados">
+                        <tr *ngFor="let p of productos">
                             <td>{{p.art}}</td>
                             <td>{{p.nombre}}</td>
-                            <td>{{p.precio | currency }}</td>
+                            <td>{{p.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
                             <td>{{ p.esTela ? 'Tela' : 'Accesorio' }}</td>
                             <td>{{p.marca}}</td>
                             <td>
@@ -151,11 +146,11 @@
                             </div>
                             <div class="col-2">
                                 <div class="form-grup">
-                                    <label for="estela"><b>Es Tela?</b></label>
+                                    <label for="esTela"><b>Es Tela?</b></label>
                                     <div class="input-group">
-                                        <input type="checkbox" class="btn-check" id="estela" [(ngModel)]="prod.esTela"
-                                            value="true" name="estela" autocomplete="off">
-                                        <label class="btn btn-outline-dark" for="estela">Es Tela</label>
+                                        <input type="checkbox" class="btn-check" id="esTela" [(ngModel)]="prod.esTela"
+                                            value="true" name="esTela" autocomplete="off">
+                                        <label class="btn btn-outline-dark" for="esTela">Es Tela</label>
                                     </div>
                                 </div>
                             </div>
@@ -163,8 +158,9 @@
                                 <div class="form-grup">
                                     <label for="marca"><b>Marca</b></label>
                                     <div class="input-group">
-                                        <select id="marca" class="form-control w-auto" [(ngModel)]="prod.marca" name="marca">
-                                            <option *ngFor="let p of marcasUnicas" [value]="p.marca">{{
+                                        <select id="marca" class="form-control w-auto" [(ngModel)]="prod.marca"
+                                            name="marca">
+                                            <option *ngFor="let p of marcas" [value]="p.marca">{{
                                                 p.marca }}</option>
                                         </select>
                                     </div>

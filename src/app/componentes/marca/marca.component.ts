@@ -28,9 +28,7 @@ export class MarcaComponent implements OnInit {
   lista(): void {
     this.marcaService.lista().subscribe({
       next: data => {
-        this.marcas = data.sort((a, b) =>
-          a.marca.toLowerCase().localeCompare(b.marca.toLowerCase())
-        );
+        this.marcas = data
         this.organizarEnColumnas();
       },
       error: error => {

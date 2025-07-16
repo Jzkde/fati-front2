@@ -2,6 +2,25 @@
   <div class="mt-5">
     <h1 class="text-center"> Clientes <a class="btn btn-outline-success ms-2" routerLink="/cliente/nuevo"
         tooltip="Nuevo Cliente"> <i class="fa-solid fa-plus"></i> </a> </h1>
+
+
+    <div class="container mb-5">
+      <form>
+        <div class="row align-items-center">
+          <div class="row">
+            <div class="col-6">
+              <div class="text-center">
+                <label for="cliente" class="form-label"><b>Cliente</b></label>
+              </div>
+              <div class="input-group mb-0">
+                <input type="text" class="form-control" placeholder="Nombre" name="cliente" id="cliente"
+                  [(ngModel)]="busqueda.cliente" (input)="filtro()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
     <div class="container mb-3">
       <div class="table-responsive">
         <table class="table table-hover">

@@ -90,7 +90,7 @@ export class TallerFormComponent  implements OnInit {
           });
       },
      error: error => {
-        console.error('Error al eliminar:', error.error);
+        console.warn('Error al eliminar:', error.error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

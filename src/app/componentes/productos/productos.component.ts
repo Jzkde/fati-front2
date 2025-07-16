@@ -25,29 +25,28 @@ export class ProductosComponent implements OnInit {
   isCollapsed4 = true;
 
   marcas: Marca[] = []
+
   resultado: Resultado | null = null;
   archivo: File | null = null;
+
   porcen: number = 0
-  productos: Producto[] = []
-  marcasUnicas: any[] = []
-  marcasFiltradas: Marca[] = []
   marcaSelec: string = ''
-  nuevosServicios: Servicio[] = []
+
   nuevosProductos: Producto[] = []
-  nuevoServ: Servicio = {
-    id: 0,
-    tipo: '',
-    nombre: '',
-    precio: 0
-  }
   nuevoProd: Producto = {
     id: 0,
     art: '',
     nombre: '',
     precio: 0,
     esTela: false,
-    marca: '' 
+    marca: ''
   };
+  nuevoServ: Servicio = {
+    id: 0,
+    tipo: '',
+    nombre: '',
+    precio: 0
+  }
 
   constructor(
     private productoService: ProductoService,
@@ -59,41 +58,11 @@ export class ProductosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.filtrarMarcas()
+    this.listaMarca()
   }
 
-  marcasAQuitar() {
-    this.cortinasEspService.listaTotal().subscribe((data) => {
-      this.productos = data;
-
-      // Extraer marcas únicas
-      const marcasMap = new Map();
-      data.forEach(marcaE => {
-        marcasMap.set(marcaE.marca.id, marcaE.marca);
-      });
-      this.marcasUnicas = Array.from(marcasMap.values());
-      console.log(this.marcasUnicas);
-
-    });
-  }
-
-  filtrarMarcas(): void {
-    this.listaMarcaTotal();    
-    this.marcasAQuitar();   
-
-    // Esperar a que ambas listas estén cargadas (idealmente usar forkJoin, aquí una forma simple si ya las tenés cargadas)
-    setTimeout(() => {
-      if (this.marcas && this.marcasUnicas) {
-        const idsAExcluir = new Set(this.marcasUnicas.map(m => m.id));
-        this.marcasFiltradas = this.marcas.filter(m => !idsAExcluir.has(m.id));
-
-        console.log("Marcas finales (filtradas):", this.marcasFiltradas);
-      }
-    }, 500); // tiempo estimado para esperar que ambas listas se carguen
-  }
-
-  listaMarcaTotal(): void {
-    this.marcaService.lista().subscribe({
+  listaMarca(): void {
+    this.marcaService.listaMarcasTipo(false).subscribe({
       next: data => {
         this.marcas = data
       },
@@ -115,7 +84,7 @@ export class ProductosComponent implements OnInit {
         },
         error: error => {
           if (error.error == "No hay TELAS cargadas") {
-            console.error('Error:', error.error);
+            console.warn('Error:', error.error);
             this.toastr.error(error.error, 'ERROR', {
               timeOut: 5000,
               positionClass: 'toast-bottom-center'
@@ -169,26 +138,12 @@ export class ProductosComponent implements OnInit {
 
   agregarProd() {
     this.nuevosProductos.push({ ...this.nuevoProd });
-    this.nuevoProd = { id: 0, art: '', nombre: '', precio: 0, esTela: false, marca:'' };
-    console.log(this.nuevosProductos);
-  }
-
-  agregarServ() {
-    this.nuevosServicios.push({ ...this.nuevoServ });
-    this.nuevoServ = { id: 0, tipo: '', nombre: '', precio: 0 };
+    this.nuevoProd = { id: 0, art: '', nombre: '', precio: 0, esTela: false, marca: '' };
     console.log(this.nuevosProductos);
   }
 
   quitarProducto(index: number) {
     this.nuevosProductos.splice(index, 1);
-  }
-
-  quitarServicio(index: number) {
-    this.nuevosServicios.splice(index, 1);
-  }
-
-  esValido(): boolean {
-    return (this.nuevosProductos.length > 0);
   }
 
   guardarProd() {
@@ -224,5 +179,10 @@ export class ProductosComponent implements OnInit {
         });
       }
     });
+    this.nuevoServ = { id: 0, tipo: '', nombre: '', precio: 0 };
+  }
+
+  esValido(): boolean {
+    return (this.nuevosProductos.length > 0);
   }
 }

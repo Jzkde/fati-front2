@@ -3,9 +3,12 @@ declare var bootstrap: any;
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CortEspeciales } from 'src/app/models/CortEspeciales';
+import { Marca } from 'src/app/models/Marca';
 import { Resultado } from 'src/app/models/Resultado';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { DbService } from 'src/app/service/db.service';
+import { MarcaService } from 'src/app/service/marca.service';
+import { SistemaService } from 'src/app/service/sistema.service';
 
 @Component({
   selector: 'app-cortinas-esp',
@@ -21,13 +24,18 @@ export class CortinasEspComponent implements OnInit {
 
   archivo: File | null = null;
   marca: string = '';
+  adicional: boolean = false
+
   sistemas!: any
   telas: CortEspeciales[] = [];
+  marcas: Marca[] = [];
+
   nuevaTela: CortEspeciales = {
     id: 0,
     tela: '',
     precio: 0,
-    esTela: false,
+    esTela: true,
+    esAdicional: false,
     marca: '',
     sistema: ''
   };
@@ -37,12 +45,15 @@ export class CortinasEspComponent implements OnInit {
 
   constructor(
     private cortinasEspService: CortinasEspService,
+    private sistemasService: SistemaService,
+    private marcaService: MarcaService,
     private dbService: DbService,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
     this.listaSistemas()
+    this.listaMarcas()
   }
 
   archivoSelec(event: any): void {
@@ -50,9 +61,18 @@ export class CortinasEspComponent implements OnInit {
   }
 
   listaSistemas() {
-    this.cortinasEspService.listaSistemas().subscribe({
+    this.sistemasService.listaTotal().subscribe({
       next: data => {
         this.sistemas = data;
+        console.log(this.sistemas);
+      }
+    })
+  }
+
+  listaMarcas() {
+    this.marcaService.listaMarcasTipo(true).subscribe({
+      next: data => {
+        this.marcas = data;
         console.log(this.sistemas);
       }
     })
@@ -85,18 +105,41 @@ export class CortinasEspComponent implements OnInit {
     }
   }
 
-  agregar(): void {
-    this.telas.push({ ...this.nuevaTela });
-    this.nuevaTela = { id: 0, tela: '', marca: '', precio: 0, esTela: false, sistema: '' };
-    console.log(this.telas);
-  }
+ agregar(): void {
+  const nueva = {
+    ...this.nuevaTela,
+    marca: this.marca,
+    esTela: !this.adicional,
+    esAdicional: this.adicional
+  };
+
+  this.telas.push(nueva);
+
+  this.nuevaTela = {
+    id: 0,
+    tela: '',
+    marca: this.marca,
+    precio: 0,
+    esTela: !this.adicional,
+    esAdicional: this.adicional,
+    sistema: ''
+  };
+
+  console.log(this.telas);
+  console.log(this.marca);
+}
+
 
   quitarProducto(index: number): void {
     this.telas.splice(index, 1);
   }
 
+  tieneMarca(): boolean {
+    return this.marca !== ''
+  }
+
   esValido(): boolean {
-    return (this.telas.length > 0 && this.marca !== '');
+    return (this.telas.length > 0 && this.tieneMarca());
   }
 
   guardar(): void {
@@ -110,7 +153,7 @@ export class CortinasEspComponent implements OnInit {
         });
       },
       error: error => {
-        console.error('Error al guardar los datos:', error);
+        console.warn('Error al guardar los datos:', error);
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -133,7 +176,7 @@ export class CortinasEspComponent implements OnInit {
           const msg = error.error === "No hay TELAS cargadas"
             ? error.error
             : "Proveedor NO seleccionado";
-          console.error('Error:', error);
+          console.warn('Error:', error);
           this.toastr.error(msg, 'ERROR', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'

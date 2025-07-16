@@ -7,10 +7,9 @@
       <!-- Marca -->
       <div class="form-group mb-3">
         <label for="marca">Marca:</label>
-        <select class="form-control" id="marca" required [(ngModel)]="marca" (change)="onMarca()">
+        <select class="form-control" id="marca" required [(ngModel)]="marca" (change)="seleccionMarca()">
           <option value="" disabled selected>Marca</option>
-          <option value="flexcolor">FlexColor</option>
-          <option value="royalcort">Royal Cort</option>
+          <option *ngFor="let marca of marcas" [value]="marca.marca">{{marca.nombre}}</option>
         </select>
       </div>
 
@@ -20,14 +19,9 @@
         <div class="form-group mb-3">
           <label for="sistema">Sistema:</label>
           <select class="form-control" id="sistema" required [(ngModel)]="sistema" name="sistema"
-            (change)="onSistema()">
+            (change)="seleccionSistema()">
             <option value="" disabled selected>Sistema</option>
-            <option *ngIf="marca === 'flexcolor'" value="ROLLER">Roller</option>
-            <option *ngIf="marca === 'flexcolor'" value="DUBAI">Dubai</option>
-            <option *ngIf="marca === 'flexcolor'" value="PERSIANA">Persiana</option>
-            <option *ngIf="marca === 'flexcolor'" value="VERTICALES">Verticales</option>
-            <option *ngIf="marca === 'royalcort'" value="ROLLER">Roller</option>
-            <option *ngIf="marca === 'royalcort'" value="ZEBRA">Zebra</option>
+              <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{sistema.sistema}}</option>
           </select>
         </div>
 
@@ -36,7 +30,8 @@
           <div class="col-md-6">
             <label>Mecanismo:</label>
             <select *ngIf="mecanismos.length" class="form-control" [(ngModel)]="mecanismoN" name="mecanismoN"
-              (change)="onMecanismoChange()">
+              (change)="seleccionMecanismo()">
+
               <option *ngFor="let mecanismo of mecanismos" [value]="mecanismo.tela">{{ mecanismo.tela }}</option>
             </select>
             <input *ngIf="!mecanismos.length" type="text" class="form-control" [(ngModel)]="mecanismoN"
@@ -44,7 +39,7 @@
           </div>
           <div class="col-md-6">
             <label>Precio Mecanismo:</label>
-            <input type="text" class="form-control" [value]="precioSistema | currency" readonly>
+            <input type="text" class="form-control" [value]="precioSistema | currency:'ARS':'symbol':'1.2-2'" readonly>
           </div>
         </div>
 
@@ -52,15 +47,15 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label>Tela:</label>
-            <select *ngIf="telas.length" class="form-control" [(ngModel)]="telaN" name="telaN" (change)="onTelaChange()"
-              required>
+            <select *ngIf="telas.length" class="form-control" [(ngModel)]="telaN" name="telaN"
+              (change)="seleccionTela()" required>
               <option *ngFor="let tela of telas" [value]="tela.tela">{{ tela.tela }}</option>
             </select>
             <input *ngIf="!telas.length" type="text" class="form-control" [(ngModel)]="telaN" name="telaN" required>
           </div>
           <div class="col-md-6">
             <label>Precio Tela:</label>
-            <input type="text" class="form-control" [value]="precioTela | currency" readonly>
+            <input type="text" class="form-control" [value]="precioTela | currency:'ARS':'symbol':'1.2-2'" readonly>
           </div>
         </div>
 
@@ -85,7 +80,7 @@
         <div class="row mb-3">
           <div class="col-md-6">
             <label>Colocación:</label>
-            <select class="form-control" [(ngModel)]="colocN" name="coloc" (change)="onColocChange()" required>
+            <select class="form-control" [(ngModel)]="colocN" name="coloc" (change)="seleccionColoc()" required>
               <option value="" disabled selected>Colocacion</option>
               <option *ngFor="let coloc of colocaciones" [value]="coloc.nombre">{{ coloc.nombre }}</option>
             </select>
@@ -118,7 +113,7 @@
             </button>
           </div>
           <div class="col-md-3">
-            <input *ngIf="!error" class="form-control" [value]="resultado | currency" readonly>
+            <input *ngIf="!error" class="form-control" [value]="resultado | currency:'ARS':'symbol':'1.2-2'" readonly>
             <input *ngIf="error" class="form-control border border-danger bg-danger-subtle" [value]="error" readonly>
           </div>
         </div>
@@ -132,10 +127,10 @@
         <ul class="list-group mb-3">
           <li *ngFor="let cotizacion of cotizaciones" class="list-group-item text-center">
             <span class="badge bg-primary me-2">{{ cotizacion.contador }}</span>
-            {{ cotizacion.monto | currency }}
+            {{ cotizacion.monto | currency:'ARS':'symbol':'1.2-2' }}
           </li>
         </ul>
-        <h5 class="text-center">Total: {{ sumatoria | currency }}</h5>
+        <h5 class="text-center">Total: {{ sumatoria | currency:'ARS':'symbol':'1.2-2' }}</h5>
         <div class="d-grid mt-2">
           <button type="button" class="btn btn-danger" (click)="borrar()"><i class="fa-solid fa-eraser"></i>
             Borrar</button>

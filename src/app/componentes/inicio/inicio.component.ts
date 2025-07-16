@@ -17,9 +17,9 @@ import { ServiciosService } from 'src/app/service/servicios.service';
 export class InicioComponent implements OnInit {
 
   marcas: Marca[] = [];
-  colocacion: Servicio[]=[];
-  confeccion: Servicio[]=[];
-  productos: Producto[]=[];
+  colocacion: Servicio[] = [];
+  confeccion: Servicio[] = [];
+  productos: Producto[] = [];
   cortEsp: CortEspeciales[] = []
 
   constructor(
@@ -42,11 +42,20 @@ export class InicioComponent implements OnInit {
   listaMarcas(): void {
     this.marcaService.lista().subscribe({
       next: data => {
-        this.marcas = data
+        this.marcas = data;
       },
       error: error => {
-        console.error(error.error);
-        this.toastr.warning(error.error, '', {
+        let mensaje = '';
+
+        if (typeof error.error === 'string') {
+          mensaje = error.error;
+          console.warn(error.error);
+        } else {
+          mensaje = 'No se pudo conectar con el servidor.';
+          console.warn('No se pudo conectar con el servidor.');
+        }
+
+        this.toastr.warning(mensaje, '', {
           timeOut: 0,
           extendedTimeOut: 0,
           positionClass: 'toast-bottom-center'
@@ -60,15 +69,25 @@ export class InicioComponent implements OnInit {
       next: data => {
         this.colocacion = data
       },
-      error: error => {
-        this.toastr.warning(error.error, '', {
-          timeOut: 0,
-          extendedTimeOut: 0,
-          positionClass: 'toast-bottom-center'
-        });
+     error: error => {
+      let mensaje = '';
+
+      if (typeof error.error === 'string') {
+        mensaje = error.error;
+        console.warn(error.error);
+      } else {
+        mensaje = 'No se pudo conectar con el servidor.';
+        console.warn('No se pudo conectar con el servidor.');
       }
-    });
-  }
+
+      this.toastr.warning(mensaje, '', {
+        timeOut: 0,
+        extendedTimeOut: 0,
+        positionClass: 'toast-bottom-center'
+      });
+    }
+  });
+}
 
   listaConfeccion(): void {
     this.serviciosService.getTipoServicio("confeccion").subscribe({
@@ -76,44 +95,72 @@ export class InicioComponent implements OnInit {
         this.confeccion = data
       },
       error: error => {
-        this.toastr.warning(error.error, '', {
-          timeOut: 0,
-          extendedTimeOut: 0,
-          positionClass: 'toast-bottom-center'
-        });
+      let mensaje = '';
+
+      if (typeof error.error === 'string') {
+        mensaje = error.error;
+        console.warn(error.error);
+      } else {
+        mensaje = 'No se pudo conectar con el servidor.';
+        console.warn('No se pudo conectar con el servidor.');
       }
-    });
-  }
+
+      this.toastr.warning(mensaje, '', {
+        timeOut: 0,
+        extendedTimeOut: 0,
+        positionClass: 'toast-bottom-center'
+      });
+    }
+  });
+}
 
   listaProductos(): void {
     this.productoService.lista().subscribe({
       next: data => {
         this.productos = data
       },
-      error: error => {
-        console.error(error.error);
-        this.toastr.warning(error.error, '', {
-          timeOut: 0,
-          extendedTimeOut: 0,
-          positionClass: 'toast-bottom-center'
-        });
-      }
-    });
-  }
+       error: error => {
+      let mensaje = '';
 
-  listaCortEspec(): void{
-  this.cortinasEspService.listaTotal().subscribe({
+      if (typeof error.error === 'string') {
+        mensaje = error.error;
+        console.warn(error.error);
+      } else {
+        mensaje = 'No se pudo conectar con el servidor.';
+        console.warn('No se pudo conectar con el servidor.');
+      }
+
+      this.toastr.warning(mensaje, '', {
+        timeOut: 0,
+        extendedTimeOut: 0,
+        positionClass: 'toast-bottom-center'
+      });
+    }
+  });
+}
+
+  listaCortEspec(): void {
+    this.cortinasEspService.listaTotal().subscribe({
       next: data => {
         this.cortEsp = data
       },
       error: error => {
-        console.error(error.error);
-        this.toastr.warning(error.error, '', {
-          timeOut: 0,
-          extendedTimeOut: 0,
-          positionClass: 'toast-bottom-center'
-        });
+      let mensaje = '';
+
+      if (typeof error.error === 'string') {
+        mensaje = error.error;
+        console.warn(error.error);
+      } else {
+        mensaje = 'No se pudo conectar con el servidor.';
+        console.warn('No se pudo conectar con el servidor.');
       }
-    });
-  }
+
+      this.toastr.warning(mensaje, '', {
+        timeOut: 0,
+        extendedTimeOut: 0,
+        positionClass: 'toast-bottom-center'
+      });
+    }
+  });
+}
 }

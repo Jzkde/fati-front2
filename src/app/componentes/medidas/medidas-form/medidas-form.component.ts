@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Medidas } from 'src/app/models/Medidas';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
 import { MedidasService } from 'src/app/service/medidas.service';
+import { SistemaService } from 'src/app/service/sistema.service';
 
 @Component({
   selector: 'app-medidas-form',
@@ -32,6 +33,7 @@ export class MedidasFormComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private medidasService: MedidasService,
+    private sistemasService: SistemaService,
     private toastr: ToastrService,
     private router: Router,
     private cortinasEspService: CortinasEspService
@@ -54,10 +56,9 @@ export class MedidasFormComponent implements OnInit {
   }
 
   listaSistemas() {
-    this.cortinasEspService.listaSistemas().subscribe({
+    this.sistemasService.listaXTipo(true).subscribe({
       next: data => {
-        this.sistemas = data.filter(sistema => sistema.sistema !== 'ADICIONAL');
-        // console.log(this.sistemas);
+        this.sistemas = data;
       }
     });
   }
@@ -106,7 +107,7 @@ export class MedidasFormComponent implements OnInit {
         });
       },
       error: error => {
-        console.error('Error al eliminar:', error.error);
+        console.warn('Error al eliminar:', error.error);
         this.toastr.error("No se pudo eliminar las MEDIDAS", 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

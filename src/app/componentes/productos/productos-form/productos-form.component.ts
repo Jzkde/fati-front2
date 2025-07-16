@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Marca } from 'src/app/models/Marca';
 import { Producto } from 'src/app/models/Producto';
 import { Servicio } from 'src/app/models/Servicio';
+import { MarcaService } from 'src/app/service/marca.service';
 import { ProductoService } from 'src/app/service/producto.service';
 import { ServiciosService } from 'src/app/service/servicios.service';
 
@@ -20,39 +21,63 @@ export class ProductosFormComponent implements OnInit {
   buscados: Producto[] = []
   servicios: any[] = []
   marcas: Marca[] = []
-  serv!: Servicio
-  prod!: Producto
+  prod = {
+    id: 0,
+    art: '',
+    nombre: '',
+    precio: 0,
+    esTela: false,
+    marca: ''
+  }
+  serv = {
+    id: 0,
+    nombre: ',',
+    precio: 0,
+    tipo: ',',
+  }
   porcen!: number
   artSelec = ''
   marcaSelec = ''
   nombreSelec = ''
   nombreServSelec = ''
 
+  busqueda = {
+    pasaron: '',
+    fecha_pedidoDesde: '',
+    fecha_pedidoHasta: '',
+    provedor: '',
+    via: '',
+    n_pedido: '',
+    n_factura: '',
+    n_remito: '',
+    llego: '',
+    fecha_llegada: '',
+    estado: '',
+    cliente: '',
+    responsable: '',
+    tela: '',
+    esTela: '',
+    sistema: '',
+    viejo: 'false',
+    comprado: 'false',
+     nombre: '',
+    art: '',
+    marca: ''
+  };
 
   constructor(
     private productoService: ProductoService,
     private serviciosService: ServiciosService,
+    private marcaService: MarcaService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
 
-    this.prod = {
-      id: 0,
-      art: '',
-      nombre: '',
-      precio: 0,
-      esTela: false,
-      marca: ''
-    }
-    this.serv = {
-      id: 0,
-      nombre: ',',
-      precio: 0,
-      tipo: ',',
-    }
+
     this.listaServ()
     this.filtro()
+    this.listaMarca()
   }
 
   listaServ() {
@@ -62,37 +87,31 @@ export class ProductosFormComponent implements OnInit {
     });
   }
 
+  listaMarca(): void {
+    this.marcaService.listaMarcasTipo(false).subscribe({
+      next: data => {
+        this.marcas = data
+      },
+      error: error => {
+        console.log(error);
+      }
+    });
+  }
+
   filtro() {
-    this.productoService.lista().subscribe({
+    this.productoService.filtro(this.busqueda).subscribe({
       next: data => {
         this.productos = data;
 
-        // Extraer marcas únicas
-        const marcasMap = new Map();
-        data.forEach(producto => {
-          marcasMap.set(producto.marca.id, producto.marca);
-        });
-        this.marcasUnicas = Array.from(marcasMap.values());
-        this.filtrarProductos();
-        this.filtrarServicios();
-        console.log(data);
       },
       error: error => {
-        console.error(error.error);
+        console.warn(error.error);
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
       }
     });
-  }
-
-  filtrarProductos() {
-    this.buscados = this.productos.filter(p =>
-      p.nombre.toLowerCase().includes(this.nombreSelec.toLowerCase()) &&
-      p.art.toLowerCase().includes(this.artSelec.toLowerCase()) &&
-      p.marca.toLowerCase().includes(this.marcaSelec.toLowerCase())
-    );
   }
 
   filtrarServicios() {
@@ -137,7 +156,7 @@ export class ProductosFormComponent implements OnInit {
         this.filtro();
       },
       error: error => {
-        console.error('Error al Modificar:', error);
+        console.warn('Error al Modificar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -162,7 +181,7 @@ export class ProductosFormComponent implements OnInit {
         this.listaServ()
       },
       error: error => {
-        console.error('Error al Modificar:', error);
+        console.warn('Error al Modificar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -181,7 +200,7 @@ export class ProductosFormComponent implements OnInit {
         this.filtro();
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -200,7 +219,7 @@ export class ProductosFormComponent implements OnInit {
         this.listaServ()
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -222,7 +241,7 @@ export class ProductosFormComponent implements OnInit {
         },
         error: error => {
           if (error.error == "No hay TELAS cargadas") {
-            console.error('Error:', error.error);
+            console.warn('Error:', error.error);
             this.toastr.error(error.error, 'ERROR', {
               timeOut: 5000,
               positionClass: 'toast-bottom-center'

@@ -19,26 +19,27 @@ export class CortinasEspService {
     });
   }
 
-  telasPorMarca(marca: string, sistema: string): Observable<[]> {
+  telasPorMarca(marca: string, sistema: string, adicional: boolean): Observable<[]> {
     return this.http.get<[]>(this.apiURL + '/telas', {
-      params: { marca, sistema }
+      params: { marca, sistema, adicional }
     });
   }
 
-  sistemasPorMarca(marca: string, sistema: string): Observable<[]> {
+  mecanismosPorMarca(marca: string, sistema: string): Observable<[]> {
     return this.http.get<[]>(this.apiURL + '/sistemas', {
       params: { marca, sistema }
-    });
-  }
-
-  listaSistemas(): Observable<any[]> {
-    return this.http.get<any[]>(API.URL + 'sistemas/lista', {
     });
   }
 
   nuevos(marca: string, telas: CortEspeciales[]): Observable<any> {
     return this.http.post(this.apiURL + '/varios', telas, {
       params: { marca }, responseType: 'text'
+    });
+  }
+
+  nuevo(mecanismo: CortEspeciales): Observable<any> {
+    return this.http.post(this.apiURL + '/nuevo', mecanismo, {
+      responseType: 'text'
     });
   }
 
@@ -52,13 +53,13 @@ export class CortinasEspService {
     return this.http.post<any[]>(this.apiURL + '/filtro', busqueda)
   }
 
-  uno(id: number): Observable<any[]> {
-    return this.http.get<any[]>(this.apiURL + '/uno/' + id);
+  uno(id: number): Observable<CortEspeciales> {
+    return this.http.get<any>(this.apiURL + '/uno/' + id);
   }
 
-  editar(marca: string, id: number, prod: CortEspeciales): Observable<any> {
+  editar(id: number, prod: CortEspeciales): Observable<any> {
     return this.http.put(this.apiURL + '/editar/' + id, prod, {
-      params: { marca }, responseType: 'text'
+      responseType: 'text'
     });
   }
 

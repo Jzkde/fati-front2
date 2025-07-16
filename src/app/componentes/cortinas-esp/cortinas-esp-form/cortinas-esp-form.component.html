@@ -1,16 +1,16 @@
 <div>
     <div class="d-flex flex-column align-items-center m-4">
         <h2>Seleccione el Proveedor</h2>
-        <div class="form-check">
-            <input type="radio" class="btn-check" name="proveedor" id="flex" [(ngModel)]="marca" [value]="'flexcolor'"
-                autocomplete="off" (change)="actualizarMarca('flexcolor')">
-            <label class="btn btn-outline-dark m-2" for="flex">Flex Color</label>
 
-            <input type="radio" class="btn-check" name="proveedor" id="royal" [(ngModel)]="marca" [value]="'royalcort'"
-                autocomplete="off" (change)="actualizarMarca('royalcort')">
-            <label class="btn btn-outline-dark" for="royal">Royal Cort</label>
+        <!-- Selección de proveedor -->
+        <div class="d-flex flex-row flex-wrap justify-content-center m-3">
+            <div class="form-check" *ngFor="let marca of marcas">
+                <input type="radio" class="btn-check" name="marca" [id]="marca.marca" [(ngModel)]="marca1"
+                    [value]="marca.marca" autocomplete="off" (change)="actualizarMarca(marca1)">
+                <label class="btn btn-outline-dark m-2" [for]="marca.marca"> {{ marca.nombre }} </label>
+            </div>
         </div>
-        <button class="btn btn-success" (click)="filtro()" [disabled]="marca === ''"><i
+        <button class="btn btn-success" (click)="filtro()" [disabled]="marca1 === ''"><i
                 class="fa-solid fa-magnifying-glass"></i> Buscar</button>
     </div>
 
@@ -25,7 +25,7 @@
                                 <label for="tela"><b>Nombre</b></label>
                                 <div class="input-group">
                                     <input #provedor type="text" class="form-control" name="tela" id="tela"
-                                        [(ngModel)]="busqueda.tela" (input)="filtro()" [disabled]="marca == '' ">
+                                        [(ngModel)]="busqueda.tela" (input)="filtro()" [disabled]="marca1 == '' ">
                                 </div>
                             </div>
                         </div>
@@ -33,8 +33,9 @@
                             <div class="form-group">
                                 <label for="sistema"><b>Sistema</b></label>
                                 <select class="form-control" name="sistema" id="sistema" [(ngModel)]="busqueda.sistema"
-                                    (change)="filtro()" [disabled]="marca == '' ">
-                                    <option *ngFor="let sistema of sistemas" [value]="sistema">{{ sistema }}</option>
+                                    (change)="filtro()" [disabled]="marca1 == '' ">
+                                    <option [value]=""></option>
+                                    <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{sistema.sistema }}</option>
                                 </select>
                             </div>
                         </div>
@@ -56,7 +57,7 @@
                         <tr *ngFor="let tela of buscados">
                             <td>{{tela.id}}</td>
                             <td>{{tela.tela}}</td>
-                            <td>{{tela.precio | currency }}</td>
+                            <td>{{tela.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
                             <td>{{ tela.esTela ? 'Tela' : 'Sistema' }}</td>
                             <td>{{tela.sistema}}</td>
                             <td>
@@ -106,12 +107,12 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="form-group">
-                                            <label for="estela"><b>Es Tela?</b></label>
+                                            <label for="esTela"><b>Es Tela?</b></label>
                                             <div class="input-group">
-                                                <input type="checkbox" class="btn-check" id="estela"
-                                                    [(ngModel)]="prod.esTela" value="true" name="estela"
+                                                <input type="checkbox" class="btn-check" id="esTela"
+                                                    [(ngModel)]="prod.esTela" value="true" name="esTela"
                                                     autocomplete="off">
-                                                <label class="btn btn-outline-dark" for="estela">Es Tela</label>
+                                                <label class="btn btn-outline-dark" for="esTela">Es Tela</label>
                                             </div>
                                         </div>
                                     </div>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,8 +36,16 @@ import { MarcaFormComponent } from './componentes/marca/marca-form/marca-form.co
 
 import { TallerComponent } from './componentes/taller/taller.component';
 import { TallerFormComponent } from './componentes/taller/taller-form/taller-form.component';
+import { SistemaComponent } from './componentes/sistema/sistema.component';
+import { SistemaFormComponent } from './componentes/sistema/sistema-form/sistema-form.component';
+import { RangosComponent } from './componentes/rangos/rangos.component';
+import { RangosFormComponent } from './componentes/rangos/rangos-form/rangos-form.component';
 
 
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es-AR';
+
+registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
@@ -69,6 +77,10 @@ import { TallerFormComponent } from './componentes/taller/taller-form/taller-for
 
     TallerComponent,
     TallerFormComponent,
+    SistemaComponent,
+    SistemaFormComponent,
+    RangosComponent,
+    RangosFormComponent,
     
   ],
   imports: [
@@ -83,7 +95,9 @@ import { TallerFormComponent } from './componentes/taller/taller-form/taller-for
     
    
   ],
-  providers: [],
+  providers: [
+     { provide: LOCALE_ID, useValue: 'es-AR' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

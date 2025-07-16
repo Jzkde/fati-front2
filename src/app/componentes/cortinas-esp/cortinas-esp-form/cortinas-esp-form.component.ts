@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Marca } from 'src/app/models/Marca';
+import { Sistema } from 'src/app/models/Sistema';
 import { CortinasEspService } from 'src/app/service/cortinas-esp.service';
+import { MarcaService } from 'src/app/service/marca.service';
+import { SistemaService } from 'src/app/service/sistema.service';
 
 @Component({
   selector: 'app-cortinas-esp-form',
@@ -11,13 +15,15 @@ export class CortinasEspFormComponent {
 
   buscados: any[] = [];
   marca: string = "";
+  marca1: string = "";
   prod!: any;
-  sistemas!: any[];
+  sistemas!: Sistema[];
+  marcas: Marca[] = [];
 
   busqueda = {
     id: 0,
     tela: '',
-    estela: 'false',
+    esTela: 'true',
     sistema: '',
     pasaron: '',
     fecha_pedidoDesde: '',
@@ -33,18 +39,19 @@ export class CortinasEspFormComponent {
     cliente: '',
     responsable: '',
     comprado: '',
+    nombre: '',
+    art: '',
     marca: ''
   };
 
-
   constructor(
     private cortinasEspService: CortinasEspService,
+    private sistemaService: SistemaService,
+    private marcaService: MarcaService,
     private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
-    this.toastr.clear();
-
     this.prod = {
       id: 0,
       tela: '',
@@ -52,17 +59,29 @@ export class CortinasEspFormComponent {
       esTela: false,
       sistema: 'ROLLER'
     }
-    this.listaSistemas()
+    this.toastr.clear();
+    this.listaMarcas()
   }
 
   actualizarMarca(valor: string): void {
     this.busqueda.marca = valor;
+    
+    this.listaSistemas()
   }
 
   listaSistemas() {
-    this.cortinasEspService.listaSistemas().subscribe({
+    this.sistemaService.listaXMarca(this.marca1).subscribe({
       next: data => {
         this.sistemas = data;
+        console.log(this.sistemas);
+      }
+    })
+  }
+
+  listaMarcas() {
+    this.marcaService.listaMarcasTipo(true).subscribe({
+      next: data => {
+        this.marcas = data;
         console.log(this.sistemas);
       }
     })
@@ -84,7 +103,6 @@ export class CortinasEspFormComponent {
     })
   }
 
-
   filtroUno(id: number): void {
     this.cortinasEspService.uno(id).subscribe({
       next: data => {
@@ -94,7 +112,7 @@ export class CortinasEspFormComponent {
   }
 
   editar(id: number) {
-    this.cortinasEspService.editar(this.marca, id, this.prod).subscribe({
+    this.cortinasEspService.editar(id, this.prod).subscribe({
       next: (data) => {
         this.prod = { id: 0, tela: '', precio: 0, esTela: false, sistema: 'ROLLER' };
         this.filtro();
@@ -106,10 +124,9 @@ export class CortinasEspFormComponent {
         });
       },
       error: error => {
-        console.error('Error al Modificar:', error);
+        console.warn('Error al Modificar: ', error);
         console.log(this.prod);
-
-        this.toastr.error(error.error + "con ID: ", 'ERROR', {
+        this.toastr.error(error.error , 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
@@ -128,7 +145,7 @@ export class CortinasEspFormComponent {
         });
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'Error', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

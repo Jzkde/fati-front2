@@ -1,0 +1,74 @@
+<div class="container mt-4">
+    <h1 class="mt-5 text-center"> Cortinas Especiales: Mecanismos y Rangos <a class="btn btn-outline-success ms-2"
+            routerLink="/rangos/nuevo" tooltip="Nuevo Cliente"> <i class="fa-solid fa-plus"></i> </a> </h1>
+    <div class="mt-4 table-responsive">
+        <table class="table shadow rounded">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Sistema</th>
+                    <th scope="col">Alto Min</th>
+                    <th scope="col">Alto Max</th>
+                    <th scope="col">Ancho Min</th>
+                    <th scope="col">Ancho Min</th>
+                    <th scope="col">Sist Min</th>
+                    <th scope="col">Tela Min</th>
+                    <th scope="col">Editar</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider" *ngFor="let mecanismo of mecanismos">
+                <ng-container *ngIf="(mecanismo.rangos?.length ?? 0) > 0; else sinRangos">
+
+
+                    <ng-container *ngFor="let rango of mecanismo.rangos; let i = index">
+                        <tr>
+                            <td *ngIf="i === 0" [attr.rowspan]="mecanismo.rangos?.length ?? 1">{{ mecanismo.tela }}</td>
+                            <td *ngIf="i === 0" [attr.rowspan]="mecanismo.rangos?.length ?? 1">{{ mecanismo.precio | currency:'ARS':'symbol':'1.2-2' }}
+                            </td>
+                            <td *ngIf="i === 0" [attr.rowspan]="mecanismo.rangos?.length ?? 1">{{ mecanismo.marca }}
+                            </td>
+                            <td *ngIf="i === 0" [attr.rowspan]="mecanismo.rangos?.length ?? 1">{{ mecanismo.sistema }}
+                            </td>
+                            <td>{{ rango.altoMin }}</td>
+                            <td>{{ rango.altoMax }}</td>
+                            <td>{{ rango.anchoMin }}</td>
+                            <td>{{ rango.anchoMax }}</td>
+                            <td>{{ rango.sistemaMin }}</td>
+                            <td>{{ rango.telaMin }}</td>
+                            <td *ngIf="i === 0" [attr.rowspan]="mecanismo.rangos?.length">
+                                <button class="btn btn-outline-success" routerLink="/rangos/editar/{{ mecanismo.id }}"
+                                    tooltip="Editar">
+                                    <i class="fa-solid fa-pencil" style="color: #000000;"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+                         
+                <ng-template #sinRangos>
+                    <tr>
+                        <td>{{ mecanismo.tela }}</td>
+                        <td>{{ mecanismo.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
+                        <td>{{ mecanismo.marca }}</td>
+                        <td>{{ mecanismo.sistema }}</td>
+                        <td colspan="6" class="text-muted">Sin rangos</td>
+                        <td>
+                            <button class="btn btn-outline-success" routerLink="/rangos/editar/{{ mecanismo.id }}"
+                                tooltip="Editar">
+                                <i class="fa-solid fa-pencil" style="color: #000000;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+
+        </table>
+    </div>
+    <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary" routerLink="/">
+            <i class="fa-solid fa-backward-fast" style="color: #000000;"></i> Volver
+        </button>
+    </div>
+</div>

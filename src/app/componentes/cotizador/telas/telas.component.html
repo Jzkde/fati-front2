@@ -37,7 +37,7 @@
             <tr *ngFor="let tela of telas" [class.table-success]="tela === telaSeleccionada">
               <td>{{ tela.art }}</td>
               <td>{{ tela.nombre }}</td>
-              <td>$ {{ tela.precio }}</td>
+              <td>$ {{ tela.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
               <td>{{ tela.marca }}</td>
               <td>
                 <button class="btn btn-sm btn-outline-primary" (click)="telaSeleccionada = tela">
@@ -148,7 +148,7 @@
             <tr *ngFor="let acc of accesorios">
               <td>{{ acc.art }}</td>
               <td>{{ acc.nombre }}</td>
-              <td>$ {{ acc.precio }}</td>
+              <td>$ {{ acc.precio | currency:'ARS':'symbol':'1.2-2' }}</td>
               <td>{{ acc.marca }}</td>
               <td>
                 <button class="btn btn-sm btn-outline-success" (click)="agregarAccesorioDesdeCuadro(acc)">
@@ -167,7 +167,7 @@
           <li class="list-group-item d-flex justify-content-between align-items-center"
             *ngFor="let prod of productosSeleccionados; let i = index">
             <div>
-              {{ prod.producto.nombre }} ($ {{ prod.producto.precio }})
+              {{ prod.producto.nombre }} ($ {{ prod.producto.precio | currency:'ARS':'symbol':'1.2-2' }})
             </div>
 
             <div class="d-flex align-items-center">
@@ -220,10 +220,10 @@
     <ul class="list-group mb-3">
       <li *ngFor="let cotizacion of cotizaciones" class="list-group-item text-center">
         <span class="badge bg-primary me-2">{{ cotizacion.contador }}</span>
-        {{ cotizacion.monto | currency }}
+        {{ cotizacion.monto | currency:'ARS':'symbol':'1.2-2' }}
       </li>
     </ul>
-    <h5 class="text-center">Total: {{ sumatoria | currency }}</h5>
+    <h5 class="text-center">Total: {{ sumatoria | currency:'ARS':'symbol':'1.2-2' }}</h5>
     <div class="d-grid mt-2">
       <button type="button" class="btn btn-danger" (click)="borrar()"><i class="fa-solid fa-eraser"></i>
         Borrar</button>

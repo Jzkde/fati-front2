@@ -1,17 +1,5 @@
 <div class="container mt-4">
     <h2>Administracion de Cortinas Especiales</h2>
-    <!-- Selección de proveedor -->
-    <div class="d-flex flex-column align-items-center m-3">
-        <div class="form-check">
-            <input type="radio" class="btn-check" name="marca" id="flex" [(ngModel)]="marca" value="flexcolor"
-                autocomplete="off">
-            <label class="btn btn-outline-dark m-2" for="flex">Flex Color</label>
-
-            <input type="radio" class="btn-check" name="marca" id="royal" [(ngModel)]="marca" value="royalcort"
-                autocomplete="off">
-            <label class="btn btn-outline-dark" for="royal">Royal Cort</label>
-        </div>
-    </div>
 
     <!-- Botones de acción -->
     <div class="d-flex justify-content-center m-4">
@@ -38,11 +26,18 @@
         <div class="container bg-warning-subtle border border-warning p-3 mt-3 rounded">
             <h2>Modificación Masiva de Precios</h2>
             <div class="d-flex align-items-center gap-2 flex-wrap justify-content-center mt-2">
+                <select class="form-control w-auto" [(ngModel)]="marca" name="marca">
+                    <option *ngFor="let marca of marcas" [value]="marca.marca">{{ marca.nombre }}</option>
+                </select>
+
                 <input placeholder="Porcentaje" class="form-control w-auto" [(ngModel)]="porcen" id="porcent"
-                    name="porcent" type="number" />
-                <button class="btn btn-warning m-2 p-2" (click)="masivo()"><i class="fa-solid fa-arrow-up"></i>
-                    Modificar</button>
+                    name="porcent" type="number" style="width: 120px;" />
+
+                <button class="btn btn-warning" (click)="masivo()">
+                    <i class="fa-solid fa-arrow-up"></i> Modificar
+                </button>
             </div>
+
         </div>
     </div>
 
@@ -76,7 +71,8 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Precio</th>
-                            <th>¿Es Tela?</th>
+                            <th>Adicional?</th>
+                            <th>Marca</th>
                             <th>Sistema</th>
                         </tr>
                     </thead>
@@ -91,15 +87,22 @@
                                     placeholder="Precio" required>
                             </td>
                             <td>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" [(ngModel)]="nuevaTela.esTela"
-                                        name="estela" id="estelaCheck">
-                                    <label class="form-check-label" for="estelaCheck">Es Tela</label>
-                                </div>
+                                <select class="form-select" [(ngModel)]="adicional" name="adicional" required>
+                                    <option [ngValue]="true">SI</option>
+                                    <option [ngValue]="false">NO</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select class="form-select" [(ngModel)]="marca" name="marca" required>
+                                    <option *ngFor="let m of marcas" [value]="m.marca">{{
+                                        m.nombre }}</option>
+                                </select>
                             </td>
                             <td>
                                 <select class="form-select" [(ngModel)]="nuevaTela.sistema" name="sistema" required>
-                                    <option *ngFor="let sistema of sistemas" [value]="sistema">{{ sistema }}</option>
+                                    <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{
+                                        sistema.sistema }}</option>
                                 </select>
                             </td>
                         </tr>
@@ -107,7 +110,7 @@
                 </table>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!entryForm.form.valid">
+                    <button type="submit" class="btn btn-primary" [disabled]="!tieneMarca()">
                         <i class="fa-solid fa-plus"></i> Agregar Entrada</button>
                 </div>
             </form>
@@ -119,17 +122,33 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Precio</th>
-                            <th>¿Es Tela?</th>
+                            <th>Marca</th>
                             <th>Sistema</th>
                             <th>Quitar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let tela of telas  let i = index">
-                            <td>{{ tela.tela }}</td>
-                            <td>{{ tela.precio }}</td>
-                            <td>{{ tela.esTela ? 'Sí' : 'No' }}</td>
-                            <td>{{ tela.sistema }}</td>
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="tela.tela" name="tela"
+                                    placeholder="Nombre" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" [(ngModel)]="tela.precio" name="precio"
+                                    placeholder="Precio" required>
+                            </td>
+                            <td>
+                                <select class="form-select" [(ngModel)]="tela.marca" name="marca" required>
+                                    <option *ngFor="let m of marcas" [value]="m.marca">{{
+                                        m.nombre }}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-select" [(ngModel)]="tela.sistema" name="sistema" required>
+                                    <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{
+                                        sistema.sistema }}</option>
+                                </select>
+                            </td>
                             <td><button class="btn btn-danger btn-sm" (click)="quitarProducto(i)"><i
                                         class="fa-solid fa-xmark"></i> Quitar</button></td>
                         </tr>
@@ -148,25 +167,25 @@
 
 <!-- Modal de errores -->
 <div class="modal fade" id="erroresModal" tabindex="-1" aria-labelledby="erroresModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-      <div class="modal-header">
-        <h5 class="modal-title" id="erroresModalLabel">Errores de carga</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="erroresModalLabel">Errores de carga</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
 
-      <div class="modal-body">
-        <p><strong>Cantidad cargada:</strong> {{ resultado?.cantidadCargada }}</p>
-        <ul class="list-group">
-          <li *ngFor="let error of resultado?.errores" class="list-group-item text-danger">
-            {{ error }}
-          </li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
+            <div class="modal-body">
+                <p><strong>Cantidad cargada:</strong> {{ resultado?.cantidadCargada }}</p>
+                <ul class="list-group">
+                    <li *ngFor="let error of resultado?.errores" class="list-group-item text-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

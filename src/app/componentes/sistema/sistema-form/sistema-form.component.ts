@@ -2,25 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Marca } from 'src/app/models/Marca';
+import { Sistema } from 'src/app/models/Sistema';
 import { MarcaService } from 'src/app/service/marca.service';
+import { SistemaService } from 'src/app/service/sistema.service';
 
 @Component({
-  selector: 'app-marca-form',
-  templateUrl: './marca-form.component.html',
-  styleUrls: ['./marca-form.component.css']
+  selector: 'app-sistema-form',
+  templateUrl: './sistema-form.component.html',
+  styleUrls: ['./sistema-form.component.css']
 })
-export class MarcaFormComponent implements OnInit {
+export class SistemaFormComponent implements OnInit {
 
-  marca: Marca = {
-    marca: "",
-    nombre: "",
-    esSistema: false
-  }
+  marcas: Marca[] = []
 
   modoEdicion: boolean = false;
 
+  sistema: Sistema = {
+    sistema: "",
+    esSistema: null,
+    marcas: []
+  }
+
   constructor(
     private route: ActivatedRoute,
+    private sistemasService: SistemaService,
     private marcaService: MarcaService,
     private toastr: ToastrService,
     private router: Router
@@ -30,14 +35,14 @@ export class MarcaFormComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     if (id) {
       this.modoEdicion = true;
-      this.marcaService.uno(id).subscribe({
-        next: data => this.marca = data,
+      this.sistemasService.uno(id).subscribe({
+        next: data => this.sistema = data,
         error: error => {
           this.toastr.error(error.error, 'Error', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.router.navigate(['/marca/lista']);
+          this.router.navigate(['/sistemas/lista']);
         }
       });
     }
@@ -46,13 +51,13 @@ export class MarcaFormComponent implements OnInit {
   guardar(): void {
     const id = this.route.snapshot.params['id'];
     if (this.modoEdicion) {
-      this.marcaService.editar(id, this.marca).subscribe({
+      this.sistemasService.editar(id, this.sistema).subscribe({
         next: (data) => {
           this.toastr.success(data, 'OK', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.router.navigate(['/marca/lista']);
+          this.router.navigate(['/sistemas/lista']);
         },
         error: error => {
           this.toastr.error(error.error, 'Error', {
@@ -62,13 +67,13 @@ export class MarcaFormComponent implements OnInit {
         }
       });
     } else {
-      this.marcaService.nuevo(this.marca).subscribe({
+      this.sistemasService.nuevo(this.sistema).subscribe({
         next: (data) => {
           this.toastr.success(data, 'OK', {
             timeOut: 5000,
             positionClass: 'toast-bottom-center'
           });
-          this.router.navigate(['/marca/lista']);
+          this.router.navigate(['/sistemas/lista']);
         },
         error: error => {
           this.toastr.error(error.error, 'Error', {
@@ -78,23 +83,23 @@ export class MarcaFormComponent implements OnInit {
         }
       });
     }
+    console.log(this.sistema);
   }
-  
-  borrar(id: number): void {
-    this.marcaService.borrar(id).subscribe({
-      next: (data) => {
-        this.toastr.success(data, 'OK', {
-          timeOut: 5000,
-          positionClass: 'toast-bottom-center'
-        });
+
+  listaMarca(): void {
+    this.marcaService.listaMarcasTipo(this.sistema.esSistema!).subscribe({
+      next: data => {
+        this.marcas = data
       },
       error: error => {
-        console.warn('Error al eliminar:', error);
-        this.toastr.error(error.error, 'Error', {
-          timeOut: 5000,
-          positionClass: 'toast-bottom-center'
-        });
+        console.log(error);
       }
     });
+  }
+
+
+  cambioEsSistema(): void {
+    this.sistema.esSistema;
+    this.listaMarca();
   }
 }

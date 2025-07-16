@@ -9,7 +9,30 @@ import { ClienteService } from 'src/app/service/cliente.service';
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-
+  buscados: any[] = [];
+  busqueda = {
+    pasaron: '',
+    fecha_pedidoDesde: '',
+    fecha_pedidoHasta: '',
+    provedor: '',
+    via: '',
+    n_pedido: '',
+    n_factura: '',
+    n_remito: '',
+    llego: '',
+    fecha_llegada: '',
+    estado: '',
+    cliente: '',
+    responsable: '',
+    tela: '',
+    esTela: '',
+    sistema: '',
+    viejo: 'false',
+    comprado: 'false',
+    nombre: '',
+    art: '',
+    marca: ''
+  };
   clientes: Cliente[] = [];
 
   constructor(
@@ -19,22 +42,18 @@ export class ClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.toastr.clear();
-    this.lista();
+    this.filtro();
   }
 
-  lista(): void {
-    this.clienteService.lista().subscribe({
+  filtro(): void {
+    this.clienteService.filtro(this.busqueda).subscribe({
       next: data => {
-        this.clientes = data.sort((a, b) =>
-          a.nombre.toLowerCase().localeCompare(b.nombre.toLowerCase())
-        );
+        this.clientes = data;
+
+        console.log(data);
       },
       error: error => {
-        console.error(error.error);
-        this.toastr.error(error.error, 'Error', {
-          timeOut: 5000,
-          positionClass: 'toast-bottom-center'
-        });
+        console.warn('Error al filtrar medidass:', error);
       }
     });
   }

@@ -1,5 +1,5 @@
 export interface Busqueda {
-    
+
     pasaron: string;
     fecha_pedidoDesde: string;
     fecha_pedidoHasta: string;
@@ -14,7 +14,10 @@ export interface Busqueda {
     cliente: string;
     responsable: string;
     tela: string;
-    estela: string;
+    esTela: string;
     sistema: string;
     comprado: string;
+    nombre: string;
+    art: string;
+    marca: string;
 }

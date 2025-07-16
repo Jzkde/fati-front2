@@ -17,6 +17,10 @@ import { TallerComponent } from './componentes/taller/taller.component';
 import { TallerFormComponent } from './componentes/taller/taller-form/taller-form.component';
 import { MarcaFormComponent } from './componentes/marca/marca-form/marca-form.component';
 import { InicioComponent } from './componentes/inicio/inicio.component';
+import { SistemaComponent } from './componentes/sistema/sistema.component';
+import { SistemaFormComponent } from './componentes/sistema/sistema-form/sistema-form.component';
+import { RangosComponent } from './componentes/rangos/rangos.component';
+import { RangosFormComponent } from './componentes/rangos/rangos-form/rangos-form.component';
 
 const routes: Routes = [
   { path: 'cliente/lista', component: ClienteComponent },
@@ -47,6 +51,14 @@ const routes: Routes = [
   { path: 'taller/lista', component: TallerComponent },
   { path: 'taller/editar/:id', component: TallerFormComponent },
   { path: 'taller/nuevo', component: TallerFormComponent },
+
+  { path: 'sistemas/lista', component: SistemaComponent },
+  { path: 'sistemas/editar/:id', component: SistemaFormComponent },
+  { path: 'sistemas/nuevo', component: SistemaFormComponent },
+
+  { path: 'rangos/lista', component: RangosComponent },
+  { path: 'rangos/editar/:id', component: RangosFormComponent },
+  { path: 'rangos/nuevo', component: RangosFormComponent },
 
   { path: '', component: InicioComponent },
 

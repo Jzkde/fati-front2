@@ -1,0 +1,48 @@
+<div class="pedidos">
+    <div class="mt-5 text-center">
+        <h1>
+            Cortinas Especiales: Sistemas
+            <a class="btn btn-outline-success" routerLink="/sistemas/nuevo" tooltip="Nuevo Sistema">+</a>
+        </h1>
+    </div>
+
+    <div class="container mt-4 d-flex justify-content-center flex-wrap gap-4">
+        <div *ngFor="let columna of columnasSistemas" class="table-responsive"
+            style="min-width: 300px; max-width: 500px;">
+            <table class="table table-hover shadow rounded text-center align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Nonmbre</th>
+                        <th scope="col">Sistema? </th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Editar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let sistema of sistemas">
+                        <td>{{ sistema.sistema }}</td>
+                        <td>{{ sistema.esSistema ? 'SI' : 'NO' }}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let marca of sistema.marcas">{{ marca }}</li>
+                            </ul>
+                        </td>
+                        <td class="col-1">
+                            <button class="btn btn-outline-success" routerLink="/sistemas/editar/{{sistema.id}}"
+                                tooltip="Editar">
+                                <i class="fa-solid fa-pencil" style="color: #000000;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary" routerLink="/">
+            <i class="fa-solid fa-backward-fast" style="color: #000000;"></i> Volver
+        </button>
+    </div>
+</div>

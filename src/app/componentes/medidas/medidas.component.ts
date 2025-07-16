@@ -36,10 +36,13 @@ export class MedidasComponent implements OnInit {
     cliente: '',
     responsable: '',
     tela: '',
-    estela: 'false',
+    esTela: '',
     sistema: '',
     viejo: 'false',
-    comprado: 'false'
+    comprado: 'false',
+     nombre: '',
+    art: '',
+    marca: ''
   };
 
   constructor(
@@ -78,7 +81,7 @@ export class MedidasComponent implements OnInit {
         console.log(data);
       },
       error: error => {
-        console.error('Error al filtrar medidass:', error);
+        console.warn('Error al filtrar medidass:', error);
       }
     });
   }
@@ -181,7 +184,7 @@ export class MedidasComponent implements OnInit {
         if (medidas && medidas.sistema === 'TELA' && medidas.comprado == false) {
           this.tallerService.mover(medidas).subscribe(
             error => {
-              console.error('Error al encargar tela:', error);
+              console.warn('Error al encargar tela:', error);
               this.toastr.error(error.error, 'ERROR', {
                 timeOut: 5000,
                 positionClass: 'toast-bottom-center'
@@ -192,7 +195,7 @@ export class MedidasComponent implements OnInit {
         window.location.reload();
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
@@ -211,7 +214,7 @@ export class MedidasComponent implements OnInit {
         this.filtro()
       },
       error: error => {
-        console.error('Error al eliminar:', error);
+        console.warn('Error al eliminar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'

@@ -5,11 +5,27 @@
             <h2 *ngIf="!modoEdicion" class="text-center">Nueva Marca</h2>
             <form (ngSubmit)="guardar()" novalidate #f="ngForm" class="p-3 border rounded border-success">
                 <div class="row mb-3">
-                    <div class="col">
+                    <div class="col-5">
+                        <div class="form-group">
+                            <label for="marca">Marca</label>
+                            <input type="text" class="form-control" name="marca" id="marca" [(ngModel)]="marca.marca"
+                                required autofocus>
+                        </div>
+                    </div>
+                    <div class="col-4">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" name="nombre" id="nombre" [(ngModel)]="marca.marca"
+                            <input type="text" class="form-control" name="nombre" id="nombre" [(ngModel)]="marca.nombre"
                                 required autofocus>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label for="caida">Sistema</label>
+                            <select class="form-control" name="caida" id="caida" required [(ngModel)]="marca.esSistema">
+                                <option value="true">SI</option>
+                                <option value="false">NO</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -26,7 +42,7 @@
                                     class="fa-solid fa-backward-fast" style="color: #000000;"></i>
                                 Volver</button>
                         </td>
-                         <td>
+                        <td>
                             <button class=" btn btn-danger" (click)="borrar(marca.id!)" routerLink="/marca/lista"
                                 *ngIf="modoEdicion">
                                 <i class="fa-solid fa-eraser" style="color: #000000;"></i>

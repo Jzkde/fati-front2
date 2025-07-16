@@ -3,6 +3,7 @@ import { API } from './api/api';
 import { HttpClient } from '@angular/common/http';
 import { Producto } from '../models/Producto';
 import { Observable } from 'rxjs';
+import { Busqueda } from '../models/Busqueda';
 
 @Injectable({
   providedIn: 'root'
@@ -45,4 +46,9 @@ export class ProductoService {
       responseType: 'text'
     });
   }
+
+  filtro(busqueda: Busqueda): Observable<any[]> {
+    return this.http.post<any[]>(this.apiURL + '/filtro', busqueda)
+  }
+
 }

@@ -27,10 +27,13 @@ export class TallerComponent implements OnInit {
     cliente: '',
     responsable: '',
     tela: '',
-    estela: 'false',
+    esTela: '',
     sistema: '',
     viejo: 'false',
-    comprado: 'false'
+    comprado: 'false',
+     nombre: '',
+    art: '',
+    marca: ''
   };
 
   constructor(
@@ -55,7 +58,7 @@ export class TallerComponent implements OnInit {
         this.resetfiltros()
       },
       error: error => {
-        console.error('Error al filtrar confecciones:', error);
+        console.warn('Error al filtrar confecciones:', error);
       }
     });
   }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API } from './api/api';
 import { Cliente } from '../models/Cliente';
+import { Busqueda } from '../models/Busqueda';
 
 
 @Injectable({
@@ -14,11 +15,11 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  lista(): Observable<any[]> {
-    return this.http.get<Cliente[]>(this.apiURL + '/lista')
-  }
+   filtro(busqueda: Busqueda): Observable<any[]> {
+      return this.http.post<any[]>(this.apiURL + '/buscar', busqueda)
+    }
 
-  uno(id: number): Observable<Cliente> {
+   uno(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(this.apiURL + '/uno/' + id);
   }
 

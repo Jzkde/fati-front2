@@ -29,9 +29,12 @@ export class PedidoComponent implements OnInit {
     cliente: '',
     responsable: '',
     tela: '',
-    estela: 'false',
+    esTela: '',
     sistema: '',
-    comprado: ''
+    comprado: '',
+     nombre: '',
+    art: '',
+    marca: ''
   };
 
   constructor(
