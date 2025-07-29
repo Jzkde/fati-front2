@@ -21,7 +21,7 @@
           <select class="form-control" id="sistema" required [(ngModel)]="sistema" name="sistema"
             (change)="seleccionSistema()">
             <option value="" disabled selected>Sistema</option>
-              <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{sistema.sistema}}</option>
+            <option *ngFor="let sistema of sistemas" [value]="sistema.sistema">{{sistema.sistema}}</option>
           </select>
         </div>
 
@@ -78,7 +78,7 @@
 
         <!-- Colocación y adicionales -->
         <div class="row mb-3">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-3">
             <label>Colocación:</label>
             <select class="form-control" [(ngModel)]="colocN" name="coloc" (change)="seleccionColoc()" required>
               <option value="" disabled selected>Colocacion</option>
@@ -87,12 +87,15 @@
           </div>
           <div class="col-md-6 border rounded p-2" style="height: 120px; overflow-y: auto;">
             <label>Adicionales:</label>
-            <div *ngFor="let adi of adicionales" class="form-check">
-              <input class="form-check-input" type="radio" [value]="adi.precio" [(ngModel)]="adicional"
-                name="adicionales" id="{{adi.tela}}">
-              <label class="form-check-label" for="{{adi.tela}}">{{ adi.tela }}</label>
+            <div class="d-flex flex-wrap">
+              <div *ngFor="let adi of adicionales" class="form-check" style="width: 50%;">
+                <input class="form-check-input" type="checkbox" [value]="adi.precio"
+                  (change)="sumarAdicional($event, adi.precio)" name="adicionales" id="{{adi.tela}}" />
+                <label class="form-check-label" for="{{adi.tela}}">{{ adi.tela }}</label>
+              </div>
             </div>
           </div>
+
         </div>
 
         <!-- Botones y resultado -->

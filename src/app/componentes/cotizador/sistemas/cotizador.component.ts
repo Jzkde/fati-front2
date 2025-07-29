@@ -39,6 +39,7 @@ export class CotizadorComponent implements OnInit {
 
   adicionales: any[] = [];
   adicional: number = 0;
+  totalAdicionales: number = 0;
 
   area: number = 0;
 
@@ -223,6 +224,14 @@ export class CotizadorComponent implements OnInit {
     localStorage.removeItem('sumatoria');
   }
 
+  sumarAdicional(event: any, precio: number) {
+    if (event.target.checked) {
+      this.totalAdicionales += precio;
+    } else {
+      this.totalAdicionales -= precio;
+    }
+  }
+
   cotizar(): void {
     const area = this.calcularArea();
 
@@ -230,7 +239,7 @@ export class CotizadorComponent implements OnInit {
 
       .subscribe({
         next: (data) => {
-          this.resultado = data + this.precioColoc + this.adicional;
+          this.resultado = data + this.precioColoc + this.totalAdicionales;
           this.error = "";
         },
         error: error => {
