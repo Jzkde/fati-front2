@@ -16,7 +16,7 @@ export class ClienteService {
   constructor(private http: HttpClient) { }
 
    filtro(busqueda: Busqueda): Observable<any[]> {
-      return this.http.post<any[]>(this.apiURL + '/buscar', busqueda)
+      return this.http.post<any[]>(this.apiURL + '/filtro', busqueda)
     }
 
    uno(id: number): Observable<Cliente> {
@@ -24,7 +24,7 @@ export class ClienteService {
   }
 
   buscar(clienteN: string): Observable<Cliente> {
-    return this.http.get<Cliente>(this.apiURL + `/buscar`, {
+    return this.http.get<Cliente>(this.apiURL + '/buscar', {
       params: { clienteN }
     });
   }
