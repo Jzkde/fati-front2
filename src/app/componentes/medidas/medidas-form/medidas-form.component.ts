@@ -82,6 +82,8 @@ export class MedidasFormComponent implements OnInit {
         }
       });
     } else {
+      console.log(this.medidas);
+      
       this.medidasService.nuevo(this.medidas).subscribe({
         next: (data) => {
           this.toastr.success(data, 'OK', {

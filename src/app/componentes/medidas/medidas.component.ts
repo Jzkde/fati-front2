@@ -40,7 +40,7 @@ export class MedidasComponent implements OnInit {
     sistema: '',
     viejo: 'false',
     comprado: 'false',
-     nombre: '',
+    nombre: '',
     art: '',
     marca: ''
   };
@@ -172,36 +172,55 @@ export class MedidasComponent implements OnInit {
     }));
   }
 
-  comprar(id: number): void {
-    this.medidasService.comprar(id).subscribe({
+  comprar(): void {
+    this.medidasService.comprar(this.selectedMedidass).subscribe({
       next: (data) => {
         this.toastr.success(data, 'OK', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
-        const medidas = this.buscados.find(p => p.id === id);
 
-        if (medidas && medidas.sistema === 'TELA' && medidas.comprado == false) {
-          this.tallerService.mover(medidas).subscribe(
-            error => {
-              console.warn('Error al encargar tela:', error);
+        const medidasParaMover = this.selectedMedidass
+          .map(medida => this.buscados.find(p => p.id === medida.id))
+          .filter(m => m && m.sistema === 'TELA');
+
+        if (medidasParaMover.length > 0) {
+          this.tallerService.mover(medidasParaMover).subscribe({
+            next: () => {
+              this.toastr.success('Telas encargadas correctamente', 'ÉXITO', {
+                timeOut: 3000,
+                positionClass: 'toast-bottom-center'
+              });
+
+            },
+            error: (error) => {
+              console.warn('Error al encargar telas:', error);
               this.toastr.error(error.error, 'ERROR', {
                 timeOut: 5000,
                 positionClass: 'toast-bottom-center'
               });
             }
-          );
+          });
         }
-        window.location.reload();
+        this.filtro();
+
       },
       error: error => {
-        console.warn('Error al eliminar:', error);
+        console.warn('Error al comprar:', error);
         this.toastr.error(error.error, 'ERROR', {
           timeOut: 5000,
           positionClass: 'toast-bottom-center'
         });
       }
     });
+  }
+
+  agregarYComprar(medida: Medidas): void {
+
+    if (!this.selectedMedidass.includes(medida)) {
+      this.selectedMedidass.push(medida);
+    }
+    this.comprar();
   }
 
   borrar(id: number): void {

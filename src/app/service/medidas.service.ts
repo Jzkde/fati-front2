@@ -46,8 +46,8 @@ export class MedidasService {
     });
   }
 
-  comprar(id: number): Observable<any> {
-    return this.http.get(this.apiURL + '/actualizar/' + id);
+  comprar(medidas: Medidas[]): Observable<any> {
+    return this.http.post(this.apiURL + '/actualizar', medidas);
   }
 
   generarPdf(tel: string, direcc: string, medidass: any[]): Observable<Blob> {

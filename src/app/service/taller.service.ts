@@ -45,7 +45,7 @@ export class TallerService {
     });
   }
 
-  mover(medidas: Medidas): Observable<any> {
+  mover(medidas: Medidas[]): Observable<any> {
     return this.http.post(this.apiURL + '/mover/', medidas);
   }
 

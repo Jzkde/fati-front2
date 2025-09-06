@@ -166,6 +166,25 @@ export class TelasComponent implements OnInit {
     }
   }
 
+  eliminarCotizacion(index: number): void {
+    const cotizacionEliminada = this.cotizaciones[index];
+
+    if (cotizacionEliminada) {
+      // restar el monto de la sumatoria
+      this.sumatoria -= cotizacionEliminada.monto;
+
+      // quitar la cotización de la lista
+      this.cotizaciones.splice(index, 1);
+
+      // opcional: reordenar los contadores
+      this.cotizaciones.forEach((c, i) => c.contador = i + 1);
+
+      // actualizar localStorage
+      localStorage.setItem('cotizaciones', JSON.stringify(this.cotizaciones));
+      localStorage.setItem('sumatoria', this.sumatoria.toString());
+    }
+  }
+
   borrar(): void {
     this.cotizaciones = [];
     this.sumatoria = 0;
